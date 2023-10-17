@@ -1,0 +1,38 @@
+# Setup your local computer
+
+
+## Installing R
+
+
+Steps:
+
+- Install R: https://cran.rstudio.com/
+  - Install R Studio: https://www.rstudio.com/products/rstudio/download/
+- Configure R
+  - Go to Tools / Global Options and set General / Basic options
+    -  Disable "restore most recently opened project at startup"
+    -  Disable "Restore .RData into Workspace on startup"
+    -  Set "Save Workspace to .RData on exit" to never
+    -  Disable "Always save history"
+  - Set Code / Diagnostics
+    -  Turn on all diagnostics
+  - Show markers
+    - Go to View / Show Other Panes / Show Markers
+  - lintr
+    - For more specific style guides, install lintr
+    - Go to  Tools > addins > Browse Addins > Keyboard Shortcuts and set the Control + Shift + L keyboard shortcut
+    - Note that you have to save the file before running the linter. 
+
+
+## Style Guide
+
+- Save your main code file as MainYourname.R (for example, MainNathanGarrett.R).
+- Always run the Control+Shift+L to find and correct style guide issues.
+- Do not depend on program state or .RData files! I must be able to run your code as it is submitted in the R file. I strongly suggest closing and re-opening R, and then running all of the code to make sure it works properly.
+
+
+## R Autograder
+
+I will be testing our a R autograder. This relies upon your file being
+setup properly. Please follow instructions in the homework files so that it
+can properly read your file.

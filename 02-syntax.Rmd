@@ -1,0 +1,102 @@
+# Syntax in R
+This file is an overview of the syntax in R.
+It provides a basic introduction to the major features.
+
+
+## R Grammar Rules
+
+R is case sensitive!
+
+Note the grammar rules of R:
+
+- Variables: single word
+  - Starts with a letter
+  - No spaces
+  - Special characters . _ are ok, but we prefer _ (underscore)
+  - Suggest lower case and snake_case (not CamelCase or camel.case)
+- Functions: word with parenthesis() immediately following. 
+- Numbers: no punctuation!
+- Text: wrap words with "a" or 'a'
+- Type: find the type of a variable with class(x)
+
+
+Comments: 
+
+- start each line with a #
+
+
+Logical:
+
+- Use === for equality test, and <- for assignment
+
+
+Data types:
+
+- Basic
+  - numeric: all numbers by default, esp 1.0
+  - integer: number with L at the end, i.e., class(1L)
+  - character: 'a' or "a" (prefer "double")
+  - logical: T/F or TRUE/FALSE (not True or "TRUE" or "True")
+  - factor: defer until later, but essentially an enum
+- Vector: 
+  - This is an array type
+  - Create as c(1, 2,3)
+  - Access numeric elements with 1-based index
+    - name_of_vector[1]
+    - vec[1:3]
+    - vec[length(vec)] 
+- Data.frame: 
+  - Older, we will use tupples instead
+  - Useful functions include rownames, colnames, names, nrow, ncol
+  - Other, summary, str
+  - We will access named items as data$item_name
+- Matrix: rectangular items, ie. example[x, y]
+
+## Useful functions
+
+Know how to use the following:
+
+- View(data): opens data in a nice gui. Note that it is capitalized!
+- names(data): what are the field names of the data?
+- median/mean/max/min
+- plot: create a basic x/y plot
+- table: create a crosstab
+- sort/rev: order items in a vector 
+
+## Further resources
+
+Great introduction to types!
+https://www.datacamp.com/tutorial/data-types-in-r
+
+Yarr is a gentle introduction to using R.
+If you haven't done any programming before, this could be
+a good way to get started.
+https://bookdown.org/ndphillips/YaRrr/jumpin.html
+
+W3 Schools has a nice reference for R code. This is really
+good for trying to lookup a specific feature.
+https://www.w3schools.com/r/default.asp
+
+
+## Shortcuts
+
+There are several vital shortcuts:
+
+- alt - for <- 
+- control s for saving 
+- control shift l for linter (always save!)
+- control enter to run the current line
+
+
+
+## Overall RStudio Layout
+
+- RStudio features
+  - Console for interactive input
+  - Script editor for saving (be sure to re-run)
+  - Shortcuts: control+enter to run the current line, or all selected.
+- Files Management
+  - It's really critical to properly store and name your files
+  - Create a folder for our class, and a new folder for
+  *every* project. For now, you don't need a project file,
+  but once we start using datafiles it'll be really important.

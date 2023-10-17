@@ -1,0 +1,19 @@
+# Supervised Learning 
+
+
+
+Reference: https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html
+
+See topics:
+- Introduction
+- Preview
+- Model performance
+- Cross-validation
+- Classification performance
+  - Confusion matrix
+- Random forest
+  - Decision tree
+- Data preprocessing
+  - Missing values
+  - RSME
+  - Median imputation

@@ -47,3 +47,12 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+
+# NDG
+# Any html files
+*.html
+
+# Rendered book
+_book/
+_bookdown_files/

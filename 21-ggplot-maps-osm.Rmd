@@ -1,0 +1,304 @@
+```{undefined eval=TRUE, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(maps)
+library(sf)
+library(ggrepel)
+
+# Used to setup environment
+library(usethis)
+
+# Used for large downloads
+# https://docs.ropensci.org/osmextract/
+library(osmextract)
+
+```
+
+
+# ggplot and OpenStreetMap 
+
+We can add GIS data using OpenStreetMap
+
+A simple tutorial is here: https://ggplot2tutor.com/tutorials/streetmaps
+
+This is a good additional step, which also talks about points
+and some font options.
+https://joshuamccrain.com/tutorials/maps/streets_tutorial.html
+
+A deep tutorial is available here: https://taraskaduk.com/posts/2021-01-18-print-street-maps/
+
+Another good link is: https://wiki.openstreetmap.org/wiki/Map_Features
+This gives a list of features you can find.
+
+We'll be using some of their suggestions for the code below.
+
+
+
+# OpenStreetMap with osmextract
+
+We can add GIS data using OpenStreetMap using the osmextract library.
+
+This library makes it easier to do larger maps, dealing with the 
+time-out problems in the prior library.
+
+See https://docs.ropensci.org/osmextract/ for instructions.
+
+A simple tutorial is here: https://ggplot2tutor.com/tutorials/streetmaps
+
+This is a good additional step, which also talks about points
+and some font options.
+https://joshuamccrain.com/tutorials/maps/streets_tutorial.html
+
+A deep tutorial is available here: https://taraskaduk.com/posts/2021-01-18-print-street-maps/
+
+Another good link is: https://wiki.openstreetmap.org/wiki/Map_Features
+This gives a list of features you can find.
+
+We'll be using some of their suggestions for the code below.
+
+
+# Setup environment
+
+It's important to setup a default location for all downloaded files. Otherwise,
+R will download them every time you load the program. 
+
+```{undefined eval=TRUE, include=FALSE}
+
+# See if the download folder is properly setup.
+if( "" == Sys.getenv('OSMEXT_DOWNLOAD_DIRECTORY')) {
+  print('STOP! You need to fix the osmext download folder! Read the comments')
+  
+  # After this runs, run the below code to find the correct working directory.
+  getwd()
+  
+  # Copy the path from getwd(), as you'll use it in the next step.
+  
+  # Run this code. It will create a .Renviron file for this project.
+  # The file will open up, and have no content.
+  usethis::edit_r_environ('project')
+  
+  # Then, add the OSMEXT_DOWNLOAD_DIRECTORY option below in your blank file.
+  # Paste the working directory path you got from getwd()
+  # 
+  # It should look like the below (ignoring the comments, and with your path)
+  # 
+  # ==== start of .Renviron file ============
+  # OSMEXT_DOWNLOAD_DIRECTORY="C:/Users/garrettn/project_map"
+  #
+  # ====  end of .Renviron file =======
+  # 
+  # Then, restart R and run this block of code again. Running 
+  # Sys.getenv('OSMEXT_DOWNLOAD_DIRECTORY') should return the path for your project.
+  # R will now save the map files in the project folder.
+} else {
+  print(paste('Success! Map data will be saved in', getwd()))
+}
+
+```
+
+# Download a map
+
+The below downloads data for WV. You'll see that it downloads the entire state,
+which is a lot of data.
+
+It also takes a long time to plot our map. The more points you have,
+the longer it takes to load the data.
+
+```{undefined eval=TRUE, include=FALSE}
+
+# Download WV Data with oe_get
+# We go ahead and grab 3 datasets of different types.
+
+osm_lines = osmextract::oe_get("West Virginia, USA", 
+                   # layer = "lines", this is the default option
+                   stringsAsFactors = FALSE, 
+                   quiet = TRUE)
+
+osm_points = osmextract::oe_get("West Virginia, USA", 
+                    layer = "points", 
+                    stringsAsFactors = FALSE, 
+                    quiet = TRUE)
+
+osm_poly = osmextract::oe_get("West Virginia, USA", 
+                    layer = "multipolygons", 
+                    stringsAsFactors = FALSE, 
+                    quiet = TRUE)
+
+
+# Need to filter down the data.
+# Pick some items.
+
+# Take a look at the various items in highway.
+tibble(osm_lines) %>% 
+  group_by(highway) %>% 
+  summarise(count = n())
+
+# Road types.
+minor_road_types <- c("secondary", "secondary_link",
+           "service", 
+           "residential", "tertiary_link", "road")
+
+major_road_types <- c("motorway", "primary", "primary_link", "motorway_link", "trunk" )
+
+wv_major_roads <- filter(osm_lines, highway %in% major_road_types)
+wv_minor_roads <- filter(osm_lines, highway %in% minor_road_types & !is.na(name))
+
+# Grab some water elements
+wv_water <- tibble(osm_poly) %>% 
+            filter(natural == 'water', !is.na(name))
+
+# What admin elements do we have?
+unique(osm_poly$admin_level)
+
+# Grab state boundaries
+wv_state <- tibble(osm_poly) %>% 
+            filter(!is.na(admin_level), admin_level == 4)
+
+ggplot() + 
+  geom_sf(data = wv_water$geometry, 
+          color = 'steelblue',
+          alpha = 1) +
+  geom_sf(data = wv_major_roads, 
+          color = 'gray',
+          alpha = 1) +
+  geom_sf(data = wv_state$geometry, 
+          fill = NA,
+          color = 'black',
+          size = 10,
+          alpha = 1) +
+  coord_sf(xlim = c(-83, -77),
+           ylim = c(37, 41),
+           expand = FALSE)
+
+
+
+```
+
+
+
+# Cropping
+
+It's useful to have different ways of cropping the data. The first is st_crop,
+which uses x/y min/max values. Note that since WV has a negative X, that 
+you should use the numerically smaller / larger values, and not look at the axis.
+
+This is different from coord_sf, which takes a ylim, xlim, and expand = FALSE.
+That just restricts the viewport, but still plots all of the data. If we have 
+a big dataset, it'll still take a really long time to plot.
+
+```{undefined eval=TRUE, include=FALSE}
+
+# This reduces datapoints in our dataset
+cropped_hws <- st_crop(wv_major_roads, 
+                         xmin = -82, xmax = -79,
+                         ymin = 37.5, ymax = 40)
+
+
+# coord_sf changes the viewpoint.
+# The data is still plotted.
+
+
+ggplot() +
+  geom_sf(data = wv_state$geometry, 
+          color = 'black',
+          size = 8,
+          alpha = 1) +
+  geom_sf(data = cropped_hws, 
+          color = 'gray',
+          alpha = 1) +
+  coord_sf(xlim = c(-82.5, -78.5),
+           ylim = c(37, 40.5),
+           expand = FALSE) +
+  theme_bw()
+
+```
+
+We can also use a geography to crop data. Note that this includes points outside
+of the boundaries if they start inside of the geometry.
+
+```{undefined eval=TRUE, include=FALSE}
+
+# Grab Charleston boundaries
+wv_mon <- tibble(osm_poly) %>% 
+            filter(name == 'Charleston')
+
+# This reduces datapoints in our dataset
+cropped_hws <- st_crop(wv_major_roads, wv_mon$geometry )
+
+ggplot() +
+  geom_sf(data = wv_mon$geometry, 
+          color = 'black',
+          size = 8,
+          alpha = 1) +
+  geom_sf(data = cropped_hws, 
+          color = 'gray',
+          alpha = 1) +
+  scale_fill_viridis_c(na.value = "transparent")
+  theme_bw()
+
+
+```
+
+# Exporting
+
+We can export the resulting map with ggsave. This is mostly useful
+for when we need to have a very high quality image,
+which is hard to see in rStudio.
+
+
+```{undefined eval=TRUE, include=FALSE}
+
+#osm_states = osmextract::oe_get("United States of America",
+#                                stringsAsFactors = FALSE,
+#                                query = "SELECT * FROM multipolygons WHERE admin_level == 4"
+#                                )
+
+osm_lines = osmextract::oe_get("West Virginia, USA", 
+                   stringsAsFactors = FALSE, 
+                   quiet = TRUE)
+
+# Grab other states   
+states <- map_data('state')
+states_neighbor <- filter(states, region %in% c('ohio', 'pennsylvania', 
+                                                'maryland', 'virginia',
+                                                'kentucky'))
+
+
+wv_major_roads <- filter(osm_lines, highway %in% major_road_types)
+wv_minor_roads <- filter(osm_lines, highway %in% minor_road_types & !is.na(name))
+
+p <- ggplot() +
+  geom_sf(data = wv_major_roads, 
+          color = 'darkgray',
+          size = 2,
+          alpha = 1) +
+  geom_sf(data = wv_minor_roads, 
+          color = 'lightgray',
+          size = .2,
+          alpha = .5) +
+  # Add the other states around WV to get their borders,
+  # and prevent any bleed-through of items past WV borders.
+  geom_polygon(data = states_neighbor,
+                 mapping = aes(x = long, y = lat,
+                     group = group, fill = region),
+                 fill = 'white', 
+                 color = "lightgray")  +
+  geom_sf(data = wv_state$geometry, 
+          color = 'black',
+          fill = NA,
+          size = 15,
+          alpha = 1) +
+  coord_sf(xlim = c(-83, -77),
+           ylim = c(37, 41),
+           expand = FALSE)
+
+    
+# Save a very large png
+ggsave('output.png', 
+       plot = p, 
+       width = 7, 
+       height = 7, 
+       dpi = 320)
+
+```

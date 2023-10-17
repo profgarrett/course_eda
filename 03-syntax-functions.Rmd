@@ -1,0 +1,142 @@
+# Functions in R
+
+A function is a grouping of code. It helps you organize your code and reduce complexity.
+
+
+## Bad Example
+
+Look for examples of copy + pasted code in the same below.
+What happens if we want to make an adjustment to all blocks of code?
+
+``` {r}
+library(tidyverse)
+
+data('mpg')
+t_mpg <- mpg
+
+
+avg_cyl = mean(t_mpg$cyl)
+rnd_avg_cyl <-  round(avg_cyl, 2)
+text_avg_cyl <- paste('The average is ', rnd_avg_cyl) 
+print(text_avg_cyl)
+
+
+avg_hwy = mean(t_mpg$hwy)
+rnd_avg_hwy <-  round(avg_hwy, 2)
+text_avg_hwy <- paste('The average highway mpg is ', rnd_avg_hwy) 
+print(text_avg_hwy)
+
+
+avg_cty = mean(t_mpg$cty)
+rnd_avg_cty <-  round(avg_cty, 2)
+text_avg_cty <- paste('The average city mpg is ', rnd_avg_cty) 
+print(text_avg_cty)
+
+
+```
+
+
+## Good Example
+
+Let's break that code out into a separate function.
+
+``` {r}
+library(tidyverse)
+
+data('mpg')
+t_mpg <- mpg
+
+find_avg <- function(text, field) {
+  m = mean(t_mpg$cyl)
+  rnd <-  round(m, 2)
+  text <- paste('The average of', text, 'is', rnd) 
+  return(text)
+}
+
+print(find_avg('highway mpg', t_mpg$hwy))
+print(find_avg('city mpg', t_mpg$cty))
+
+
+```
+
+## Benefits
+
+Here are some examples of some good functions.
+
+``` {r}
+
+# This is a good example of a function.
+# It takes in a parameter, and returns the result.
+# The scope of the function all stays inside of the function, with no
+# contact with the outside items.
+add_one <- function(x) {
+  x1 <- x + 1
+  return(x1)
+}
+y <- 0
+print(add_one(y))
+
+
+# Note scope! Variables inside of our code don't last after the
+# function finishes running
+add_one <- function(x) {
+  temporary_variable <- x
+  return(x + 1)
+}
+# The temporary_variable doesn't exist anymore!
+add_one(1)
+
+
+```
+
+## Rules! 
+
+There are some rules for creating and modifying functions.
+
+``` {r}
+
+
+# Don't update the parameters. Instead, return the result.
+add_one_bad <- function(x) { 
+  x <- x + 1
+  return(x)
+}
+add_one_good <- function(x) { 
+  x_new <- x + 1
+  return(x_new)
+}
+
+
+# Don't have side effects.
+#
+# It is possible to break the connection between inside of the function
+# and outside.
+#
+# To do so, use <<- instead of <-.  The latter just creates a new local
+# variable inside of the block of code.
+#
+# In general, this is a bad idea.
+y <- 0
+add_to_y <- function() { 
+  # This doesn't create a new variable, instead it updates y outside of the 
+  # function block.
+  y <<- y + 1 
+}
+add_to_y()
+
+
+# Don't access variables outside of your function.
+#
+# This is legal, but a bad idea because it makes it harder
+# to update and understand your code.
+z <- 1
+y <- 0
+
+add_bad <- function(x) { return(x + z) }
+add_bad(y)
+
+add_good <- function(x1, x2) { return(x1 + x2) }
+add_good(y, z)
+
+```
+

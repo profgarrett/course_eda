@@ -1,0 +1,416 @@
+```{r, include=FALSE}
+
+# Show code
+knitr::opts_chunk$set(echo = TRUE)
+
+# Add libraries
+library(dplyr)
+library(yarrr)
+```
+
+# dplyr
+
+dplyr is an important tool for fixing data.   If you need further help,
+ see [dplyr tutorial](https://dplyr.tidyverse.org/articles/dplyr.html)
+
+## Why tibbles?
+
+Data.frames are an older technology, and tibbles are their newer
+version. Tibbles do not  automatically change data types. A data.frame guesses 
+at times, but a  tibble must be told exactly what to do with incoming data. 
+For example, a factor must be manually created. 
+Tibbles also are better at printing.
+
+## Converting from data.frame to tibble
+
+If you've used data.frames, you may have used the approach below for subsetting.
+The syntax for filtering rows/columns is pretty twitchy. dplyr is easier.
+
+```{r, eval=FALSE, echo=TRUE }
+
+# Create a data.frame
+df <- data.frame(x = c(1, 2, 3, 4, 5), y = c("a", "b", "c", "d", "e"))
+
+
+# Only include values with x>3
+# Note that we use [rows_to_include, columns_to_include]
+df[df$x > 3, ]
+
+# Subset, finding a specific column. Return different types.
+typeof(df[1])
+typeof(df$x)
+is.vector(df$x)
+class(df[1])
+
+```
+
+## Creating a tibble
+
+You will eventually load tibbles data from a file, but for now I will
+usually include them in the file.
+
+```{r, eval=FALSE, echo=TRUE }
+
+# a tibble created from vectors.
+t <- tibble(x = c(1, 2, 3, 4), y = c(5,  6,  7,  9), z = c("?"))
+
+# You can subset a tibble and get a tibble as a result
+t["x"]
+t[c("x", "y")]
+
+# Getting a vector requires double brackets.
+t[["x"]]
+class(t[["x"]])
+
+```
+
+
+```{r, eval=FALSE, echo=F }
+# Application
+# 
+# Create a new tibble that looks like this:
+#| Name | id | sales
+#| Bob  | 1  | 123
+#| Sam  | 2  | 848
+s <- tibble(
+  name = c("Bob", "Sam"), 
+  id = c(1, 2), 
+  sales = c(123, 456)
+)
+
+# Return just the name and sales as a tibble
+s[c("name", "sales")]
+
+# Show just sales as a vector
+s[["sales"]]
+
+```
+
+## select
+
+Select allows us to grab columns from a dataset. Usually there are a lot
+more columns than we need.
+
+```{r, eval=FALSE, echo=TRUE }
+
+# Create a tibble from pirates (an older-style data frame)
+class(pirates)
+p <- tibble(pirates)
+names(p)
+
+# Simple reduced length tibble (not data.frame)
+# Note that we start with the datasource, and then give each column.
+p1 <- select(p, sex, age, college, beard.length, grogg)
+names(p1)
+
+# Select all EXCEPT certain columns
+# You you can't mix this with other select options.
+p2 <- select(p, -fav.pixar, -sword.type, -favorite.pirate)
+names(p2)
+
+# Select a range of columns (from:to)
+p3 <- select(p, id:weight)
+names(p3)
+
+# You can combine ranges and individual fields.
+p4 <- select(p, id, sex:weight, college:parrots)
+names(p4)
+
+# Use select and with to find all numeric columns
+# The below finds all numeric columns and the sword.type text value.
+p5 <- select(p, where(is.numeric), sword.type)
+
+# See the docs for contains, ends_with, started_with, etc...
+
+```
+
+
+```{r, eval=FALSE, echo=F }
+# Application
+
+# Create a new variable called tp that creates a tibble from pirates
+# Then make a new variable called tp... for each question.
+
+tp <- tibble(pirates)
+names(pirates)
+# 1) Pirates id, sex, grogg, and eye patch
+# 2) Exclude all text columns
+# 3) Include all integer columns
+# 4) Include all columns from sex to tchests.
+tp1 <- select(tp, id, sex, grogg, eyepatch)
+tp2 <- select(tp, -sex, -headband, -college, -favorite.pirate, -sword.type,
+              fav.pixar)
+tp3 <- select(tp, id)
+tp4 <- select(tp, sex:tchests)
+```
+
+
+## filter
+
+Removes rows (observations). Adding multiple items acts like an AND. You
+can also use symbols and is &, not is !, or is \|.
+
+```{r, eval=FALSE, echo=TRUE }
+# Create a new tibble. Note that we use the single character name to keep
+# our code shorter and easier to read. Only do this if the file is clearly
+# focused on a single dataset.
+p <- tibble(pirates)
+
+# Count the number of males. Note that we can't use length, as that shows
+# the numbers of columns.
+p_nonmen <- filter(p, p$sex == "male")
+nrow(p_nonmen)
+
+# Use two conditions for an AND to find all non-male and non-female
+p_other <- filter(p, p$sex != "female", p$sex != "male")
+nrow(p_other)
+
+# Use | (or) to find male and females
+p_male_and_female <- filter(p, p$sex == "male" | p$sex == "female")
+nrow(p_male_and_female)
+
+# Make row 1 sex column have an NA for testing purposes.
+p[1, "sex"] <- NA
+
+# Remove NA values, which can be an issue in some datasets.
+# You can't test for sex == NA, or sex == "NA", as all NA are unique.
+# Instead, use the is.na function.
+p_no_nas <- filter(p, !is.na(p$sex))
+nrow(p_no_nas)
+
+```
+
+
+```{r, eval=FALSE, echo=F }
+# Application
+
+# Create a new dataset called tp from pirates for this section.
+tp <- tibble(pirates)
+
+# Remove the sex from rows 3 and 5, replacing with NA
+tp[c(3, 5), "sex"] <- NA
+
+# Find pirates with a weight over 90
+tp1 <- filter(tp, weight > 90)
+
+# Find pirates with a weight over 90 and under 100
+tp2 <- filter(tp, weight > 90 & weight < 100)
+
+# Find Women pirates
+tp3 <- filter(tp, sex == "female")
+
+# Find female pirates with a weight over 90
+tp4 <- filter(tp, sex == "female", weight > 90)
+
+# Find pirates with a sex of NA
+tp5 <- filter(tp, is.na(sex))
+
+# Find pirates without a sex of NA
+tp6 <- filter(tp, !is.na(sex))
+```
+
+
+## mutate
+
+Adds a new column. This really helps us manipulate data for later analysis.
+
+```{r, eval=FALSE, echo=TRUE }
+
+# Create a new tibble with fewer columns
+# Note that we are updating this same tibble instead of creating a new one
+# each time.
+p <- select(tibble(pirates), id, sex, age)
+
+# Create new columns for is_male and is_female
+# Each column will be either TRUE or FALSE.
+p <- mutate(p, is_male = sex == "male")
+p <- mutate(p, is_female = sex == "female")
+
+# Use ifelse to use other values, such as 1 or 0, for a logical test.
+p <- mutate(p, is_male01 = ifelse(sex == "male", 1, 0))
+
+```
+
+
+```{r, eval=FALSE, echo=F }
+# Application
+
+
+# Create a new tibble with ID, Tattoos, and head band columns.
+# Update this tibble in this section with mutate commands.
+t <- select(tibble(pirates), id, tattoos, headband)
+
+# Add a new TRUE/FALSE column for many tattoos over 10.
+t <- mutate(t, many.tattoos = tattoos > 10)
+
+# Add a new 1/0 column for many tattoos over 10
+t <- mutate(t, many.tattoos01 = ifelse(tattoos > 10, 1, 0))
+
+# Add a new "yes" or "no" column for many tattoos over 10
+t <- mutate(t, many.tattoosYN = ifelse(tattoos > 10, "yes", "no"))
+
+# Use print to printing the resulting dataset.
+print(t)
+```
+
+## arrange
+
+Re-arrange (or sort data)
+
+```{r, eval=FALSE, echo=TRUE }
+
+# Create a dataset from pirates, select ID, Age, and Grogg, and then sort.
+# Note that we can use desc(fieldname) to sort in reverse order.
+p <- arrange(select(tibble(pirates), id, age, grogg), age, desc(grogg))
+print(p)
+```
+
+
+```{r, eval=FALSE, echo=F }
+# Application
+
+# Create a new tibble p with id, sex, college, and tattoos.
+# Then filter to only have CCCC members with over 10 tattoos.
+# Create new fields called is_male with the values 1/0, and many_tattoos
+#   with the values of "Over 10", and "Other"
+# Order by tattoos, and sex in reverse order.
+# Print the table.
+p <- tibble(pirates)
+p <- select(p, id, sex, college, tattoos)
+p <- filter(p, college == "CCCC" & tattoos > 10)
+p <- mutate(p, is_male = ifelse(sex == "male", 1, 0))
+p <- mutate(p, many_tattoos = ifelse(tattoos > 10, "Over 10", "Other"))
+p <- arrange(p, tattoos, desc(sex))
+
+print(p)
+```
+
+## group_by and summarize
+
+The function group_by is very similar to the SQL command, but in a
+passive way. Normally, you would expect it to immediate collapse data
+(similar to a pivot table). However, it is better thought of giving an
+annotation to the data that will then be used by the summarize command.
+
+Calculates summary statistics for a field. Use mean, min, max, sum, n,  
+n_distinct.
+
+```{r, eval=FALSE, echo=TRUE }
+
+# Create a tibble and group by college
+p <- group_by(tibble(pirates), college)
+
+
+# Find the median, length (count), max, and min age by college
+summarise(p,
+          median_age = median(age),
+          length_age = length(age),
+          max_age = max(age),
+          min_age = min(age),
+          n_of_rows = n(),
+          n_of_distinct_ages = n_distinct(age)
+          )
+
+```
+
+
+```{r, eval=FALSE, echo=FALSE }
+# Application
+
+# Create a tibble with id, sword.type, sword.time, and favorite.pirate
+p <- select(tibble(pirates), id, sword.type, sword.time, favorite.pirate)
+
+# Remove all pirates with a favorite of Hook, or who have an ID under 500
+p <- filter(p, favorite.pirate == "Hook" | id < 500)
+
+# Add a new 1/0 sword field that tests to see if the sword is a cutlass or not.
+p <- mutate(p, cutlass01 = ifelse(sword.type == "cutlass", 1, 0))
+
+# Group by sword.type
+p <- group_by(p, sword.type)
+
+# Show the average sword.time by sword.type
+summarise(p, mean_sword.time = median(sword.time))
+
+# Show the average and standard deviation of sword.time by favorite pirate
+# hint: use group by
+p <- group_by(p, favorite.pirate)
+summarise(p,
+          mean_sword.time = median(sword.time),
+          sd_word.time = sd(sword.time))
+```
+
+
+
+## joins
+
+Similar to SQL, we will use joins in dplyr. Note that this uses very weird 
+syntax. There are multiple ways to specify the join, but try to always use
+the by = c("field_1" = "field_2") version. This is the most 
+consistently useful approach.
+
+
+```{r, eval=FALSE, echo=TRUE }
+
+# Create sample tibbles.
+checks <- tibble(
+  check_id = c(1, 2, 3, 4, 5),
+  desc = c("Cheese", "Bread", "Milk", "Mustard", "Milk"),
+  vendor_fk = c(2, 2, 2, 3, 5),
+  amount = c(10, NA, 30, 40, 50)
+)
+
+vendors <- tibble(
+  vendor_pk = c(2, 3, 4, 9),
+  desc = c("Bob", "Sarah", "Tim", "Andrew"),
+)
+
+# Create a left, right, and inner join for checks and vendors.
+# Note the different results
+left_join(checks, vendors, by = c("vendor_fk" = "vendor_pk"))
+right_join(checks, vendors, by = c("vendor_fk" = "vendor_pk"))
+inner_join(checks, vendors, by = c("vendor_fk" = "vendor_pk"))
+
+# Note that we can have issues with NA values.
+sum(checks$amount)
+
+# use na.rm = TRUE to remove.
+sum(checks$amount, na.rm = TRUE)
+
+```
+
+## pipe operator
+
+We can put these all together using the %\>% (pipe) operator. This joins
+multiple results without needing to re-type stuff.
+
+Note that all dplyr functions use the tibble as the first argument.
+Rather than nesting or using intermediate variables, %\>% allows us to
+rewrite them.
+
+x %\>% f(y) turns into f(x, y)
+
+Read left-to-right, top-to-bottom.
+
+You can type with Control+Shift+M
+
+```{r, eval=FALSE, echo=F }
+# Application
+
+# We can save each intermediate step.
+p <- select(pirates, sex, age, college, beard.length, grogg)
+p <- mutate(p, is_male = p$sex == "male")
+p <- mutate(p, is_female = p$sex == "female")
+p <- arrange(p, p$age)
+
+
+# Or just use the pipe
+p <- tibble(pirates) %>%
+  select(sex, age, college, beard.length, grogg) %>%
+  mutate(isCCCC = college == "CCCC") %>%
+  mutate(is_male = sex == "male") %>%
+  mutate(is_female = sex == "female") %>%
+  arrange(age)
+
+print(p)
+```
