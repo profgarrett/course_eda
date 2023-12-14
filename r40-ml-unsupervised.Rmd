@@ -1,0 +1,451 @@
+---
+title: Unsupervised learning
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Introduction
+
+
+``` {r, echo = FALSE, include = FALSE}
+library(tidyverse)
+
+# Open up a dataset for use
+#   150 cases, 5 variables: Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species
+data("iris")
+
+# Lookup help on it by calling ?iris
+
+# Turn into a tibble
+t_iris <- tibble(iris)
+
+
+
+################################################################################
+# https://statsandr.com/blog/correlation-coefficient-and-correlation-test-in-r/
+################################################################################
+
+corrplot2 <- function(data,
+                      method = "pearson",
+                      sig.level = 0.05,
+                      order = "original",
+                      diag = FALSE,
+                      type = "upper",
+                      tl.srt = 90,
+                      number.font = 1,
+                      number.cex = 1,
+                      mar = c(0, 0, 0, 0)) {
+  library(corrplot)
+  data_incomplete <- data
+  data <- data[complete.cases(data), ]
+  mat <- cor(data, method = method)
+  cor.mtest <- function(mat, method) {
+    mat <- as.matrix(mat)
+    n <- ncol(mat)
+    p.mat <- matrix(NA, n, n)
+    diag(p.mat) <- 0
+    for (i in 1:(n - 1)) {
+      for (j in (i + 1):n) {
+        tmp <- cor.test(mat[, i], mat[, j], method = method)
+        p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
+      }
+    }
+    colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+    p.mat
+  }
+  p.mat <- cor.mtest(data, method = method)
+  col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+  corrplot(mat,
+           method = "color", col = col(200), number.font = number.font,
+           mar = mar, number.cex = number.cex,
+           type = type, order = order,
+           addCoef.col = "black", # add correlation coefficient
+           tl.col = "black", tl.srt = tl.srt, # rotation of text labels
+           # combine with significance level
+           p.mat = p.mat, sig.level = sig.level, insig = "blank",
+           # hide correlation coefficients on the diagonal
+           diag = diag
+  )
+}
+
+```
+
+
+  
+## k-means
+
+k-means clustering is an technique that automatically assigns individual data points to groups. It's useful for finding natural groups in your data.
+
+Here are some resources:
+
+- Conceptual overview: [k-means: an explorable explainer](https://k-means-explorable.vercel.app/)
+- R code walkthrough: [Unsupervised Learning: k-means](https://lgatto.github.io/IntroMachineLearningWithR/unsupervised-learning.html#k-means-clustering)
+- Deep dive [Hands-on machine learning with R](https://bradleyboehmke.github.io/HOML/kmeans.html)
+
+
+We will be using the iris dataset extensively. 
+
+![Wikipedia Picture of an Iris](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/1280px-Iris_virginica.jpg)
+
+
+### Concept
+
+We are going to try and use the sepal/petal lengths/widths to automatically identify the 3 different types of iris flowers.
+
+Below shows one sample plot, which compares the Sepal Length against the Petal Length. But, we have a lot of possible combinations.
+
+``` {r}
+# Plot petals
+ggplot( data=t_iris, mapping = aes( x=Sepal.Length, y=Petal.Length, color=Species)) +
+  geom_point() + 
+  labs( title = 'Iris dataset: species variable')
+```
+
+We can use k-means to see which combination of attributes lets us have the highest accuracy.
+
+``` {r}
+
+# Run the kmeans algorithm:
+#   x is a tibble, which should only have numeric data
+#   centers is the number of clusters we want
+#   nstart says how many random starting points we should try out (default to 10)
+kresult <- kmeans(
+  x = select(t_iris, Sepal.Length, Petal.Length),
+  centers = 3,
+  nstart = 10
+)
+
+print(kresult)
+```
+
+Look at the results of k-means to see how well the algorithm worked.
+
+There are several useful outputs:
+
+- `cluster`: vector of numbers, one per input row, showing the cluster for each row. Use this to assign each of your original data points to a cluster.
+- `centers`: matrix of cluster centers. Use this to plot the center of each cluster on a chart.
+- `tot.withiness`: total within cluster sum of squares, i.e. `sum(withinss)`. We want this to be as small, so each cluster is tightly defined. 
+- `between`: between-cluster sum of squares. We want this to be large, showing that each cluster is far away from the other clusters.
+- `size`: number of points in each cluster
+- `iter`: number of times the algorithm ran before stopping
+
+To see a visualization of sum of square, see https://shiny.rit.albany.edu/stat/visualizess/
+
+
+### Minimal example
+
+This is a minimal example, but can be significantly improved in the full template.
+
+``` {r}
+
+# Run the kmeans algorithm:
+kresult <- kmeans(
+  x = select(t_iris, Sepal.Length, Petal.Length),
+  centers = 3,
+)
+
+# Add the new kmeans2 column, using kresult's cluster vector.
+t_iris <- mutate(t_iris, kmeans = (kresult$cluster))
+
+# Plot petals
+ggplot(data = t_iris) + 
+  geom_point(mapping = aes( x = Sepal.Length, y = Petal.Length, color = kmeans) 
+  )
+
+```
+
+### Full example
+
+``` {r}
+
+# Give a seed value so that we get the same results each time
+set.seed(1)
+
+# Run the kmeans algorithm:
+#   x is a tibble, which should only have numeric data
+#   centers is the number of clusters we want
+#   nstart says how many random starting points we should try out (default to 10)
+kresult <- kmeans(
+  x = select(t_iris, Sepal.Length, Petal.Length),
+  centers = 3,
+  nstart = 10
+)
+
+# Add the new kmeans2 column, using kresult's cluster vector.
+# Use factor to turn the cluster from a number to a categorical variable.
+t_iris <- mutate(t_iris, kmeans = factor(kresult$cluster))
+
+# Plot petals
+ggplot() + 
+  # Plot each point
+  geom_point(
+    data = t_iris, 
+    mapping = aes( x = Sepal.Length, y = Petal.Length, color = kmeans) 
+  ) +
+  # Plot the center of each cluster 
+  geom_point( 
+    data = as_tibble(kresult$centers), 
+    mapping = aes( x = Sepal.Length, y = Petal.Length), 
+    size = 6, 
+    shape = 3) +
+  labs( 
+    title = 'Iris dataset: k-means clustering',
+    subtitle = paste('Error:', round(kresult$tot.withinss,2))
+    )
+
+```
+
+
+
+## Decision Trees
+
+Decision-trees automatically create questions to split our data into groups. They are very useful for creating human-understandable models of a problem space.
+
+Help resources:
+
+- [Visualizations of DT](https://explained.ai/decision-tree-viz/index.html)
+- [Supervised Learning](https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html)
+- [HOML](https://bradleyboehmke.github.io/HOML/DT.html)
+
+### Concept
+
+We follow this process:
+
+- Select an output variable
+- Go through each input variable to find the best split in our output
+- Split the dataset
+- For each split, repeat until we reach a good ending condition
+
+### Minimal Example
+
+Below creates a visualization of a decision tree. 
+
+Note the output for each node gives the 0.3 (proportion) of items in each class, as well as the % of rows that find their way to this node.
+
+``` {r}
+library(tidyverse)
+library(rpart)
+library(rpart.plot)
+
+# Load data into a tibble
+data(iris)
+t.iris <- iris
+
+# Create the model
+#   formula: output_variable ~ input_field_a + input_field_b + ...
+#   data: your tibble, excluding the output variable.
+#   method: what type of problem are we working with?
+#     class - predicting a discrete variable
+#     anova - regression for a value
+m <- rpart(formula = Species ~ Sepal.Length + 
+                      Sepal.Width + Petal.Length + Petal.Width, 
+           data = t.iris,
+           method = "class")
+
+# Plot results of model
+rpart.plot(m)
+```
+
+What if we want the output of the plot as a number showing its accuracy? Add the following lines
+
+``` {r}
+
+# Give the tibble to the model, and generate a vector of predicted
+# output class
+predicted <- predict(m, t.iris, type = 'class')
+
+# Add the predicted results to each row in the tibble as a field.
+predicted_as_str <- paste('Predicted', predicted)
+t.iris <- mutate( t.iris, predicted = predicted_as_str )
+
+# Show a confusion matrix
+table(t.iris$predicted, t.iris$Species)
+
+```
+
+
+### Full example
+
+Several other features are very helpful in pruning our decision tree.
+
+``` {r}
+library(tidyverse, rpart, rpart.plot)
+
+# Load data into a tibble
+data(iris)
+t.iris <- iris
+
+
+## Split the data into training / testing
+
+# Find the number of rows
+count_of_rows <- length(t.iris$Species)
+# Create a random vector of 1s and 0s the same length
+select01 <- rbinom(count_of_rows, 1, .5)
+
+
+## Create a training / test set
+
+# Add the 01 vector to the original tibble
+t.iris <- mutate(t.iris, test01 = select01) 
+# Create a test and train tibble with this as a filter
+t.iris.test <- filter(t.iris, test01 == 1)
+t.iris.train <- filter(t.iris, test01 == 0)
+
+
+## Create the model with TRAIN tibble
+# 
+#   minsplit: a number with the min number of rows required for a split
+#   minbucket: a number wiht the min number of rows required for a bucket
+m <- rpart(formula = Species ~ Sepal.Length + 
+                      Sepal.Width + Petal.Length + Petal.Width, 
+           data = t.iris.train,
+           method = "class",
+           minsplit = 2,
+           minbucket = 2)
+
+# Plot results of model with the TRAINING data
+rpart.plot(m)
+
+
+## Predict on the TEST tibble
+
+# Create a vector of prediction results
+predicted <- predict(m, t.iris.test, type = 'class')
+# Add to our train tibble.
+t.iris.test <- mutate(t.iris.test, predicted = predicted)
+
+# Show results in a confusion matrix / table.
+# This shows a comparison between the the actual values, and what our algorithm
+# predicted (shown in upper case for clarity).
+table(str_to_upper(predicted), t.iris.test$Species)
+```
+
+
+
+
+## Principal Component Analysis (pca)
+
+We use principal component analysis to reduce the number of dimensions in our data. In simpler terms, we can reduce the number of values in our data.
+
+See this [visualization](https://www.youtube.com/watch?v=FD4DeN81ODY) before reading the below.
+
+Some good resources are:
+
+- [Walkthrough of Unsupervised Learning](https://lgatto.github.io/IntroMachineLearningWithR/unsupervised-learning.html#introduction)
+- [More detailed analysis of PCA](https://bradleyboehmke.github.io/HOML/pca.html)
+
+### Prior Concept
+
+Before getting into PCA, make sure you're familiar with the concept of correlations. The code below walks you through an example. The `pairs` command will show a plot of various fields against each other. You can also use the custom function `corrplot2`.
+
+```{r}
+# Create a set of pairs of scatterplots showing the relationship
+# between all variables.
+#   argument1 is a tibble with all numeric columns to show in the plot.
+#   col is the color of each species
+pairs(
+  x = select(iris, -Species),
+  col = iris$Species)
+
+
+# View the correlations between each variable.
+# Again, we use the iris dataset without the species column (text), giving
+#   the chart only the numeric columns
+# Positive correlations shown in blue, negative in red.
+# Items not meeting statistical significance are hidden.
+corrplot2(select( iris, -Species))
+```
+
+
+### Concept Walk-through
+
+We will run pca on the iris dataset.
+
+``` {r}
+
+# Give prcomp numeric values in the iris tibble.
+iris_pca_results <- prcomp(select(tibble(iris), -Species))
+
+# Show new components
+summary(iris_pca_results)
+# Show how they are generated from our original data
+print(iris_pca_results)
+
+```
+
+The summary shows each of our new principal components. Each PC is a new variable, created by testing various  formulas weighting the original variables. 
+
+Each new PC (primary component) is made by multiplying existing values by the new coefficients. For example, `PC1` is 
+
+$.36 * Sepal.Length + -.08 * Sepal.Width + .85 * Petal.Length + .35 * Petal.Width$
+
+Each new PC variable flattens the data across one dimension. The exact weights for each variable are chosen to maximize the amount of variation in the original dataset that is maintained in the new variable.
+ 
+The second PC then does the same process again. However, now that the first has already taken up a bunch of the variation in the dataset, the new only tries to capture the remaining variation in the data. Think  of the first PC as removing a bunch of the variation, and the following PCs each try to grab more of the variation until none remains.
+ 
+For interpreting the data, we want each PC to have the highest proportion of variance (meaning it capture most of our data).  Then, look at the weights for that PC. What variables drive a PC? That helps you name it.
+
+### Concept Illustration
+
+Now that we have a set of PC, let's visualize the new dimension on our data. The chart below visualizes our first primary component.
+
+```{r}
+
+# Run PCA analysis
+iris_pca_results <- prcomp(select(tibble(iris), -Species))
+
+# The results have a new list called X, which gives the PC for each of our
+# original dataset. Let's create a new tibble with the pcs, and then plot it.
+plot_data <- tibble(
+  pc1 = iris_pca_results$x[,1],
+  pc2 = iris_pca_results$x[,2],
+  pc3 = iris_pca_results$x[,3],
+  Species = iris$Species
+)
+
+# Plot PC1
+ggplot(data = plot_data) +
+  geom_point(mapping = aes( x = pc1, y = 1, color = Species),
+             alpha = .2,
+             size = 2) +
+  labs(title = "PC1 versus species")
+```
+
+
+What about plotting 2 components?
+
+``` {r}
+ggplot(data = plot_data) +
+  geom_point(mapping = aes( x = pc1, y = pc2, color = Species),
+             alpha = .3,
+             size = 2) +
+  labs(title = "PC1 and PC2 versus species")
+```
+
+We can also more closely examine how the new PCs are formed. Examine the rotation variable. It gives us the degree to which each variable drives the PCs
+
+``` {r}
+
+# Turn into a usable tibble and add the items name
+pca_tibble <- as_tibble(iris_pca_results$rotation) %>% 
+  mutate(items = rownames(iris_pca_results$rotation) )
+
+# Turn into long format
+pca_tibble_long <- pivot_longer(pca_tibble, 
+                                cols = starts_with('PC'), 
+                                names_to = 'PCItem', 
+                                values_to = 'PCValue')
+
+# Remove values near zero
+pca_tibble_long <- filter( pca_tibble_long, PCValue > .1 | PCValue < -.1 )
+
+# View PCs as a basic dot plot.
+ggplot( data = pca_tibble_long ) +
+  geom_point( mapping = aes( y = items, x = PCValue, color = PCValue), size = 5) +
+  facet_wrap( ~ PCItem, nrow = 1)  +
+  scale_color_gradient(low = 'red', high = 'green')
+```
+

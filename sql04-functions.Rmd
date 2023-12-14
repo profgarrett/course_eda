@@ -1,0 +1,66 @@
+--- 
+title: "SQL Functions"
+output: 
+  html_document:
+    theme: united
+
+---
+
+There are are a variety of useful SQL functions. They are similar
+to functions in Excel.
+
+### Text Functions
+
+Upper or lower case
+
+> SELECT lower(CompanyName) as lowerName, 
+>   upper(CompanyName) as upperName
+> FROM Suppliers
+
+
+Substr returns part of a string. Substr(x,y,z) is 
+substr(text_string, starting_number, length_of_returned_string). As an example, the 
+below will return "bcd"
+
+> SELECT substr('abcde', 2, 3)
+
+
+Join together text values by using || between then
+
+> SELECT 'abc' || 'def'
+
+
+### Math Functions
+
+You can use the normal arithmetic operators.
+
+> SELECT 1 + 2 - 3 / 5 * 4 - (1-1)
+
+
+SQL will turn text values into number if you use a math symbol
+
+> SELECT "1" + 1
+
+
+
+### Logical Functions
+
+Use single or double equals to test for equality
+The result will be 1 (true) or 0 (false)
+
+> SELECT "a" == "a"
+
+
+Combine multiple tests with AND, if you want all of the tests to be true
+
+> SELECT * FROM Suppliers WHERE SupplierID > 10 AND SupplierID < 20
+
+
+Combine multiple tests with OR, if you want at least one of the tests to be true.
+
+> SELECT * FROM Suppliers WHERE SupplierID < 10 OR SupplierID > 20
+
+
+### Homework
+
+None

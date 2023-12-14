@@ -1,0 +1,211 @@
+---
+title: ggplot 2 - making a pretty plot
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Introduction
+
+```{r, include=FALSE}
+
+# Add libraries
+library(tidyverse)
+
+```
+
+
+Below are a number of useful functions to improve the attractiveness of your plots.
+
+## Geoms for annotations
+
+### geom_vline / geom_hline
+
+Draw a line or box on the chart.
+
+```{r, eval=T, echo=TRUE }
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  geom_vline(xintercept = 20) +
+  geom_hline(yintercept = 30) +
+  geom_rect(xmin = 20, xmax = 25, ymin = 25, ymax = 30,
+            alpha = 0.005,
+            fill = 'green')
+
+```
+
+
+### geom_label_repel
+
+Add labels with geom_label_repel. There is also a geom_text, but it will
+plot labels on top of the data points.
+
+```{r, eval=T, echo=TRUE }
+library(ggrepel)
+
+mpg_2seater <- filter(mpg, class == '2seater')
+
+ggplot(data = mpg_2seater) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  geom_label_repel(mapping = aes(x = cty, y = hwy, label = model))
+
+```
+
+
+
+
+## Labels
+
+We can add a variety of labels to a plot.
+
+```{r, eval=T, echo=TRUE }
+
+ggplot(data = mpg) +
+  geom_bar(mapping = aes(y = manufacturer)) +
+  labs(title = 'Main title',
+       subtitle = 'Subtitle title',
+       caption = 'Caption at bottom of chart') +
+  xlab('Label for x axis') +
+  ylab('Label for y axis')
+
+```
+
+
+## Theme
+
+There are some nice options for themes. Some include: 
+
+- theme_bw
+- theme_classic
+- theme_minimal
+- theme_void
+
+```{r, eval=T, echo=TRUE }
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  theme_void()
+```
+
+## Limits
+
+Set a max/min for an axis.
+
+```{r, eval=T, echo=TRUE }
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  xlim(0, 20) +
+  ylim(0, 20) 
+```
+
+## Scales
+
+We can customize the axis scales.
+
+You need to match the type of scale to your datatype. Is the data 
+continuous (ie., a number) or discrete (generally text)?
+
+### Discrete Scale
+
+A discrete scale handles a vector of text values.
+Set custom `labels` using a vector.
+
+```{r, eval=T, echo=TRUE }
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = class, x = hwy)) +
+  scale_y_discrete(
+                  labels = c('2 Seater', 'Compact Car', 'Midsize', 'Minivan', 
+                              'Pickup', 'Sub-compact', 'SUV'),
+                  name = 'Car Classification')
+  
+```
+
+### Continuous Scale
+
+A continuous scale is for a series of numbers.
+
+We can set custom breaks, as well as the min/max.
+
+```{r, eval=T, echo=TRUE }
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = hwy, x = hwy)) +
+  scale_x_continuous(n.breaks = 5, limits = c(20, 30)) +
+  scale_y_continuous(breaks = c(15, 20, 25))
+  
+```
+#### Label formatting
+
+Breaks also may need formatting to fix labels. 
+
+- label_percent(): show as 30%
+  - Use `accuracy = 0.1` to round to 10%, or `0.01` to round to 1%.
+- label_dollar(): show with a leading $
+- label_comma(): insert a comma and avoid scientific notation
+
+```{r, eval=T, echo=TRUE }
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = cty, x = hwy)) +
+  scale_x_continuous(labels = scales::label_dollar()) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1))
+  
+```
+
+### Date Scale
+
+Dates/datetimes are continuous values, but don't use a continuous scale. Use `scale_x_date` and `scale_x_datetime` for additional options.
+
+
+Our main options are:
+
+- *Labels*
+   - `labels = scales::label_date("format string")`
+     - Find `"format string"` options by using F1 on label_date, and go to its format section, and click on `strptime()`. Scroll down for a list of options.
+     - Examples (note lower versus upper case!)
+       - `"%Y-%m-%d"` shows as `'2023-01-09'`
+       - `"%H:%M:%S"` shows as `'02:00:00'`
+- *Breaks* 
+   - `date_breaks = "number periods"`
+     - `"number period"` is a combination of a number and a period (such as hour, minute, year, etc...)
+     - Examples (use lowercase!): 
+       - `1 month` 
+       - `3 hours`
+- *Limits*
+  - `limits = c(start_date, end_end)`
+  - Create a date or datetime with lubridate
+  - Examples:
+    - `limits = c( ymd('2023-01-01'), ymd('2023-01-30')`)`
+    - `limits = c( ymd_hm('2023-01-01 06:00am'), ymd_hm('2023-01-01 06:00pm')`
+
+
+See [ggplot's label_date](https://scales.r-lib.org/reference/label_date.html) for help on the scale.
+
+See [lubridate](https://lubridate.tidyverse.org/) for help on dealing with dates.
+
+
+
+```{r, eval=T, echo=TRUE }
+library(lubridate)
+
+date_tibble <- tibble(
+  open = c(ymd_hm('2023-01-01 8:00am'), 
+           ymd_hm('2023-01-02 9:00am'), 
+           ymd_hm('2023-01-09 3:30pm'), 
+           ymd_hm('2023-01-25 5:45pm'))
+)
+
+ggplot(data = date_tibble) +
+  geom_point(mapping = aes(y = open, x = (open))) +
+  scale_y_datetime(labels = scales::label_date("%Y-%m-%d"), 
+                   date_breaks = '1 week',
+                   limits = c(
+                     ymd_hm('2023-01-01 00:00'), 
+                     ymd_hm('2023-02-15 00:00'))
+                   ) +
+  scale_x_datetime(labels = scales::label_time("%H:%M:%S"), 
+                   date_breaks = '100 hours')
+  
+```

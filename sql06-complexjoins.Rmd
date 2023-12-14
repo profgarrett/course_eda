@@ -1,0 +1,33 @@
+--- 
+title: "Complex joins"
+date: "Refreshed `r Sys.Date()`"
+output: 
+  html_document:
+    theme: united
+
+---
+
+# Outcomes
+
+This module introduces some more complex join operations.
+
+- Use a self-join
+- Understand how to rename fields to use the same field multiple times
+- Write a subquery to simplify data manipulations.
+
+Optional Resources:
+
+- [YouTube: How to do subqueries](https://www.youtube.com/watch?v=GpC0XyiJPEo)
+
+### Reference Code
+
+> SELECT Employees.FirstName, boss.FirstName FROM Employees
+> LEFT OUTER JOIN Employees as boss
+> ON Employees.ReportsTo = boss.EmployeeID
+
+### Homework
+
+Complete the Excel.fun tutorial:
+
+- Key practice
+- Self joins

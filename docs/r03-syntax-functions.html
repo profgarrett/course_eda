@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Functions in R</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Functions in R</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<ul>
+<li><a href="#useful-functions" id="toc-useful-functions">Useful
+functions</a></li>
+<li><a href="#create-your-own" id="toc-create-your-own">Create your
+own</a>
+<ul>
+<li><a href="#bad-example" id="toc-bad-example">Bad Example</a></li>
+<li><a href="#good-example" id="toc-good-example">Good Example</a></li>
+</ul></li>
+<li><a href="#benefits" id="toc-benefits">Benefits</a></li>
+<li><a href="#rules" id="toc-rules">Rules!</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>A function is a grouping of code. It helps you organize your code and
+reduce complexity.</p>
+<div id="useful-functions" class="section level2">
+<h2>Useful functions</h2>
+<p>Know how to use the following:</p>
+<ul>
+<li>View(data): opens data in a nice gui. Note that it is
+capitalized!</li>
+<li>names(data): what are the field names of the data?</li>
+<li>median/mean/max/min</li>
+<li>plot: create a basic x/y plot</li>
+<li>table: create a crosstab</li>
+<li>sort/rev: order items in a vector</li>
+</ul>
+</div>
+<div id="create-your-own" class="section level2 tabset">
+<h2 class="tabset">Create your own</h2>
+<div id="bad-example" class="section level3">
+<h3>Bad Example</h3>
+<p>Look for examples of copy + pasted code in the same below. What
+happens if we want to make an adjustment to all blocks of code?</p>
+<pre class="r"><code>library(tidyverse)
+
+data(&#39;mpg&#39;)
+t_mpg &lt;- mpg
+
+
+avg_cyl = mean(t_mpg$cyl)
+rnd_avg_cyl &lt;-  round(avg_cyl, 2)
+text_avg_cyl &lt;- paste(&#39;The average is &#39;, rnd_avg_cyl) 
+print(text_avg_cyl)
+
+
+avg_hwy = mean(t_mpg$hwy)
+rnd_avg_hwy &lt;-  round(avg_hwy, 2)
+text_avg_hwy &lt;- paste(&#39;The average highway mpg is &#39;, rnd_avg_hwy) 
+print(text_avg_hwy)
+
+
+avg_cty = mean(t_mpg$cty)
+rnd_avg_cty &lt;-  round(avg_cty, 2)
+text_avg_cty &lt;- paste(&#39;The average city mpg is &#39;, rnd_avg_cty) 
+print(text_avg_cty)</code></pre>
+</div>
+<div id="good-example" class="section level3">
+<h3>Good Example</h3>
+<p>Let’s break that code out into a separate function.</p>
+<pre class="r"><code>library(tidyverse)
+
+data(&#39;mpg&#39;)
+t_mpg &lt;- mpg
+
+find_avg &lt;- function(text, field) {
+  m = mean(field)
+  rnd &lt;-  round(m, 2)
+  text &lt;- paste(&#39;The average of&#39;, text, &#39;is&#39;, rnd) 
+  return(text)
+}
+
+print(find_avg(&#39;highway mpg&#39;, t_mpg$hwy))
+print(find_avg(&#39;city mpg&#39;, t_mpg$cty))</code></pre>
+</div>
+</div>
+<div id="benefits" class="section level2">
+<h2>Benefits</h2>
+<p>Here are some examples of some good functions.</p>
+<pre class="r"><code># This is a good example of a function.
+# It takes in a parameter, and returns the result.
+# The scope of the function all stays inside of the function, with no
+# contact with the outside items.
+add_one &lt;- function(x) {
+  x1 &lt;- x + 1
+  return(x1)
+}
+y &lt;- 0
+print(add_one(y))
+
+
+# Note scope! Variables inside of our code don&#39;t last after the
+# function finishes running
+add_one &lt;- function(x) {
+  temporary_variable &lt;- x
+  return(x + 1)
+}
+# The temporary_variable doesn&#39;t exist anymore!
+add_one(1)</code></pre>
+</div>
+<div id="rules" class="section level2">
+<h2>Rules!</h2>
+<p>There are some rules for creating and modifying functions.</p>
+<pre class="r"><code># Don&#39;t update the parameters. Instead, return the result.
+add_one_bad &lt;- function(x) { 
+  x &lt;- x + 1
+  return(x)
+}
+add_one_good &lt;- function(x) { 
+  x_new &lt;- x + 1
+  return(x_new)
+}
+
+
+# Don&#39;t have side effects.
+#
+# It is possible to break the connection between inside of the function
+# and outside.
+#
+# To do so, use &lt;&lt;- instead of &lt;-.  The latter just creates a new local
+# variable inside of the block of code.
+#
+# In general, this is a bad idea.
+y &lt;- 0
+add_to_y &lt;- function() { 
+  # This doesn&#39;t create a new variable, instead it updates y outside of the 
+  # function block.
+  y &lt;&lt;- y + 1 
+}
+add_to_y()
+
+
+# Don&#39;t access variables outside of your function.
+#
+# This is legal, but a bad idea because it makes it harder
+# to update and understand your code.
+z &lt;- 1
+y &lt;- 0
+
+add_bad &lt;- function(x) { return(x + z) }
+add_bad(y)
+
+add_good &lt;- function(x1, x2) { return(x1 + x2) }
+add_good(y, z)</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

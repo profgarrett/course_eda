@@ -1,0 +1,18 @@
+--- 
+title: "SQL"
+author: "Nathan Garrett, PhD CPA"
+date: "Refreshed `r Sys.Date()`"
+output: 
+  html_document:
+    theme: united
+
+---
+
+This section is for ACCT 425 and BUDA 450 students in Spring 2023.
+
+* [1. SQL Introduction](sql01-introduction.html)
+* [2. Select](sql02-select.html)
+* [3. Joins](sql03-joins.html)
+* [4. Functions](sql04-functions.html)
+* [5. Aggregation](sql05-aggregation.html)
+* [6. Complex Joins](sql06-complexjoins.html)

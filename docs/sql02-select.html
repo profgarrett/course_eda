@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>SELECT and FROM</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">SELECT and FROM</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#outcomes" id="toc-outcomes">Outcomes:</a>
+<ul>
+<li><a href="#reference-code" id="toc-reference-code">Reference
+Code</a></li>
+</ul></li>
+<li><a href="#detailed-explanation"
+id="toc-detailed-explanation">Detailed Explanation</a></li>
+<li><a href="#class-activity-sqlzoo"
+id="toc-class-activity-sqlzoo">Class Activity: SQLZoo</a></li>
+<li><a href="#homework-excel.fun" id="toc-homework-excel.fun">Homework:
+Excel.fun</a></li>
+</ul>
+</div>
+
+<div id="outcomes" class="section level2">
+<h2>Outcomes:</h2>
+<p>This module will teach you how to write basic SELECT FROM
+queries.</p>
+<ul>
+<li>SELECT single fields, *, and “multi word title” as new_title
+<ul>
+<li>DISTINCT</li>
+</ul></li>
+<li>FROM table</li>
+<li>WHERE field
+<ul>
+<li>Use the comparisons &gt;, &gt;=, &lt;, &lt;=, =, !=</li>
+<li>Match a number (1) or “string value” or NULL</li>
+<li>Use AND/OR</li>
+</ul></li>
+<li>Understand the role of capitalization</li>
+<li>Sort the returned values</li>
+</ul>
+<div id="reference-code" class="section level3">
+<h3>Reference Code</h3>
+<p>Get all information from the categories table.</p>
+<blockquote>
+<p>SELECT * FROM categories</p>
+</blockquote>
+<p>Get some fields. Use “double quote” for fields with a space in their
+name.</p>
+<blockquote>
+<p>SELECT CategoryID, “CategoryName”, Description FROM categories</p>
+</blockquote>
+<p>Rename a field or table with AS</p>
+<blockquote>
+<p>SELECT CategoryID AS “Primary Key” FROM categories AS c1</p>
+</blockquote>
+<p>Limit rows returned with WHERE.</p>
+<blockquote>
+<p>SELECT * FROM categories WHERE CategoryID &gt; 2</p>
+</blockquote>
+<p>Test for text by wrapping your values in ‘single quotes’</p>
+<blockquote>
+<p>SELECT * FROM categories WHERE CategoryName = “main”</p>
+</blockquote>
+<p>Text with multiple conditions with AND / OR</p>
+<blockquote>
+<p>SELECT * FROM categories WHERE CategoryID &lt;= 2 OR CategoryID &gt;=
+4</p>
+</blockquote>
+<p>Test for text comparisons with LIKE and wildcards</p>
+<blockquote>
+<p>SELECT * FROM CategoryName WHERE CategoryName LIKE ‘E%’</p>
+</blockquote>
+<p>Set the order of the fields returned (ascending / descending)</p>
+<blockquote>
+<p>SELECT * FROM Employees ORDER BY FirstName DESC, LastName ASC</p>
+</blockquote>
+<p>See only unique records with DISTINCT</p>
+<blockquote>
+<p>SELECT DISTINCT CategoryName FROM Categories</p>
+</blockquote>
+</div>
+</div>
+<div id="detailed-explanation" class="section level2">
+<h2>Detailed Explanation</h2>
+<p>Using SQL SELECT allows you to retrieve data from a database. The
+SELECT statement is one of the fundamental and most commonly used SQL
+commands. Here’s a step-by-step explanation of how to use SQL
+SELECT:</p>
+<ol style="list-style-type: decimal">
+<li>Syntax: The basic syntax of the SELECT statement is as follows:</li>
+</ol>
+<blockquote>
+<p>SELECT column1, column2, … FROM table_name WHERE conditions ORDER BY
+column1, …;</p>
+</blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Columns to retrieve: Specify the columns you want to retrieve
+data from after the SELECT keyword. You can list multiple column names
+separated by commas, or use <code>*</code> to select all
+columns.</p></li>
+<li><p>Table to retrieve data from: After the FROM keyword, specify the
+name of the table from which you want to retrieve the data.</p></li>
+<li><p>Filtering (Optional): You can use the WHERE clause to add
+conditions to filter the data. This allows you to retrieve only the rows
+that meet specific criteria. For example:</p></li>
+</ol>
+<blockquote>
+<p>SELECT column1, column2 FROM table_name WHERE condition;</p>
+</blockquote>
+<ol start="5" style="list-style-type: decimal">
+<li>Order By allows you to sort your results. List you fields, just as
+in the Select statement. They default to ascending (a-z), but you can
+also have them in descending order by adding desc after the column name,
+i.e. “… ORDER BY column1 desc;”</li>
+</ol>
+<blockquote>
+<p>SELECT column1, column2 FROM table_name WHERE condition ORDER BY
+column1;</p>
+</blockquote>
+<ol start="6" style="list-style-type: decimal">
+<li>Fetching data: Once you have constructed the SELECT statement,
+execute it against the database using an appropriate SQL client or
+programming language with SQL support (e.g., Python with a database
+connector).</li>
+</ol>
+<p>Examples: - To retrieve all columns from a table named
+“employees”:</p>
+<blockquote>
+<p>SELECT * FROM employees;</p>
+</blockquote>
+<ul>
+<li>To retrieve specific columns (e.g., name and age) from the
+“employees” table:</li>
+</ul>
+<blockquote>
+<p>SELECT name, age FROM employees;</p>
+</blockquote>
+<ul>
+<li>To retrieve data based on specific conditions, such as fetching
+employees with a salary greater than 50000:</li>
+</ul>
+<blockquote>
+<p>SELECT name, salary FROM employees WHERE salary &gt; 50000;</p>
+</blockquote>
+<ul>
+<li>You can use various SQL functions and operators within the SELECT
+statement to perform calculations or transformations on the retrieved
+data.</li>
+</ul>
+<p>Remember to use semicolons to terminate your SQL statements, as it is
+a common convention in SQL to signify the end of a command.</p>
+</div>
+<div id="class-activity-sqlzoo" class="section level2">
+<h2>Class Activity: SQLZoo</h2>
+<p>Go to <a href="https://sqlzoo.net/wiki/SQL_Tutorial">SQLZoo</a></p>
+<p>Complete the following tutorials:</p>
+<ul>
+<li>0 SELECT basics (all questions)</li>
+<li>1 SELECT name (questions 1-4)</li>
+<li>2 SELECT from WORLD (questions 1-7)</li>
+</ul>
+</div>
+<div id="homework-excel.fun" class="section level2">
+<h2>Homework: Excel.fun</h2>
+<p>Complete these Excel.fun tutorials:</p>
+<ul>
+<li>Select From</li>
+<li>Order By</li>
+<li>Where</li>
+<li>Where And/Or</li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

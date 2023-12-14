@@ -1,0 +1,14 @@
+name: "Profgarrett Data Analysis"
+output_dir: "docs"
+navbar:
+  title: "EDA Textbook"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "R"
+      href: r00-index.html
+    - text: "SQL"
+      href: sql00-index.html
+    - text: "eCampus"
+      href: http://ecampus.wvu.edu
+exclude: ["*.nb.html"]

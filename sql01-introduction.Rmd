@@ -1,0 +1,86 @@
+---
+title: What is a database?
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Outcomes
+
+```{r setup, include=FALSE}
+#library(DBI)
+#db = dbConnect(RSQLite::SQLite(), dbname = "01-sql-northwind.db")
+#knitr::opts_chunk$set(connection = "db")
+```
+
+![Cute image of Database](sql01-databasemacot.png)
+
+You should be able to:
+
+- Define a database
+- Describe the role of a DMBS
+- Describe advantages / disadvantages
+- Describe SQL
+
+[Shared files](https://www.dropbox.com/sh/efp8pyi29yy3rez/AACGzew42Zoa_9db-tZxDmSWa?dl=0)
+
+Please install the [SQLite DB Browser] 
+(https://sqlitebrowser.org/dl/)
+
+[Northwind SQL Diagram](sql01-northwind.png)
+
+### Terms
+
+A database is a structured collection of data that is organized and stored in a way that allows for efficient retrieval, management, and manipulation of information.
+
+The role of a Database Management System (DBMS) is to act as an intermediary between users and the database, providing an interface for users to interact with the data. It manages the storage, retrieval, and modification of data, ensuring data integrity, security, and concurrency control.
+
+Advantages of using a DBMS include data centralization, data integrity, data security, and efficient data retrieval and manipulation. However, it can also have disadvantages like high initial setup costs, potential performance bottlenecks, and the need for skilled administrators. It is also less flexible than using
+a less structured approach (such as Excel files).
+
+SQL (Structured Query Language) is a programming language used to manage and manipulate relational databases. It provides a standardized way to create, modify, and query databases, enabling users to interact with the data in a structured and efficient manner. SQL is widely used and supports various operations like selecting data, inserting records, updating data, and creating database objects such as tables and indexes.
+
+
+
+### Class Activity: Slides
+
+Review slides Romney Chapter 4
+
+
+### Homework: Why DB and not Excel?
+
+Open the WhyDB.xlsx file in the shared folder. Working with your table, 
+identify the issues with the Excel file.
+
+> ABC Consulting has been asked to figure out why a new initiative failed to deliver.
+> They have traced the underlying problem to a sales initiative for Product D underperforming.
+> This dataset was used to justify a decision to move all marketing dollars from A, B, and C to D.
+> 
+> What issues can you find that suggest this initiative was a mistake?
+
+Goal: find five of the six errors.
+
+``` {r, include=FALSE}
+
+# INSTRUCTOR NOTES
+
+
+# Concepts:
+#	References: Using references to individual cells instead of joins can be an issue
+#	Data type: Excel doesn't enforce having the same type of data in a cell.
+#	Accidental moves: It's easy to end up with data on different columns/rows through user errors.
+#	Size: Excel has a row limit
+
+#	Issues:
+#	Unit Sales hits row limit, dropping last part of year
+#	Unit Sales adds new month column in May
+#	Products changes datatype from $ to %
+#	Products has text datatype for a cell
+#	Analysis uses an incorrect reference 
+#	Product E isn’t listed (tracing)
+
+```
+
+
+

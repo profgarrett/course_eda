@@ -1,0 +1,28 @@
+--- 
+title: "SQL Aggregation"
+date: "Refreshed `r Sys.Date()`"
+output: 
+  html_document:
+    theme: united
+
+---
+# Outcomes
+
+Reduce data rows by pivoting the data.
+
+- Return the sum or count of rows
+- Group by a field
+- Use a HAVING clause to add a filter
+- Describe the difference between HAVING and WHERE
+
+### Class Activity SQL Zoo
+
+-	5 SUM and COUNT (all questions)
+
+### Homework
+
+Complete Excel.fun homework below:
+
+- SQL Group By
+
+

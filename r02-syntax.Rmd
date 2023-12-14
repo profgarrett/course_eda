@@ -1,0 +1,77 @@
+---
+title: Syntax in R
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Introduction
+
+This file is an overview of the syntax in R.
+It provides a basic introduction to the major features.
+
+
+## R Grammar Rules
+
+R is case sensitive!
+
+Note the grammar rules of R:
+
+- Variables: single word
+  - Starts with a letter
+  - No spaces
+  - Special characters . _ are ok, but we prefer _ (underscore)
+  - Suggest lower case and snake_case (not CamelCase or camel.case)
+- Functions: word with parenthesis() immediately following. 
+- Numbers: no punctuation!
+- Text: wrap words with "a" or 'a'
+- Type: find the type of a variable with class(x)
+
+
+Comments: 
+
+- start each line with a #
+
+
+Logical:
+
+- Use === for equality test, and <- for assignment
+
+
+Data types:
+
+- Basic
+  - numeric: all numbers by default, esp 1.0
+  - integer: number with L at the end, i.e., class(1L)
+  - character: 'a' or "a" (prefer "double")
+  - logical: T/F or TRUE/FALSE (not True or "TRUE" or "True")
+  - factor: essentially an enum
+- Vector: 
+  - This is an array type
+  - Create as c(1, 2,3)
+  - Access numeric elements with 1-based index
+    - name_of_vector[1]
+    - vec[1:3]
+    - vec[length(vec)] 
+- Data.frame: 
+  - Older, we will use tupples instead
+  - Useful functions include rownames, colnames, names, nrow, ncol
+  - Other, summary, str
+  - We will access named items as data$item_name
+- Matrix: rectangular items, ie. example[x, y]
+
+## Further resources
+
+Great introduction to types!
+https://www.datacamp.com/tutorial/data-types-in-r
+
+Yarr is a gentle introduction to using R.
+If you haven't done any programming before, this could be
+a good way to get started.
+https://bookdown.org/ndphillips/YaRrr/jumpin.html
+
+W3 Schools has a nice reference for R code. This is really
+good for trying to lookup a specific feature.
+https://www.w3schools.com/r/default.asp
+

@@ -1,0 +1,28 @@
+--- 
+title: "R for Business Students"
+author: "Nathan Garrett, PhD CPA"
+date: "Refreshed `r Sys.Date()`"
+output: 
+  html_document:
+    theme: united
+
+---
+
+
+This section is for ACCT 426 and BUDA 451 students in Spring 2023.
+
+* Core R Language
+  - [1a. Introduction](r01-intro.html)
+  - [1b. Syntax](r02-syntax.html)
+  - [1c. Functions](r03-syntax-functions.html)
+* Libraries
+  - [dlpyr](r10-dplyr.html)
+  - [ggplot 1: Introduction](r20-ggplot.html)
+  - [ggplot 2: Making plots pretty](r21-ggplot-pretty.html)
+  - [ggplot 3: Making maps](r22-ggplot-maps-osm.html)
+* Machine Learning
+  - [Unsupervised Learning](r40-ml-unsupervised.html)
+  - [Supervised Learning](r50-ml-supervised.html)
+  - [Statistics Refresher](r60-statistics.html)
+* Other topics
+  - [Dates](r80-dates.html)

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Project files</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Project files</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<ul>
+<li><a href="#creation-and-publishing-walkthrough"
+id="toc-creation-and-publishing-walkthrough">Creation and publishing
+walkthrough</a></li>
+<li><a href="#further-explanation" id="toc-further-explanation">Further
+explanation</a>
+<ul>
+<li><a href="#working-directory." id="toc-working-directory.">Working
+Directory.</a></li>
+<li><a href="#file-paths" id="toc-file-paths">File paths</a></li>
+<li><a href="#rmd-markdown" id="toc-rmd-markdown">Rmd Markdown</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>As we get further along in using R, we will want to share our work
+with others. This can be hard, as the installation of R on our laptops
+is not going to match another person’s computer.</p>
+<div id="creation-and-publishing-walkthrough" class="section level2">
+<h2>Creation and publishing walkthrough</h2>
+<p>We will generally want to use a project for your submissions.</p>
+<p>Follow these steps to create your project, load the data files,
+publish it online, and submitted on eCampus.</p>
+<ul>
+<li>Make the project
+<ul>
+<li>Go to <code>File</code>, and click <code>New Project</code></li>
+<li>Choose <code>New Directory</code></li>
+<li>Choose <code>New Project</code></li>
+<li>Click <code>Browse</code> to navigate to your class folder.</li>
+<li>Type a name for your project (this will be the new folder’s
+name)</li>
+<li>Click <code>Create Project</code></li>
+<li>You now have a new folder with a single <code>.Rproj</code>
+file</li>
+</ul></li>
+<li>Move datafiles into your project folder
+<ul>
+<li>Download your data files (and unzip!)</li>
+<li>Open Finder/Windows Explorer</li>
+<li>Go to Downloads, and copy the files</li>
+<li>Go to new project folder, and paste</li>
+<li>You should see the files in the Rstudio <code>Files</code> pane
+(bottom-right)</li>
+</ul></li>
+<li>Create your Rmd file
+<ul>
+<li>Go to the <code>File</code> menu, click <code>New File</code>, and
+then <code>R Notebook</code></li>
+<li>Save the file (I suggest <code>analysis.Rmd</code>)</li>
+<li>Go to your new file in the editor window, and give it a nice title
+(see line 2)</li>
+<li>You now have a Rmd file project file ready for your analysis!</li>
+</ul></li>
+<li>Import your data
+<ul>
+<li>Go to the top block of code in your analysis file</li>
+<li>Import your libraries (tidyverse)</li>
+<li>Use read_csv (or a similar function) to create a raw tibble</li>
+<li>Use dplry to clean up the data</li>
+<li>Hide the block output so it doesn’t show on our published analysis.
+<ul>
+<li>Click the gear icon on the top-right</li>
+<li>Chose <code>Show nothing (run code)</code></li>
+</ul></li>
+</ul></li>
+<li>Create charts
+<ul>
+<li>Add a new block of code in the document
+<ul>
+<li>Click the green <code>C</code> on the upper-right corner of the edit
+window</li>
+<li>Choose R</li>
+</ul></li>
+<li>Change the output to <code>Show output only</code> (click the gear
+icon)</li>
+<li>Add your ggplot code</li>
+</ul></li>
+<li>Publish your work
+<ul>
+<li>Save your file</li>
+<li>Click the <code>Preview</code> button (top of the edit window)</li>
+<li>Click the <code>Publish</code> button (top-right corner)</li>
+<li>Choose Rpubs</li>
+<li>Click <code>Publish</code></li>
+<li>You will need to log into your account.</li>
+<li>Choose a title and slug (website address)</li>
+</ul></li>
+<li>Submit your project
+<ul>
+<li>Get a copy of the slug you picked in the prior step</li>
+<li>Put it as a comment in the top of your first code block</li>
+<li>Submit the Rmd file to eCampus</li>
+</ul></li>
+</ul>
+</div>
+<div id="further-explanation" class="section level2">
+<h2>Further explanation</h2>
+<p>If you follow the process above, you’ll generally be able to get your
+project set up properly. However, it’s useful to understand what is
+actually happening during this process. The below sections explain the
+key ideas.</p>
+<div id="working-directory." class="section level3">
+<h3>Working Directory.</h3>
+<p>R uses a default starting point on your computer whenever it tries to
+find a file. Run getwd() to find your computer’s working directory.</p>
+<p>This <em>isn’t</em> the same folder as your code!</p>
+<pre class="r"><code>getwd()</code></pre>
+<p>You can set the working directory with setwd(). Be sure to use
+slashes going bottom-left to upper-right.</p>
+<pre class="r"><code>s &lt;- getwd() # s is the current directory.
+
+# Give setwd a string value 
+setwd(s)
+
+getwd() # test to make sure that the new path works!</code></pre>
+<p>When you create a project, it automatically sets the working
+directory to that folder. That allows you to use relative files paths,
+which are explained in the next sections.</p>
+</div>
+<div id="file-paths" class="section level3">
+<h3>File paths</h3>
+<p>We work with files using either a partial or full path. Here are some
+valid examples,</p>
+<ul>
+<li>file.csv</li>
+<li>folder/file.csv</li>
+<li>./folder/../file.csv</li>
+<li>c:/folder/file.csv</li>
+</ul>
+<p>Below are some samples of opening a file in a different folder.</p>
+<pre class="r"><code># Sample tibble
+test_t &lt;- tibble(x = c(1, 2, 3, 4))
+
+
+# Same folder
+# 
+# Write to the working directory and then open with a relative path
+write_csv(test_t, &#39;test.csv&#39;)
+loaded_t &lt;- read_csv(&#39;test.csv&#39;)
+
+# Write a subfolder in our project
+# Do not start the path with a slash!
+write_csv(test_t, &#39;test/test.csv&#39;)
+loaded_t &lt;- read_csv(&#39;test/test.csv&#39;)
+
+# Relative folder
+# 
+# You can start with a ./
+# If you want to go up a folder, you can also use ../
+# Below starts at the wd, goes into the test folder, and walks back up.
+# So, it&#39;s a lot of effort to do the same thing as test.csv 
+write_csv(test_t, &#39;./test/../test.csv&#39;)
+loaded_t &lt;- read_csv(&#39;./test/../test.csv&#39;)
+
+# Full path
+# 
+# Full paths are generally a bad idea. That means that you can&#39;t use the code
+# on another computer.
+# 
+# If you use a full path, be sure to use c:/folder/file.csv
+# Note that you use a slash from bottom-left to upper-right
+write_csv(test_t, &#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)
+loaded_t &lt;- read_csv(&#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)</code></pre>
+<p>When you use a project, try to only use a relative file path (i.e.,
+“data.csv”)</p>
+</div>
+<div id="rmd-markdown" class="section level3">
+<h3>Rmd Markdown</h3>
+<p>A Rmd file uses markdown. You don’t need to know all of the syntax.
+But, you should start each section with a #, and label sub-sections with
+## or ###</p>
+<p>Each section of code can be inserted with the <em>insert new code
+chunk</em> button on the upper-right corner of your screen (it looks
+like a green C).</p>
+<p>You can set various options in the header. The two most useful
+are:</p>
+<ul>
+<li>eval: show the results of the code (TRUE or FALSE)</li>
+<li>echo: show or hide the R code (TRUE or FALSE)</li>
+</ul>
+<p>You can manually type these into the top line of a code block, or
+click the gear icon on the upper-right corner.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
