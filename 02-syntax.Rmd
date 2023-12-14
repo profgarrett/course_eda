@@ -37,7 +37,7 @@ Data types:
   - integer: number with L at the end, i.e., class(1L)
   - character: 'a' or "a" (prefer "double")
   - logical: T/F or TRUE/FALSE (not True or "TRUE" or "True")
-  - factor: defer until later, but essentially an enum
+  - factor: essentially an enum
 - Vector: 
   - This is an array type
   - Create as c(1, 2,3)
@@ -51,17 +51,6 @@ Data types:
   - Other, summary, str
   - We will access named items as data$item_name
 - Matrix: rectangular items, ie. example[x, y]
-
-## Useful functions
-
-Know how to use the following:
-
-- View(data): opens data in a nice gui. Note that it is capitalized!
-- names(data): what are the field names of the data?
-- median/mean/max/min
-- plot: create a basic x/y plot
-- table: create a crosstab
-- sort/rev: order items in a vector 
 
 ## Further resources
 
@@ -77,26 +66,3 @@ W3 Schools has a nice reference for R code. This is really
 good for trying to lookup a specific feature.
 https://www.w3schools.com/r/default.asp
 
-
-## Shortcuts
-
-There are several vital shortcuts:
-
-- alt - for <- 
-- control s for saving 
-- control shift l for linter (always save!)
-- control enter to run the current line
-
-
-
-## Overall RStudio Layout
-
-- RStudio features
-  - Console for interactive input
-  - Script editor for saving (be sure to re-run)
-  - Shortcuts: control+enter to run the current line, or all selected.
-- Files Management
-  - It's really critical to properly store and name your files
-  - Create a folder for our class, and a new folder for
-  *every* project. For now, you don't need a project file,
-  but once we start using datafiles it'll be really important.

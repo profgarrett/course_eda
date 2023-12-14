@@ -11,6 +11,56 @@ data("iris")
 
 # Turn into a tibble
 t_iris <- tibble(iris)
+
+
+
+################################################################################
+# https://statsandr.com/blog/correlation-coefficient-and-correlation-test-in-r/
+################################################################################
+
+corrplot2 <- function(data,
+                      method = "pearson",
+                      sig.level = 0.05,
+                      order = "original",
+                      diag = FALSE,
+                      type = "upper",
+                      tl.srt = 90,
+                      number.font = 1,
+                      number.cex = 1,
+                      mar = c(0, 0, 0, 0)) {
+  library(corrplot)
+  data_incomplete <- data
+  data <- data[complete.cases(data), ]
+  mat <- cor(data, method = method)
+  cor.mtest <- function(mat, method) {
+    mat <- as.matrix(mat)
+    n <- ncol(mat)
+    p.mat <- matrix(NA, n, n)
+    diag(p.mat) <- 0
+    for (i in 1:(n - 1)) {
+      for (j in (i + 1):n) {
+        tmp <- cor.test(mat[, i], mat[, j], method = method)
+        p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
+      }
+    }
+    colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+    p.mat
+  }
+  p.mat <- cor.mtest(data, method = method)
+  col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+  corrplot(mat,
+           method = "color", col = col(200), number.font = number.font,
+           mar = mar, number.cex = number.cex,
+           type = type, order = order,
+           addCoef.col = "black", # add correlation coefficient
+           tl.col = "black", tl.srt = tl.srt, # rotation of text labels
+           # combine with significance level
+           p.mat = p.mat, sig.level = sig.level, insig = "blank",
+           # hide correlation coefficients on the diagonal
+           diag = diag
+  )
+}
+
 ```
 
 
@@ -28,7 +78,7 @@ Here are some resources:
 
 We will be using the iris dataset extensively. 
 
-!(iris picture)[https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/1280px-Iris_virginica.jpg]
+![Wikipedia Picture of an Iris](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/1280px-Iris_virginica.jpg)
 
 
 ### Concept
@@ -258,6 +308,135 @@ predicted <- predict(m, t.iris.test, type = 'class')
 # Add to our train tibble.
 t.iris.test <- mutate(t.iris.test, predicted = predicted)
 
-# Show results
+# Show results in a confusion matrix / table.
+# This shows a comparison between the the actual values, and what our algorithm
+# predicted (shown in upper case for clarity).
 table(str_to_upper(predicted), t.iris.test$Species)
 ```
+
+
+
+
+## Principal Component Analysis (pca)
+
+We use principal component analysis to reduce the number of dimensions in our data. In simpler terms, we can reduce the number of values in our data.
+
+See this [visualization](https://www.youtube.com/watch?v=FD4DeN81ODY) before reading the below.
+
+Some good resources are:
+
+- [Walkthrough of Unsupervised Learning](https://lgatto.github.io/IntroMachineLearningWithR/unsupervised-learning.html#introduction)
+- [More detailed analysis of PCA](https://bradleyboehmke.github.io/HOML/pca.html)
+
+### Prior Concept
+
+Before getting into PCA, make sure you're familiar with the concept of correlations. The code below walks you through an example. The `pairs` command will show a plot of various fields against each other. You can also use the custom function `corrplot2`.
+
+```{r}
+# Create a set of pairs of scatterplots showing the relationship
+# between all variables.
+#   argument1 is a tibble with all numeric columns to show in the plot.
+#   col is the color of each species
+pairs(
+  x = select(iris, -Species),
+  col = iris$Species)
+
+
+# View the correlations between each variable.
+# Again, we use the iris dataset without the species column (text), giving
+#   the chart only the numeric columns
+# Positive correlations shown in blue, negative in red.
+# Items not meeting statistical significance are hidden.
+corrplot2(select( iris, -Species))
+```
+
+
+### Concept Walk-through
+
+We will run pca on the iris dataset.
+
+``` {r}
+
+# Give prcomp numeric values in the iris tibble.
+iris_pca_results <- prcomp(select(tibble(iris), -Species))
+
+# Show new components
+summary(iris_pca_results)
+# Show how they are generated from our original data
+print(iris_pca_results)
+
+```
+
+The summary shows each of our new principal components. Each PC is a new variable, created by testing various  formulas weighting the original variables. 
+
+Each new PC (primary component) is made by multiplying existing values by the new coefficients. For example, `PC1` is 
+
+$.36 * Sepal.Length + -.08 * Sepal.Width + .85 * Petal.Length + .35 * Petal.Width$
+
+Each new PC variable flattens the data across one dimension. The exact weights for each variable are chosen to maximize the amount of variation in the original dataset that is maintained in the new variable.
+ 
+The second PC then does the same process again. However, now that the first has already taken up a bunch of the variation in the dataset, the new only tries to capture the remaining variation in the data. Think  of the first PC as removing a bunch of the variation, and the following PCs each try to grab more of the variation until none remains.
+ 
+For interpreting the data, we want each PC to have the highest proportion of variance (meaning it capture most of our data).  Then, look at the weights for that PC. What variables drive a PC? That helps you name it.
+
+### Concept Illustration
+
+Now that we have a set of PC, let's visualize the new dimension on our data. The chart below visualizes our first primary component.
+
+```{r}
+
+# Run PCA analysis
+iris_pca_results <- prcomp(select(tibble(iris), -Species))
+
+# The results have a new list called X, which gives the PC for each of our
+# original dataset. Let's create a new tibble with the pcs, and then plot it.
+plot_data <- tibble(
+  pc1 = iris_pca_results$x[,1],
+  pc2 = iris_pca_results$x[,2],
+  pc3 = iris_pca_results$x[,3],
+  Species = iris$Species
+)
+
+# Plot PC1
+ggplot(data = plot_data) +
+  geom_point(mapping = aes( x = pc1, y = 1, color = Species),
+             alpha = .2,
+             size = 2) +
+  labs(title = "PC1 versus species")
+```
+
+
+What about plotting 2 components?
+
+``` {r}
+ggplot(data = plot_data) +
+  geom_point(mapping = aes( x = pc1, y = pc2, color = Species),
+             alpha = .3,
+             size = 2) +
+  labs(title = "PC1 and PC2 versus species")
+```
+
+We can also more closely examine how the new PCs are formed. Examine the rotation variable. It gives us the degree to which each variable drives the PCs
+
+``` {r}
+
+# Turn into a usable tibble and add the items name
+pca_tibble <- as_tibble(iris_pca_results$rotation) %>% 
+  mutate(items = rownames(iris_pca_results$rotation) )
+
+# Turn into long format
+pca_tibble_long <- pivot_longer(pca_tibble, 
+                                cols = starts_with('PC'), 
+                                names_to = 'PCItem', 
+                                values_to = 'PCValue')
+
+# Remove values near zero
+pca_tibble_long <- filter( pca_tibble_long, PCValue > .1 | PCValue < -.1 )
+
+# View PCs as a basic dot plot.
+ggplot( data = pca_tibble_long ) +
+  geom_point( mapping = aes( y = items, x = PCValue, color = PCValue), size = 5) +
+  facet_wrap( ~ PCItem, nrow = 1)  +
+  scale_color_gradient(low = 'red', high = 'green')
+```
+

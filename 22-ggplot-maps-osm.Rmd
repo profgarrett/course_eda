@@ -1,4 +1,21 @@
-```{undefined eval=TRUE, include=FALSE}
+# ggplot 3: Create Maps
+
+We can add GIS data using OpenStreetMap
+
+A simple tutorial is here: https://ggplot2tutor.com/tutorials/streetmaps
+
+This is a good additional step, which also talks about points
+and some font options.
+https://joshuamccrain.com/tutorials/maps/streets_tutorial.html
+
+A deep tutorial is available here: https://taraskaduk.com/posts/2021-01-18-print-street-maps/
+
+Another good link is: https://wiki.openstreetmap.org/wiki/Map_Features
+This gives a list of features you can find.
+
+We'll be using some of their suggestions for the code below.
+
+```{r, ggplot3-setup, eval=FALSE, echo=TRUE}
 
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
@@ -16,26 +33,8 @@ library(osmextract)
 ```
 
 
-# ggplot and OpenStreetMap 
 
-We can add GIS data using OpenStreetMap
-
-A simple tutorial is here: https://ggplot2tutor.com/tutorials/streetmaps
-
-This is a good additional step, which also talks about points
-and some font options.
-https://joshuamccrain.com/tutorials/maps/streets_tutorial.html
-
-A deep tutorial is available here: https://taraskaduk.com/posts/2021-01-18-print-street-maps/
-
-Another good link is: https://wiki.openstreetmap.org/wiki/Map_Features
-This gives a list of features you can find.
-
-We'll be using some of their suggestions for the code below.
-
-
-
-# OpenStreetMap with osmextract
+## OpenStreetMap with osmextract
 
 We can add GIS data using OpenStreetMap using the osmextract library.
 
@@ -58,12 +57,12 @@ This gives a list of features you can find.
 We'll be using some of their suggestions for the code below.
 
 
-# Setup environment
+## Setup environment
 
 It's important to setup a default location for all downloaded files. Otherwise,
 R will download them every time you load the program. 
 
-```{undefined eval=TRUE, include=FALSE}
+```{r, ggplot3-setupenv, eval=FALSE, echo=TRUE}
 
 # See if the download folder is properly setup.
 if( "" == Sys.getenv('OSMEXT_DOWNLOAD_DIRECTORY')) {
@@ -97,7 +96,7 @@ if( "" == Sys.getenv('OSMEXT_DOWNLOAD_DIRECTORY')) {
 
 ```
 
-# Download a map
+## Download a map
 
 The below downloads data for WV. You'll see that it downloads the entire state,
 which is a lot of data.
@@ -105,7 +104,7 @@ which is a lot of data.
 It also takes a long time to plot our map. The more points you have,
 the longer it takes to load the data.
 
-```{undefined eval=TRUE, include=FALSE}
+```{r, ggplot3-download, eval=FALSE, echo=TRUE}
 
 # Download WV Data with oe_get
 # We go ahead and grab 3 datasets of different types.
@@ -177,7 +176,7 @@ ggplot() +
 
 
 
-# Cropping
+## Cropping
 
 It's useful to have different ways of cropping the data. The first is st_crop,
 which uses x/y min/max values. Note that since WV has a negative X, that 
@@ -187,7 +186,7 @@ This is different from coord_sf, which takes a ylim, xlim, and expand = FALSE.
 That just restricts the viewport, but still plots all of the data. If we have 
 a big dataset, it'll still take a really long time to plot.
 
-```{undefined eval=TRUE, include=FALSE}
+```{r, ggplot3-crop, eval=FALSE, echo=TRUE}
 
 # This reduces datapoints in our dataset
 cropped_hws <- st_crop(wv_major_roads, 
@@ -217,7 +216,7 @@ ggplot() +
 We can also use a geography to crop data. Note that this includes points outside
 of the boundaries if they start inside of the geometry.
 
-```{undefined eval=TRUE, include=FALSE}
+```{r, ggplot3-geo, eval=FALSE, echo=TRUE}
 
 # Grab Charleston boundaries
 wv_mon <- tibble(osm_poly) %>% 
@@ -240,14 +239,13 @@ ggplot() +
 
 ```
 
-# Exporting
+## Exporting
 
 We can export the resulting map with ggsave. This is mostly useful
 for when we need to have a very high quality image,
 which is hard to see in rStudio.
 
-
-```{undefined eval=TRUE, include=FALSE}
+```{r, ggplot3-export, eval=FALSE, echo=TRUE}
 
 #osm_states = osmextract::oe_get("United States of America",
 #                                stringsAsFactors = FALSE,

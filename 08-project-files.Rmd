@@ -78,14 +78,14 @@ Run getwd() to find your computer's working directory.
 
 This *isn't* the same folder as your code! 
 
-```{r, eval=T, echo=TRUE }
+```{r, eval=F, echo=TRUE }
 getwd()
 ```
 
 You can set the working directory with setwd(). Be sure to use slashes going bottom-left to upper-right.
 
 
-```{r, eval=T, echo=TRUE }
+```{r, eval=F, echo=TRUE }
 s <- getwd() # s is the current directory.
 
 # Give setwd a string value 
@@ -121,15 +121,11 @@ test_t <- tibble(x = c(1, 2, 3, 4))
 # Write to the working directory and then open with a relative path
 write_csv(test_t, 'test.csv')
 loaded_t <- read_csv('test.csv')
-```
 
-```{r, eval=F, echo=TRUE }
-# Subfolder. Do not start the path with a slash.
+# Write a subfolder in our project
+# Do not start the path with a slash!
 write_csv(test_t, 'test/test.csv')
 loaded_t <- read_csv('test/test.csv')
-```
-
-```{r, eval=F, echo=TRUE }
 
 # Relative folder
 # 
@@ -139,9 +135,7 @@ loaded_t <- read_csv('test/test.csv')
 # So, it's a lot of effort to do the same thing as test.csv 
 write_csv(test_t, './test/../test.csv')
 loaded_t <- read_csv('./test/../test.csv')
-```
 
-```{r, eval=F, echo=TRUE }
 # Full path
 # 
 # Full paths are generally a bad idea. That means that you can't use the code

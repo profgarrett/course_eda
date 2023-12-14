@@ -10,5 +10,5 @@ documentclass: book
 
 # Exploratory Data Analysis in R for Business Students
 
-This site is for the ACCT 426 and BUDA 451 classes in Fall 2023.
+This site is for the ACCT 426 and BUDA 451 classes in Spring 2023.
 It has been created by Nathan Garrett (nathan.garrett@mail.wvu.edu)

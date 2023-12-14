@@ -1,0 +1,60 @@
+# Special Topics
+
+
+## Date
+
+Date/times in R require some special consideration.
+They are a distinct type, and require the as.Date function to turn from text (i.e., '01-01-2022' into a date).
+
+``` {r}
+
+date_as_text = '2001-04-03'
+date_as_date = as.Date(date_as_text)
+
+print(class(date_as_date))
+```
+
+## Format function
+
+We can output dates in different styles with the `format` command: 
+
+- `%d` number day as `19`
+- `%a` text weekday as `Sun` (or `%A` for `Sunday`)
+- `%m` number month as `04`
+- `%b` text month as `Feb` (or `%B` as `February`)
+- `%y` year as `14` (`%Y` as `2014`)
+
+``` {r}
+
+d <- as.Date('2001-07-01')
+
+vector_of_date_as_text_values <- c(
+  format(d, format = '%d %m %y'),
+  format(d, format = '%d-%m-%y'),
+  format(d, format = '%B, %Y'),
+  format(d, format = '%a (%d of %b)')
+)
+print( vector_of_date_as_text_values)
+```
+
+## Lubridate
+
+We typically use lubridate in this class to simplify date/time handling. The biggest issue to keep straight is if an item is a date or a date-time. See below for examples.
+
+
+``` {r}
+library(lubridate)
+
+
+d <- ymd('2023-02-03')
+dt <- ymd_hm('2023-02-03 12:23')
+
+
+```
+
+
+## Cool articles on time
+
+How do we deal with leap dates? What about leap seconds?
+ 
+- [Leap seconds](https://arstechnica.com/science/2023/11/leap-seconds-could-become-leap-minutes-despite-pushback-from-russians-vatican/)

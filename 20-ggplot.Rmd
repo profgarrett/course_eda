@@ -6,17 +6,17 @@ library(tidyverse)
 ```
 
 
-# ggplot 1
+# ggplot 1: Make a chart
 
 ggplot is a super useful graphics tool. See its website at [dplyr
 tutorial](https://ggplot2.tidyverse.org/)
 
-There is also a very nice [cheat cheat by Afshine Amidi & Shervine] Amidi(https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf)
+There is also a very nice [cheat cheat by Afshine Amidi & Shervine Amidi](https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf)
 
-Here is a great systematic introduction 
+Here is a great systematic introduction:
 [Elegant Graphics for Data Analysis](https://ggplot2-book.org/)
 
-Here is a list of example charts
+Here is a list of example charts:
 [R Graphics Cookbook](https://r-graphics.org/)
 
 

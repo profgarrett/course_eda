@@ -2,13 +2,28 @@
 
 A function is a grouping of code. It helps you organize your code and reduce complexity.
 
+## Useful functions
 
-## Bad Example
+Know how to use the following:
+
+- View(data): opens data in a nice gui. Note that it is capitalized!
+- names(data): what are the field names of the data?
+- median/mean/max/min
+- plot: create a basic x/y plot
+- table: create a crosstab
+- sort/rev: order items in a vector 
+
+
+## Create your own 
+
+You can make your own functions.
+
+### Bad Example
 
 Look for examples of copy + pasted code in the same below.
 What happens if we want to make an adjustment to all blocks of code?
 
-``` {r}
+```{r eval=FALSE, echo=TRUE}
 library(tidyverse)
 
 data('mpg')
@@ -36,18 +51,18 @@ print(text_avg_cty)
 ```
 
 
-## Good Example
+### Good Example
 
 Let's break that code out into a separate function.
 
-``` {r}
+```{r eval=FALSE, echo=TRUE}
 library(tidyverse)
 
 data('mpg')
 t_mpg <- mpg
 
 find_avg <- function(text, field) {
-  m = mean(t_mpg$cyl)
+  m = mean(field)
   rnd <-  round(m, 2)
   text <- paste('The average of', text, 'is', rnd) 
   return(text)
@@ -59,11 +74,11 @@ print(find_avg('city mpg', t_mpg$cty))
 
 ```
 
-## Benefits
+### Benefits
 
 Here are some examples of some good functions.
 
-``` {r}
+```{r eval=FALSE, echo=TRUE}
 
 # This is a good example of a function.
 # It takes in a parameter, and returns the result.
@@ -89,11 +104,11 @@ add_one(1)
 
 ```
 
-## Rules! 
+### Rules! 
 
 There are some rules for creating and modifying functions.
 
-``` {r}
+```{r eval=FALSE, echo=TRUE}
 
 
 # Don't update the parameters. Instead, return the result.
