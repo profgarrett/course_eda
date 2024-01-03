@@ -6,72 +6,90 @@ output:
     theme: united
 ---
 
-## Outcomes:
+# Outcomes:
 
-This module will teach you how to write basic SELECT FROM queries.
+This module accompanies the *Introduction to SQL* Datacamp tutorial. Some content can also be found in *Intermediate SQL*.
 
-- SELECT single fields, *, and "multi word title" as new_title
+- SELECT *, field, field2 as ABC, "field b" 
     - DISTINCT
-- FROM table
+- FROM table as t2 (alias)
 - WHERE field 
     - Use the comparisons >, >=, <, <=, =, != 
-    - Match a number (1) or "string value" or NULL
+    - Match a number,  "string value", or NULL
     - Use AND/OR
 - Understand the role of capitalization
 - Sort the returned values
 
 
 
+## Style guide
 
+- Use UPPER CASE for keywords (SELECT, FROM, ...)
+- Use lower-case for field names and tables
+- Add a ; (semi-colon) at the end of the statement
 
-### Reference Code
+# Code Samples  {.tabset}
 
-Get all information from the categories table.
+## Code for SELECT & FROM
+
+SELECT and FROM are used in all data retrieval queries
 
 > SELECT * FROM categories
 
+"Fields with a space in their name" must be wrapped by "double" quotes.
 
-Get some fields. Use "double quote" for fields with a space in
-their name.
+> SELECT "Category Name" FROM "categories tables"
 
-> SELECT CategoryID, "CategoryName", Description FROM categories
-
-
-Rename a field or table with AS
+AS renames a field or table 
 
 > SELECT CategoryID AS "Primary Key" FROM categories AS c1
 
 
-Limit rows returned with WHERE. 
+## Code for WHERE
+
+WHERE filters the returned fields
 
 > SELECT * FROM categories WHERE CategoryID > 2
 
+'Strings' are wrapped in single quotes (don't wrap numbers)
 
-Test for text by wrapping your values in 'single quotes'
+> SELECT * FROM categories WHERE CategoryName = 'main'
 
-> SELECT * FROM categories WHERE CategoryName = "main"
-
-
-Text with multiple conditions with AND / OR
+AND/OR allow us to use multiple conditions
 
 > SELECT * FROM categories WHERE CategoryID <= 2 OR CategoryID >= 4
 
+LIKE allows using the % wildcard in a WHERE. You can also use a NOT LIKE.
 
-Test for text comparisons with LIKE and wildcards
+> SELECT * FROM CategoryName WHERE CategoryName LIKE 'E%d'
 
-> SELECT * FROM CategoryName WHERE CategoryName LIKE 'E%'
+IN allows us to search for an item in a list.
+
+> SELECT * FROM CategoryName WHERE ID IN (1, 2, 3)
+
+BETWEEN can be used for two number comparisons.
+
+> SELECT * FROM CategoryName WHERE CategoryID BETWEEN 10 and 30
+
+NULL is a special value, meaning that there is no result for a field. This is different from 0 (often the default in a number field), or "" (an empty string).
+
+When testing for NULL, you can not write `field_name = NULL`. Each NULL is unique. You can only test for them by writing `field_name IS NULL` (or `IS NOT NULL`).
+
+> SELECT * FROM CategoryName WHERE field_name IS NULL
 
 
-Set the order of the fields returned (ascending / descending)
+## Code for ORDER BY & DISTINCT
+
+ORDER BY sorts rows returned (either ASCending / DESCending)
 
 > SELECT * FROM Employees ORDER BY FirstName DESC, LastName ASC
 
-See only unique records with DISTINCT
+DISTINCT includes only unique row results
 
 > SELECT DISTINCT CategoryName FROM Categories 
 
 
-## Detailed Explanation
+# Detailed Explanation
 
 Using SQL SELECT allows you to retrieve data from a database. The SELECT statement is one of the fundamental and most commonly used SQL commands. Here's a step-by-step explanation of how to use SQL SELECT:
 
@@ -102,17 +120,18 @@ Examples:
 
 - To retrieve specific columns (e.g., name and age) from the "employees" table:
 
->  SELECT name, age FROM employees;
+> SELECT name, age FROM employees;
  
 - To retrieve data based on specific conditions, such as fetching employees with a salary greater than 50000:
 
->SELECT name, salary FROM employees WHERE salary > 50000;
+> SELECT name, salary FROM employees WHERE salary > 50000;
 
 - You can use various SQL functions and operators within the SELECT statement to perform calculations or transformations on the retrieved data.
 
 Remember to use semicolons to terminate your SQL statements, as it is a common convention in SQL to signify the end of a command.
 
-## Class Activity: SQLZoo 
+
+# Further Resources: SQLZoo 
 
 Go to [SQLZoo](https://sqlzoo.net/wiki/SQL_Tutorial)
 
@@ -121,14 +140,3 @@ Complete the following tutorials:
 - 0 SELECT basics (all questions)
 - 1 SELECT name (questions 1-4)
 - 2 SELECT from WORLD (questions 1-7)
-
-
-## Homework: Excel.fun 
-
-Complete these Excel.fun tutorials:
- 
-- Select From
-- Order By
-- Where
-- Where And/Or
-

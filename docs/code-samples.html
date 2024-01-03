@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Code Samples | SELECT and FROM</title>
+  <meta name="description" content="2 Code Samples | SELECT and FROM" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Code Samples | SELECT and FROM" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Code Samples | SELECT and FROM" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="outcomes.html"/>
+<link rel="next" href="detailed-explanation.html"/>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="site_libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="site_libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="site_libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="site_libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="outcomes.html"><a href="outcomes.html"><i class="fa fa-check"></i><b>1</b> Outcomes:</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="outcomes.html"><a href="outcomes.html#style-guide"><i class="fa fa-check"></i><b>1.1</b> Style guide</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="code-samples.html"><a href="code-samples.html"><i class="fa fa-check"></i><b>2</b> Code Samples</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="code-samples.html"><a href="code-samples.html#code-for-select-from"><i class="fa fa-check"></i><b>2.1</b> Code for SELECT &amp; FROM</a></li>
+<li class="chapter" data-level="2.2" data-path="code-samples.html"><a href="code-samples.html#code-for-where"><i class="fa fa-check"></i><b>2.2</b> Code for WHERE</a></li>
+<li class="chapter" data-level="2.3" data-path="code-samples.html"><a href="code-samples.html#code-for-order-by-distinct"><i class="fa fa-check"></i><b>2.3</b> Code for ORDER BY &amp; DISTINCT</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="detailed-explanation.html"><a href="detailed-explanation.html"><i class="fa fa-check"></i><b>3</b> Detailed Explanation</a></li>
+<li class="chapter" data-level="4" data-path="further-resources-sqlzoo.html"><a href="further-resources-sqlzoo.html"><i class="fa fa-check"></i><b>4</b> Further Resources: SQLZoo</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SELECT and FROM</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="code-samples" class="section level1 tabset hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Code Samples<a href="code-samples.html#code-samples" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="code-for-select-from" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Code for SELECT &amp; FROM<a href="code-samples.html#code-for-select-from" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>SELECT and FROM are used in all data retrieval queries</p>
+<blockquote>
+<p>SELECT * FROM categories</p>
+</blockquote>
+<p>“Fields with a space in their name” must be wrapped by “double” quotes.</p>
+<blockquote>
+<p>SELECT “Category Name” FROM “categories tables”</p>
+</blockquote>
+<p>AS renames a field or table</p>
+<blockquote>
+<p>SELECT CategoryID AS “Primary Key” FROM categories AS c1</p>
+</blockquote>
+</div>
+<div id="code-for-where" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Code for WHERE<a href="code-samples.html#code-for-where" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>WHERE filters the returned fields</p>
+<blockquote>
+<p>SELECT * FROM categories WHERE CategoryID &gt; 2</p>
+</blockquote>
+<p>‘Strings’ are wrapped in single quotes (don’t wrap numbers)</p>
+<blockquote>
+<p>SELECT * FROM categories WHERE CategoryName = ‘main’</p>
+</blockquote>
+<p>AND/OR allow us to use multiple conditions</p>
+<blockquote>
+<p>SELECT * FROM categories WHERE CategoryID &lt;= 2 OR CategoryID &gt;= 4</p>
+</blockquote>
+<p>LIKE allows using the % wildcard in a WHERE. You can also use a NOT LIKE.</p>
+<blockquote>
+<p>SELECT * FROM CategoryName WHERE CategoryName LIKE ‘E%d’</p>
+</blockquote>
+<p>IN allows us to search for an item in a list.</p>
+<blockquote>
+<p>SELECT * FROM CategoryName WHERE ID IN (1, 2, 3)</p>
+</blockquote>
+<p>BETWEEN can be used for two number comparisons.</p>
+<blockquote>
+<p>SELECT * FROM CategoryName WHERE CategoryID BETWEEN 10 and 30</p>
+</blockquote>
+<p>NULL is a special value, meaning that there is no result for a field. This is different from 0 (often the default in a number field), or “” (an empty string).</p>
+<p>When testing for NULL, you can not write <code>field_name = NULL</code>. Each NULL is unique. You can only test for them by writing <code>field_name IS NULL</code> (or <code>IS NOT NULL</code>).</p>
+<blockquote>
+<p>SELECT * FROM CategoryName WHERE field_name IS NULL</p>
+</blockquote>
+</div>
+<div id="code-for-order-by-distinct" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Code for ORDER BY &amp; DISTINCT<a href="code-samples.html#code-for-order-by-distinct" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>ORDER BY sorts rows returned (either ASCending / DESCending)</p>
+<blockquote>
+<p>SELECT * FROM Employees ORDER BY FirstName DESC, LastName ASC</p>
+</blockquote>
+<p>DISTINCT includes only unique row results</p>
+<blockquote>
+<p>SELECT DISTINCT CategoryName FROM Categories</p>
+</blockquote>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="outcomes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="detailed-explanation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="site_libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="site_libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": false,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

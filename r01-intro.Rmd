@@ -8,23 +8,26 @@ output:
 
 # Introduction
 
+This section introduces you to getting your local computer setup.
+
+If you've taken an R class before, I highly recommend uninstally both R and RStudio before starting the below instructions.
+
 ## Installing R
 
 
-Steps:
 
 - Install R: https://cran.rstudio.com/
   - Install R Studio: https://www.rstudio.com/products/rstudio/download/
 - Configure R
   - Go to Tools / Global Options and set General / Basic options
-    -  Disable "restore most recently opened project at startup"
-    -  Disable "Restore .RData into Workspace on startup"
-    -  Set "Save Workspace to .RData on exit" to never
-    -  Disable "Always save history"
+    -  Disable *restore most recently opened project at startup*
+    -  Disable *Restore .RData into Workspace on startup*
+    -  Set *Save Workspace to .RData on exit* to never
+    -  Disable *Always save history*
   - Set Code / Diagnostics
-    -  Turn on all diagnostics
+    -  Turn on all diagnostics except *warn if variable used has no definition in scope*
   - Show markers
-    - Go to View / Show Other Panes / Show Markers
+    - Go to *View / *Show Other Panes* / *Show Markers*
   - lintr
     - For more specific style guides, install lintr
     - Go to  Tools > addins > Browse Addins > Keyboard Shortcuts and set the Control + Shift + L keyboard shortcut
@@ -40,15 +43,13 @@ Steps:
   - Shortcuts: control+enter to run the current line, or all selected.
 - Files Management
   - It's really critical to properly store and name your files
-  - Create a folder for our class, and a new folder for
-  *every* project. For now, you don't need a project file,
-  but once we start using datafiles it'll be really important.
+  - Create a folder for our class, and a new folder for *every* project. For now, you don't need a project file, but once we start using datafiles it'll be really important.
 
 
 ## Style Guide
 
 - Save your main code file as MainYourname.R (for example, MainNathanGarrett.R).
-- Always run the Control+Shift+L to find and correct style guide issues.
+- Link with *Control Shift L* 
 - Do not depend on program state or .RData files! I must be able to run your code as it is submitted in the R file. I strongly suggest closing and re-opening R, and then running all of the code to make sure it works properly.
 
 
@@ -56,9 +57,9 @@ Steps:
 
 There are several vital shortcuts:
 
-- alt - for <- 
-- control s for saving 
-- control shift l for linter (always save!)
-- control enter to run the current line
+- *alt -* for `<-` 
+- *control s* for saving 
+- *control shift l* for linter (always save first!)
+- *control enter* to run the current line or highlighted section
 
 

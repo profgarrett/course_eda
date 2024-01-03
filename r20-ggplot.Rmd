@@ -26,6 +26,7 @@ Here is a great systematic introduction:
 Here is a list of example charts:
 [R Graphics Cookbook](https://r-graphics.org/)
 
+Here is a great step-by-step tutorial: [Show the right numbers](https://socviz.co/groupfacettx.html)
 
 ## Why ggplot?
 

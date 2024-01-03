@@ -31,6 +31,9 @@ Outcomes:
 
 Help: https://www.youtube.com/watch?v=rijqfllOq6g
 
+[Good discussion and examples of correlation](https://www.reddit.com/r/dataisbeautiful/comments/18p85yp/correlating_four_other_variables_with_a_states/?share_id=IsERBPtlNN-F0Bw9s0kSn)
+
+
 ## Linear Regression
 
 Outcomes:

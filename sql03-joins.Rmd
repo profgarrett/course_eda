@@ -98,17 +98,10 @@ The main difference between a LEFT OUTER JOIN and an INNER JOIN lies in how they
 In summary, an INNER JOIN only returns the rows with matching values in both tables, whereas a LEFT OUTER JOIN returns all the rows from the left table and the matching rows from the right table, with NULL values for unmatched rows on the right table. The choice between INNER JOIN and LEFT OUTER JOIN depends on the desired result set and how you want to handle unmatched rows.
 
 
-## Class Activity: SQLZoo Join 
+## Further resources
+
+See SQLZoo's section on joins:
 
 -	[SQLZoo: JOIN, questions 1-4](https://sqlzoo.net/wiki/The_JOIN_operation)
 - [SQLZoo: More JOIN](https://sqlzoo.net/wiki/More_JOIN_operations)
 - [SQLZoo: Using Null](https://sqlzoo.net/wiki/Using_Null)
-
-
-## Homework
-
-Complete Excel.fun homework below:
-
-- Inner join
-- Left outer join
-

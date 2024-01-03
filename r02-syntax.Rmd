@@ -8,60 +8,127 @@ output:
 
 # Introduction
 
-This file is an overview of the syntax in R.
-It provides a basic introduction to the major features.
+This file is an overview of the syntax in R. It provides a basic introduction to the major features.
 
 
-## R Grammar Rules
-
-R is case sensitive!
-
-Note the grammar rules of R:
-
-- Variables: single word
-  - Starts with a letter
-  - No spaces
-  - Special characters . _ are ok, but we prefer _ (underscore)
-  - Suggest lower case and snake_case (not CamelCase or camel.case)
-- Functions: word with parenthesis() immediately following. 
-- Numbers: no punctuation!
-- Text: wrap words with "a" or 'a'
-- Type: find the type of a variable with class(x)
+It aligns with the Datacamp *Introduction to R* course.
 
 
-Comments: 
+# R Syntax { .tabset }
 
-- start each line with a #
+R is case sensitive! So, `var3` isn't the same as `VAR3`
+
+## Core
+
+- Comments start with a `#` 
+- Equality uses ==, so `1 == 1` (not 1 = 1)
+- Assignment uses `variable_name <- 1`     
+
+## Arithmetic
+
+- Basic math in PEMBAS order: `1 + (2 - 3) / 4 * 5`
+- Remainder/modulo use %%, so `3 %% 2` is 1
+- Exponents use ^, so `2 ^ 3` is `2 * 2 * 2`
+
+## Variables
+
+- Start with a letter, so `quarter1` not `1quarter`
+- snake_case is recommended, so `first_person`
+  - Avoid `firstperson`, `first.person`, or `FirstPerson` 
 
 
-Logical:
-
-- Use === for equality test, and <- for assignment
+# Data Types {.tabset}
 
 
-Data types:
+## Numbers
 
-- Basic
-  - numeric: all numbers by default, esp 1.0
-  - integer: number with L at the end, i.e., class(1L)
-  - character: 'a' or "a" (prefer "double")
-  - logical: T/F or TRUE/FALSE (not True or "TRUE" or "True")
-  - factor: essentially an enum
-- Vector: 
-  - This is an array type
-  - Create as c(1, 2,3)
-  - Access numeric elements with 1-based index
-    - name_of_vector[1]
-    - vec[1:3]
-    - vec[length(vec)] 
-- Data.frame: 
+- Floating-point by default, so `1` is the same as `1.0`
+- Integers are defined by adding L at the end, so `1L`
+- No punctuation! Use `1234.56` instead of `$1,234.56` 
+
+## Text
+
+- "Double quote" all values
+- 'Single' quotes are valid, but not recommended. 
+- `Backtick` is for *field names* in dplyr
+- “curly quotes” are bad
+
+## Logical 
+
+- `TRUE` or `FALSE` 
+- `T` or `F` are also ok
+- True, "TRUE", and "True" are wrong
+- Comparisons
+  - Basic are `<`, `<=`, `>`, `>=`, `==`, and `!=` (not equal)
+  - And uses `&`
+  - Or is `|` (vertical pipe)
+
+## Vector
+
+- Vectors are the most commonly used data types
+- Create as `c(1, 2,3)` or `c("a", "b")`
+- Individual items use 1-based index
+  - `vec[1]` for first item
+  - `vec[length(vec)]` for last item
+- Multiples items use a vector of indexes
+  - `vec[c(1, 3)]` returns the 1st and 3rd
+  - `vec[1:3]` returns the 1st through the 3rd
+  - `vec[c(T, F, T)]` returns the 1st and 3rd
+- `name(vector)` get/set names for each value
+  - `names(vec) <- c("A", "B", "C")` to set 
+  - `vec[c("A")]` or `vec["A"]` to access named values
+- Conditional 
+  - Test `vec > 10` to get `c(T, F, T)`
+  - Select with `vec[vec > 10]`
+- Vectors are concat by default, so `c(c(1), c(2))` turns into `c(1, 2)`
+- Items in a vector have the same datatype
+  - `class(vec)` to get data type of items
+  - Assigned a string value to a numeric vector causes them to turn into strings.
+- `class(x)` returns the class of a variable
+- `summary(x)` gives a quick summary of a numerical vector
+
+## Matrix
+
+- A Matrix is a rectangular grid of items
+- Create a 3x3 matrix with `matrix(1:9, byrow = TRUE, nrow = 3)` 
+- `rownames(mat)` and `colname(mat)` are used to get/set names
+- `cbind` and `rbind` combines vectors/matrixes together by column or row
+- `colSums` and `rowSums` sums up values  
+- Select values by [rows, column]
+  - `my_matrix[, 1]` gets first column
+  - `my_matrix[1, ]` gets first row
+  - `my_matrix[1, 1]` gets first cell
+
+## Factor
+
+- A Factor is an item from a list of allowed options
+  - Useful for ordering
+  - Create with `factor(c('m', 'f', 'm', 'm', 'f'), c('m', 'f') )`
+    - Values come first
+    - Allowed levels come second
+    - `ordered` can be used to indicate that they have < and > levels 
+
+## Data Frames
+- A Data Frame is a named table
   - Older, we will use tupples instead
-  - Useful functions include rownames, colnames, names, nrow, ncol
-  - Other, summary, str
-  - We will access named items as data$item_name
-- Matrix: rectangular items, ie. example[x, y]
+  - Useful functions include `rownames`, `colnames`, `names`, `nrow`, `ncol`
+  - Other, `summary`, `str`
+  - You can access by position, with `df[rows, columns]`
+  - But, it's better to access named items as `df$field_name`
+  - We will use dplyr instead of learning `order` or `subset`
 
-## Further resources
+## List
+
+- A List can contain values of different types
+  - Different from a matrix or vector, which need identical types
+  - Different from a data frame, which uses named positions with identical types
+- Create as `my_list <- list(name1 = 'a', name2 = 1, name3 = 1:10)`
+- Access via index as my_list[[1]]
+  - Using my_list[1] indstead returns a list with a single value
+- Access via named as `my_list$name1`
+
+
+# Further resources
 
 Great introduction to types!
 https://www.datacamp.com/tutorial/data-types-in-r

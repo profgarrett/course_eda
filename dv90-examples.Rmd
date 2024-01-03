@@ -1,0 +1,46 @@
+--- 
+title: "Tableau"
+output: 
+  html_document:
+    theme: united
+
+---
+
+# Sample Data Presentations
+
+[Hans Rosling, the Best Stats You've Ever Seen](https://www.youtube.com/watch?v=hVimVzgtD6w)
+
+[Unemployement rates in the US](https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fkwk9n01qp2ob1.png)
+
+[Life after Death by PowerPoint](https://www.youtube.com/watch?v=KbSPPFYxx3o)
+
+# Sample Dashboards
+
+[Canals](https://dsl.richmond.edu/panorama/canals/#canal=22&year=1849&loc=8/0.464/17.040)
+[Productivity Tips](https://app.powerbi.com/discover/gallery/0579b437-67ba-4acf-b2c8-4bebc64b9899)
+
+
+# Sample Charts
+
+[US Mortgages](https://www.visualcapitalist.com/us-mortgage-rate-vs-existing-home-sales-chart/)
+
+[Squid chart example](https://www.census.gov/content/dam/Census/library/visualizations/2022/comm/population-age-sex-china-india-us.jpg)
+
+[World Indicators](https://www.reddit.com/r/dataisbeautiful/comments/xpa3mt/oc_largest_countries_in_the_world_by_area_size/)
+
+http://wdi.worldbank.org/table/WV.1
+
+
+Fourth-grade math scores fell for all groups from 2019 to 2022, but this change was more pronounced for students of color
+
+https://www.reddit.com/r/dataisbeautiful/comments/16fxal3/fourthgrade_math_scores_fell_for_all_groups_from/
+
+
+School Bullying
+https://www.smartick.com/data/decoding-school-bullying/
+
+Degrees With Dividends: Ranking the Bachelor’s Programs with the Highest ROI in America
+https://brokescholar.com/bachelors-programs-with-the-highest-roi-in-america
+
+CPI
+https://www.visualcapitalist.com/inflation-chart-tracks-price-changes-us-goods-services/?utm_source=feedly&utm_medium=rss&utm_campaign=inflation-chart-tracks-price-changes-us-goods-services

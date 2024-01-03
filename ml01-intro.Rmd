@@ -1,0 +1,132 @@
+---
+title: Machine Learning in Business
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Introduction
+
+This content relates to the Datacamp series called *Machine Learning for Business*.
+
+# Data Lifecyle
+
+- Collection
+- Storage
+- Preparation
+- Analysis
+  - Look at data and build reports
+- Model prototype & testing
+  - Use statistics / ML to create a function predicting an outcome
+- Model deployment in production
+
+
+# Types
+
+- Supervised
+  - Goal is to better understand the impact of variables on output
+    - Target variable / dependent variable
+    - Input features / independent variables
+  - Types
+    - Classification when output is categorical (fraud or not)
+    - Regression when output is continuous ($ spent)
+  - Test/train
+    - Sometimes split data into groups, test v. train
+    - Prevents over-learning
+- Unsupervised
+  - Goal to find natural groupings in the data (clusters)
+
+# Metrics
+
+
+## Categorical Prediction
+
+Imagine we are predicting which customers will drop our service.
+
+We have 6 customers:
+- A Dropped, Predicted Dropped (success!)
+- B Dropped, Predicted Dropped (success!)
+- C Dropped, Not predicted
+- D Stayed, Predicted Dropped
+- E Stayed, Predicted Dropped 
+- F Stayed, Not predicted  (success!)
+
+
+- Accuracy
+  - Correctly classified / all cases
+  - (3 including A, B, & F) / 6 = 50% accuracy
+- Precision: 
+  - Predicted Correctly / Predicted
+  - (A, B) / (A, B, D, E) = 2 / 4 = 50% precision
+- Recall
+  - Dropped customers predicted / Dropped customers
+  - (A, B) / (A, B, C) = 2/3 = 66% recall
+
+## Continuous Prediction
+
+We need to calculate error, or the difference between the actual result and our model.
+
+We have 6 customers:
+
+- A $10, predicted $10
+- B $12, predicted $10
+- C $8, predicted $10
+
+### RSME
+
+RSME is the squared difference of each. (Reference)[https://www.statology.org/how-to-interpret-rmse/]
+
+Calculate the squared difference of each point,
+(10 - 10)^2 + (12 - 10)^2 + (8 - 10)^4 = 20
+
+Divide by the number of observations, and take the square root.
+(20 / 3) ^ .5 = 2.58
+
+### Residuals
+
+We may also want to see the difference between our prediction and actual values. 
+(10 - 10), (12 - 10), (8 - 10) --> (0, 2, -2)
+
+So, the RSME is the square root of the variance. This is the average distance between observed data values and predicted.
+
+### R-squared
+
+The coefficient of determination tells us the *proportion* of variance in our dependent variable that can be explained by our independent variables. 
+
+It ranges from 0 to 1. Generally, the higher the number the better the prediction.
+
+# Jobs
+
+- Collection - 
+  - Infrastructure owners - mostly software/system engineers. Programmer and business owners
+- Storage 
+  - DBMS / database management system
+  - DB Admin
+- Preparation
+  - Data engineer
+  - Data lake, warehouse, etc...
+  - Move from transaction database into analysis database
+- Analysis
+  - Data analysts create dashboards and reports
+- Model
+  - Data science / machine learning engineer
+  - Former work more in data definition / problem scoping, and latter in producing workable code in production.
+  
+
+# Inference v. Prediction
+
+- Inference
+  - Goal is to develop understanding
+  - Usually statistical measure, such as regression / correlation
+  - Whitebox
+  - Causal, x causes y...
+  - Emphasis on being able to interpret results
+- Prediction
+  - Goal is to optimize outcome variable
+  - Hard to interpret, such as neural networks
+  - Blackbox
+  - Emphasis on performance (speed, resources) / accuracy (target variable)
+- Observation v. Experiment
+  - Observation is analyzing existing data
+  - Experiment manipulates experience

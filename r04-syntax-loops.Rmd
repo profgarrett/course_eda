@@ -1,0 +1,64 @@
+---
+title: Conditionals in R
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Introduction
+
+Loops are good to know, but are not a critical feature in R. This section corresponds to Datacamp's *Loops* chapter in the *Intermediate R* course.
+
+# While loop
+
+The while feature repeatedly runs some set of code. You can cancel out of a loop with the `break` statement.
+
+
+```{r eval=TRUE, echo=TRUE}
+
+var_a <- 5
+
+while (var_a > 1) {
+  print(var_a)
+  var_a <- var_a - 1
+  
+  if (var_a == 2) {
+    print('escape!')
+    break;
+  }
+}
+
+```
+
+
+# For loop
+
+For loops are easier to use for looping over every element in a vector. You can either loop through each item, or create a new vector of index values (1 to the length of the vector).
+
+The `break` and `next` statements will escape the loop, and skip the remaining code for the current iteration.
+
+```{r eval=TRUE, echo=TRUE}
+
+vector_of_scores <- c(1, 2, 1, 3, 2, 1, 2, 3)
+
+# Approach 1:
+#
+# Loop through each item
+for (score in vector_of_scores) {
+  print(score)
+}
+
+
+# Approach 2: Indexes
+# 
+# Create a vector of indexes
+vector_of_indexes <- 1:length(vector_of_scores)
+# Loop through each item
+for (i in vector_of_indexes) {
+  print(paste('Index', i, 'for value', vector_of_scores[i]))
+}
+
+```
+
+You can also loop through a matrix with an embedded for loop inside of another for loop. However, we will rarely use this approach in our class.

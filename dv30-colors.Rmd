@@ -1,0 +1,28 @@
+--- 
+title: "Colors Choices"
+author: "Nathan Garrett, PhD CPA"
+date: "Refreshed `r Sys.Date()`"
+output: 
+  html_document:
+    theme: united
+
+---
+
+# Key outcomes:
+
+- Describe how many people are color blind
+- Describe the most common form of color-blindness
+- Describe major colors scales and the major reason to use each one
+- Differentiate between additive v. subtractive colors
+
+# Color Scales
+
+- Diverging
+- Categorical
+- Sequential
+
+# References:
+
+- [Color Blindness](https://www.theverge.com/23650428/colorblindness-design-ui-accessibility-wordle)
+- [Color: From Hexcodes to Eyeballs](https://jamie-wong.com/post/color/)
+- [Saccades and other weird things your eyes do](https://imgur.com/gallery/XNlmPi8)

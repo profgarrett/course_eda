@@ -12,9 +12,15 @@ output:
 This section is for ACCT 426 and BUDA 451 students in Spring 2023.
 
 * Core R Language
-  - [1a. Introduction](r01-intro.html)
-  - [1b. Syntax](r02-syntax.html)
-  - [1c. Functions](r03-syntax-functions.html)
+  - [1a. Introduction to rStudio](r01-intro.html)
+  - [1b. Introduction to R's core syntax and types](r02-syntax.html) (Datacamp *Introduction to R*)
+  - [1c. Conditionals](r03-syntax-conditionals.html) (Datacamp *Intermediate R - Conditionals and Control Flow*)
+  - [1d. Loops](r04-syntax-loops.html) (Datacamp *Intermediate R - Loops*)
+  - [1e. Functions1](r05-syntax-functions1.html) (Datacamp *Intermediate R - Functions* )
+  - [1f. Functions2](r05-syntax-functions2.html) (*List of useful functions* )
+* EDA Process
+  - [Machine Learning in Business](ml01-intro.html) (Datacamp *Machine Learning for Business)
+  - Data types
 * Libraries
   - [dlpyr](r10-dplyr.html)
   - [ggplot 1: Introduction](r20-ggplot.html)

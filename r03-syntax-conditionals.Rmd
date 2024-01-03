@@ -1,0 +1,63 @@
+---
+title: Conditionals in R
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Introduction
+
+Conditionals are an important feature in R. This section corresponds to Datacamp's *Conditionals and Control Flow* in the *Intermediate R* course.
+
+# Equality Tests
+
+- Equality is `==` and inequality is `!=`
+- Comparisons are `<` and `>`
+- Comparisons with equal are `<=` and `>=` 
+
+## Testing different types
+
+- String 
+  - Alphabetical, with `"a" < "b"`
+  - Capitalization matters, with `"a" < "A"` (lowercase are less)
+- Boolean 
+  - `TRUE` is `1`, and `FALSE` is `0`
+  - So `TRUE > FALSE`
+- Vector 
+  - Pairwise, so `c(1, 2) < c(2, 3)` returns `c(TRUE, TRUE)`
+- Matrix
+  - Pairwise, so they return a `TRUE`/`FALSE` matrix.
+- Types
+  - R will automatically convert between types, so `"1" == 1` 
+  - Be careful with Booleans! The type conversions don't always work. For example, `1 == TRUE` but `"1" != TRUE`
+- `sum()` can count the number of `TRUE` in a vector/matrix
+
+# Logical operators
+
+- AND
+  - Use & (preferred)
+  - Use && to test the first element of a vector/matrix.
+- OR
+  - Use | (vertical pipe)
+  - Use || to test the first element of a vector/matrix.
+- NOT
+  - Use !
+
+# If Statement
+
+You can use the if statement to selectively execute code. You can use a combination of `if`, `else if`, and `else`.
+
+
+```{r eval=FALSE, echo=TRUE}
+
+var_a <- 100
+
+if (var_a < 100) {
+  print("less than 100")
+} else if (var_a > 200) {
+  print("greater than 200")
+} else {
+  print("otherwise")
+}
+```

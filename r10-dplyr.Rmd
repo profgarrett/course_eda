@@ -423,3 +423,13 @@ p <- tibble(pirates) %>%
 
 print(p)
 ```
+
+
+## References
+
+The book "R for Data Science" is very good. Below are several key chapters:
+
+- [tibble](https://r4ds.had.co.nz/tibbles.html)
+- [Data import](https://r4ds.had.co.nz/data-import.html)
+- [Tidy Data](https://r4ds.had.co.nz/tidy-data.html)
+- [Relational data](https://r4ds.had.co.nz/relational-data.html)

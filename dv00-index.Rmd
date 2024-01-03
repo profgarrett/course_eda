@@ -1,0 +1,19 @@
+--- 
+title: "Data Visualization"
+author: "Nathan Garrett, PhD CPA"
+date: "Refreshed `r Sys.Date()`"
+output: 
+  html_document:
+    theme: united
+
+---
+
+Course study notes for ACCT 425 and BUDA 450 students.
+
+Links:
+
+
+* [Tableau Introduction](dv30-tableau.html)
+* [Writing an effective report](dv10-effective-reports.html)
+* [Examples](dv90-examples.html)
+* [Colors](dv50-colors.html)

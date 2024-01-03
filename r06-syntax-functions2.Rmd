@@ -1,0 +1,49 @@
+---
+title: Useful Functions
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Introduction
+
+There are a variety of useful functions in R. Below is a brief listing
+
+## Math functions
+
+- `median()`/`mean()`/`max()`/`min()`/`sum()`
+- `parse_integer()`: turns "1" into 1
+- `abs()` - absolute value
+- `round()` - rounds 1.2 to 1
+- `seq()` - returns a sequence
+- `rep()` - repeat
+
+## Text functions
+
+- `paste()`: combines text
+
+## Tables
+
+- `View(data)`: opens data in a nice gui. Note that it is capitalized!
+- `names(data)`: what are the field names of the data?
+
+## Vectors/Lists
+
+- `sort()`/`rev()`: order items in a vector 
+- `append()`: add items
+- `unlist()`: turn a list into a vector
+
+## Graphics
+
+- `plot()`: create a basic x/y plot
+
+## Statistics
+
+- `table()`: create a crosstab
+- `cor()`: calculate correlation
+
+## Types
+
+- `is_*()`: test for types (convert * to integer, etc...)
+- `as_*()`: convert a type
