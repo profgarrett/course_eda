@@ -1,45 +1,58 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
+
+<html>
+
 <head>
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>SQL</title>
-  <meta name="description" content="SQL" />
-  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-  <meta property="og:title" content="SQL" />
-  <meta property="og:type" content="book" />
-  
-  
-  
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="SQL" />
-  
-  
-  
 
 <meta name="author" content="Nathan Garrett, PhD CPA" />
 
 
+<title>SQL</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-
-
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
-<link href="site_libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="site_libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="site_libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="site_libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="site_libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="site_libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="site_libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
 
 
 
@@ -48,124 +61,287 @@
 
 
 
-<link href="site_libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="site_libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
 
 
 <style type="text/css">
-  
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
 </style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
 
 </head>
 
 <body>
 
 
+<div class="container-fluid main-container">
 
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
 
-    <div class="book-summary">
-      <nav role="navigation">
 
-<ul class="summary">
-<li class="chapter" data-level="0.0.1" data-path=""><a href="#useful-references"><i class="fa fa-check"></i><b>0.0.1</b> Useful references</a></li>
-</ul>
 
-      </nav>
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
     </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="dv00-index.html">Tableau/PowerBI</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
 
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">SQL</a>
-          </h1>
-        </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">SQL</h1>
-<p class="author"><em>Nathan Garrett, PhD CPA</em></p>
-<p class="date"><em>Refreshed 2024-01-03</em></p>
+
+
+
+<h1 class="title toc-ignore">SQL</h1>
+<h4 class="author">Nathan Garrett, PhD CPA</h4>
+<h4 class="date">Refreshed 2024-01-03</h4>
+
 </div>
+
+
 <p>Course study notes for ACCT 425 and BUDA 450 students.</p>
 <ul>
 <li><a href="sql01-introduction.html">1. SQL Introduction</a></li>
-<li><a href="sql02-select.html">2. Select</a> (Datacamp <em>Introduction to SQL</em>)</li>
-<li><a href="sql03-joins.html">3. Joins</a> (Datacamp <em>Joining data in SQL</em>)</li>
-<li><a href="sql04-functions.html">4. Functions</a> (Datacamp <em>Intermediate SQL</em>)</li>
-<li><a href="sql05-aggregation.html">5. Aggregation</a> (Datacamp <em>Intermediate SQL</em>)</li>
-<li><a href="sql06-complexjoins.html">6. Complex Joins</a> (Datacamp <em>Joining data in SQL</em>)</li>
+<li><a href="sql02-select.html">2. Select</a> (Datacamp <em>Introduction
+to SQL</em>)</li>
+<li><a href="sql03-joins.html">3. Joins</a> (Datacamp <em>Joining data
+in SQL</em>)</li>
+<li><a href="sql04-functions.html">4. Functions</a> (Datacamp
+<em>Intermediate SQL</em>)</li>
+<li><a href="sql05-aggregation.html">5. Aggregation</a> (Datacamp
+<em>Intermediate SQL</em>)</li>
+<li><a href="sql06-complexjoins.html">6. Complex Joins</a> (Datacamp
+<em>Joining data in SQL</em>)</li>
 </ul>
-<div id="useful-references" class="section level3 hasAnchor" number="0.0.1">
-<h3><span class="header-section-number">0.0.1</span> Useful references<a href="#useful-references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="useful-references" class="section level3">
+<h3>Useful references</h3>
 <ul>
 <li><a href="https://www.sqlstyle.guide/">SQL Style Guide</a></li>
 </ul>
 </div>
-            </section>
-
-          </div>
-        </div>
-      </div>
 
 
-    </div>
-  </div>
-<script src="site_libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="site_libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="site_libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="site_libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="site_libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="site_libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="site_libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="site_libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+
+
+</div>
+
 <script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": false,
-"toc": {
-"collapse": "subsection"
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
 });
 </script>
 
-</body>
+<!-- code folding -->
 
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
 </html>

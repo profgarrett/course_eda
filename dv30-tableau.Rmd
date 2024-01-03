@@ -6,35 +6,18 @@ output:
 
 ---
 
-## Installation
+# Installation
 
 Before class, install Tableau on your computer:
 
-- [Download the latest version of Tableau Desktop](https://www.tableau.com/tft/activation)
+- Download the [latest version of Tableau Desktop](https://www.tableau.com/tft/activation)
 - Click on the link above and select “Download Tableau Desktop”. On the form, enter your school email address for Business E-mail and enter the name of your school for Organization.
 - Activate with your product key:  *See eCampus for key*
-- Already have a copy of Tableau Desktop installed? Update your license in the application: Help menu → Manage Product Keys
-
-
-## Module A: Why look at data?
-
-Outcomes:
-
-- Identify a pattern underlying data (Vanhove's 16 different data distributions)
-- Describe chart-junk
-- Differentiate between a cross-sectional and longitudinal data set
-- Describe problem with a non-zero vertical axis
-- Rank order types of charts based on error rate
-- Describe different attributes making things pop (preattentive attributes)
-
-Read:
-
-- [Socviz.co Chapter 1](https://socviz.co/lookatdata.html)
-- [Optional, Fundamentals of Data Visualization](https://clauswilke.com/dataviz/)
+- Already have a copy of Tableau Desktop installed? Update your license in the application: Help menu → Manage Product Keys. Make sure that you are fully up to date with the latest version.
 
 
 
-## Module B: Get Data
+# Get Data
 
 Connect to data and get an overview of the interface.
 [Shared files](https://www.dropbox.com/sh/l6i1d6z77fgfhk5/AAC3SpND0bK3Nvtv89pQy3wAa?dl=0)
@@ -52,10 +35,8 @@ Examples:
 - See Data Prep Flights sample
 
 
-## Module C: Basic charts
+# Basic charts
 
-Create the basic chart types. 
-[Shared files](https://www.dropbox.com/sh/bp0ap9azcshajc9/AAD99qzdQYoFBUo23gDBXO4ca?dl=0)
 
 
 Outcomes:
@@ -84,10 +65,8 @@ Outcomes:
   - Set custom axis intervals and labels
 
 
-## Module E: Basic Charts 2
+## Basic Charts 2
 
-Further work on charts
-[Shared files](https://www.dropbox.com/sh/6do3tl4zsgg2lfa/AADAiMAZQ09_FgtujWkselAga?dl=0)
 
 Outcomes:
 
@@ -102,7 +81,7 @@ Outcomes:
 - Combo Chart
   - Use the Dual Axis option to combine a line and bar chart
 
-## Module F: Calculations
+## Calculations
 
 - Formula Calculations
   - IF THEN 
@@ -112,7 +91,7 @@ Outcomes:
 - Table Calculations
   - Create a running total
 
-## Module G: Dashboard / Stories
+## Dashboard / Stories
 
 - Publish to Tableau Public
 - Create a dashboard

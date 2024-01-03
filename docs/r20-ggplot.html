@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>ggplot 1 - introduction</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">ggplot 1 - introduction</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<ul>
+<li><a href="#why-ggplot" id="toc-why-ggplot">Why ggplot?</a></li>
+<li><a href="#creating-a-plot" id="toc-creating-a-plot">Creating a
+plot</a></li>
+<li><a href="#geoms-for-1-2-variables"
+id="toc-geoms-for-1-2-variables">Geoms for 1-2 variables</a>
+<ul>
+<li><a href="#geom_bar" id="toc-geom_bar">geom_bar</a></li>
+<li><a href="#geom_smooth" id="toc-geom_smooth">geom_smooth</a></li>
+<li><a href="#geom_line" id="toc-geom_line">geom_line</a></li>
+<li><a href="#geom_point" id="toc-geom_point">geom_point</a></li>
+</ul></li>
+<li><a href="#geoms-for-distributions"
+id="toc-geoms-for-distributions">Geoms for distributions</a>
+<ul>
+<li><a href="#geom_histogram"
+id="toc-geom_histogram">geom_histogram</a></li>
+<li><a href="#geom_density" id="toc-geom_density">geom_density</a></li>
+<li><a href="#geom_boxplot" id="toc-geom_boxplot">geom_boxplot</a></li>
+</ul></li>
+<li><a href="#facets" id="toc-facets">Facets</a>
+<ul>
+<li><a href="#facet_wrap" id="toc-facet_wrap">facet_wrap</a></li>
+<li><a href="#facet_grid" id="toc-facet_grid">facet_grid</a></li>
+</ul></li>
+<li><a href="#dynamic-plots" id="toc-dynamic-plots">Dynamic
+plots</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>ggplot is a super useful graphics tool. See its website at <a
+href="https://ggplot2.tidyverse.org/">dplyr tutorial</a></p>
+<p>There is also a very nice <a
+href="https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf">cheat
+cheat by Afshine Amidi &amp; Shervine Amidi</a></p>
+<p>Here is a great systematic introduction: <a
+href="https://ggplot2-book.org/">Elegant Graphics for Data
+Analysis</a></p>
+<p>Here is a list of example charts: <a href="https://r-graphics.org/">R
+Graphics Cookbook</a></p>
+<p>Here is a great step-by-step tutorial: <a
+href="https://socviz.co/groupfacettx.html">Show the right
+numbers</a></p>
+<div id="why-ggplot" class="section level2">
+<h2>Why ggplot?</h2>
+<p>R has a number of built-in graphical functions. However, they are
+limited in customizability, and all work a little differently. ggplot is
+a consistent approach that allows you to build very elegant plots.</p>
+</div>
+<div id="creating-a-plot" class="section level2">
+<h2>Creating a plot</h2>
+<p>You will eventually load tibbles data from a file, but for now I will
+usually include them in the file. We are going to use a sample dataset
+called mpg.</p>
+<p>First, call <code>ggplot</code> to start your plot. It’s easiest to
+give it the data at this point.</p>
+<p>Note that nothing happens. This is because we need to draw stuff on
+the chart.</p>
+<pre class="r"><code>ggplot(data = mpg)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="geoms-for-1-2-variables" class="section level2">
+<h2>Geoms for 1-2 variables</h2>
+<p>There are different types of geoms:</p>
+<ul>
+<li>Individual: <code>geom_area</code>, <code>geom_col</code>,
+<code>geom_line</code>, <code>geom_point</code></li>
+<li>Collective: <code>geom_boxplot</code>,
+<code>geom_histogram</code></li>
+<li>Maps: <code>geom_sf</code></li>
+</ul>
+<div id="geom_bar" class="section level3">
+<h3>geom_bar</h3>
+<p>A bar plot will show the <em>count</em> of items at every point in an
+axis (either x or y).</p>
+<p>Note that we use the + to join it to the ggplot.</p>
+<p>We need to add a mapping argument to geom_bar, and will use an
+aesthetic (aes). This allows us to define which parts of the chart will
+map to our dataset.</p>
+<p>Any properties that don’t map to the <code>aes</code> (data set) need
+to be placed outside of the mapping argument. See examples below.</p>
+<p>Here is a minimal example</p>
+<pre class="r"><code># Minimal example
+ggplot(data = mpg) +
+  geom_bar(mapping = aes(y = hwy))</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>With some options:</p>
+<ul>
+<li>x/y: use either x or y, but not both. The other will be count of
+rows.</li>
+<li>fill: text of color.</li>
+<li>color: border (text color)</li>
+</ul>
+<pre class="r"><code># Example with color/fill
+ggplot(data = mpg) +
+  geom_bar(mapping = aes(x = hwy),
+           color = &#39;blue&#39;,
+           fill = &#39;black&#39;)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="geom_smooth" class="section level3">
+<h3>geom_smooth</h3>
+<p>The smooth geom shows a smoothed line. It shows the <em>average</em>
+value at each point, instead of the bar (which defaults to count).</p>
+<p>Note that we need both an X and a Y (numeric).</p>
+<pre class="r"><code># Show with error bars
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(y = hwy, x = cty))</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code># Full example
+# method: loess is default for small items. Can also use lm (linear reg)
+# color: line color
+# linewidth: width for the bar (number)
+# se: False to use no error bars (confidence interval around smooth)
+# na.rm: T to remove na values with no error
+# stat: default is smooth (shows a smoothed line). To show all, use identity.
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(y = hwy, x = cty), 
+              method = &#39;lm&#39;,
+              na.rm = TRUE,
+              stat = &#39;identity&#39;,
+              se = FALSE,
+              color = &#39;green&#39;,
+              linewidth = 3)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+</div>
+<div id="geom_line" class="section level3">
+<h3>geom_line</h3>
+<p>This is identical to <code>geom_smooth</code>, but defaults to
+showing the stat as identity, instead of smooth.</p>
+<pre class="r"><code># Show with error bars
+ggplot(data = mpg) +
+  geom_line(mapping = aes(y = hwy, x = cty))</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="geom_point" class="section level3">
+<h3>geom_point</h3>
+<p>This shows a separate dot for each row in the dataset (identity)</p>
+<pre class="r"><code># Basic example
+#   x and y: can be either categorical or numerical data
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = hwy, x = class))</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code># We have a lot of properties that can be mapped
+#   shape: best discrete, (suggested max of 6 different items)
+#   size: continuous value
+#   alpha: continuous values
+#   color: either continuous or discrete
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = hwy, 
+                           x = manufacturer,
+                           shape = class,
+                           size = cyl,
+                           color = cty,
+                           alpha = displ))</code></pre>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values because more than 6 becomes difficult to
+## discriminate
+## ℹ you have requested 7 values. Consider specifying shapes manually if you need that many have them.</code></pre>
+<pre><code>## Warning: Removed 62 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre class="r"><code># Note that this can also be set manually
+#   shape: Number, 1-20
+#   size: Number 
+#   alpha: Number 0-1
+#   color: Text, such as &quot;black&quot; or a hex code &quot;#2211aa&quot;
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = hwy, 
+                           x = manufacturer),
+             shape = 2,
+             size = 3,
+             color = &#39;#00bb00&#39;,
+             alpha = 0.1)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+<div id="jitter" class="section level4">
+<h4>jitter</h4>
+<p>Another useful function combined with point is <code>jitter.</code>
+This will slightly adjust the values given, making it easier to see
+overplotted data.</p>
+<p>Use in combination with a low alpha value to see density of points on
+your plot.</p>
+<pre class="r"><code># jitter takes in a variable, and adjusts it by the factor
+# Note that it only works with continuous data
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = jitter(hwy, factor = 1.5), 
+                           x = manufacturer),
+             
+             alpha = 0.1)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="geoms-for-distributions" class="section level2">
+<h2>Geoms for distributions</h2>
+<div id="geom_histogram" class="section level3">
+<h3>geom_histogram</h3>
+<p>Show the count of items using bins</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_histogram(mapping = aes(x = hwy),
+                 binwidth = 5)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="geom_density" class="section level3">
+<h3>geom_density</h3>
+<p>Similar to a histogram, but you can layer different lines on top of
+each other.</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_density(mapping = aes(x =hwy, color = class, fill = class),
+               alpha = 0.2)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="geom_boxplot" class="section level3">
+<h3>geom_boxplot</h3>
+<p>Show a boxplot for a series of discrete values (usually text)</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = class, y = hwy))</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+</div>
+<div id="facets" class="section level2">
+<h2>Facets</h2>
+<p>We can create multiple plots using facets</p>
+<div id="facet_wrap" class="section level3">
+<h3>facet_wrap</h3>
+<p>Show a separate plot for each categorical data</p>
+<pre class="r"><code># Small multiples (facets) are a great technique for exploring categorical data
+# and its relationship with continuous data.
+#
+# Note the ~ symbol.  ~ (tilde) is commonly use in lm (regression) to
+# show [dependent variable] ~ [independent variable] For now, just
+# remember to keep the left blank and put your category variable on the right.
+# 
+# nrow says how many plots to put per row
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap( ~ class, nrow = 3)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="facet_grid" class="section level3">
+<h3>facet_grid</h3>
+<p>Show a grid of charts, using two continuous variables.</p>
+<pre class="r"><code># Small multiples (facets) can be used with two separate variables.
+# Use facet_grid instead of facet_wrap.
+# Use categorical variables.
+# Note the ~  uses drv (type of drive-train) and cyl (cylinders)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(cyl ~ drv)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+<div id="dynamic-plots" class="section level2">
+<h2>Dynamic plots</h2>
+<p>Plotly can be used to make a plot more dynamic. See its <a
+href="https://plotly.com/ggplot2">website</a> for more information.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

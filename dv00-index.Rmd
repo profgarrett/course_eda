@@ -10,10 +10,18 @@ output:
 
 Course study notes for ACCT 425 and BUDA 450 students.
 
-Links:
+# General Data Visualization 
+
+- [Writing an effective report](dv10-effective-reports.html)
+- [Data](dv21-data.html)
+- [Colors](dv21-colors.html)
+- [Good dv examples](dv90-examples.html)
 
 
-* [Tableau Introduction](dv30-tableau.html)
-* [Writing an effective report](dv10-effective-reports.html)
-* [Examples](dv90-examples.html)
-* [Colors](dv50-colors.html)
+# Tableau
+- [Introduction](dv30-tableau-intro.html)
+- [Tableau Introduction](dv30-tableau-intro.html)
+
+
+# PowerBI
+

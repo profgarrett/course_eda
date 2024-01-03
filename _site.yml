@@ -9,6 +9,8 @@ navbar:
       href: r00-index.html
     - text: "SQL"
       href: sql00-index.html
+    - text: "Tableau/PowerBI"
+      href: dv00-index.html
     - text: "eCampus"
       href: http://ecampus.wvu.edu
 exclude: ["*.nb.html"]

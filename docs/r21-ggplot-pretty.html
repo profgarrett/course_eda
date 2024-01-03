@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>ggplot 2 - making a pretty plot</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">ggplot 2 - making a pretty plot</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<ul>
+<li><a href="#geoms-for-annotations"
+id="toc-geoms-for-annotations">Geoms for annotations</a>
+<ul>
+<li><a href="#geom_vline-geom_hline"
+id="toc-geom_vline-geom_hline">geom_vline / geom_hline</a></li>
+<li><a href="#geom_label_repel"
+id="toc-geom_label_repel">geom_label_repel</a></li>
+</ul></li>
+<li><a href="#labels" id="toc-labels">Labels</a></li>
+<li><a href="#theme" id="toc-theme">Theme</a></li>
+<li><a href="#limits" id="toc-limits">Limits</a></li>
+<li><a href="#scales" id="toc-scales">Scales</a>
+<ul>
+<li><a href="#discrete-scale" id="toc-discrete-scale">Discrete
+Scale</a></li>
+<li><a href="#continuous-scale" id="toc-continuous-scale">Continuous
+Scale</a></li>
+<li><a href="#date-scale" id="toc-date-scale">Date Scale</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Below are a number of useful functions to improve the attractiveness
+of your plots.</p>
+<div id="geoms-for-annotations" class="section level2">
+<h2>Geoms for annotations</h2>
+<div id="geom_vline-geom_hline" class="section level3">
+<h3>geom_vline / geom_hline</h3>
+<p>Draw a line or box on the chart.</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  geom_vline(xintercept = 20) +
+  geom_hline(yintercept = 30) +
+  geom_rect(xmin = 20, xmax = 25, ymin = 25, ymax = 30,
+            alpha = 0.005,
+            fill = &#39;green&#39;)</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="geom_label_repel" class="section level3">
+<h3>geom_label_repel</h3>
+<p>Add labels with geom_label_repel. There is also a geom_text, but it
+will plot labels on top of the data points.</p>
+<pre class="r"><code>library(ggrepel)
+
+mpg_2seater &lt;- filter(mpg, class == &#39;2seater&#39;)
+
+ggplot(data = mpg_2seater) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  geom_label_repel(mapping = aes(x = cty, y = hwy, label = model))</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="labels" class="section level2">
+<h2>Labels</h2>
+<p>We can add a variety of labels to a plot.</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_bar(mapping = aes(y = manufacturer)) +
+  labs(title = &#39;Main title&#39;,
+       subtitle = &#39;Subtitle title&#39;,
+       caption = &#39;Caption at bottom of chart&#39;) +
+  xlab(&#39;Label for x axis&#39;) +
+  ylab(&#39;Label for y axis&#39;)</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="theme" class="section level2">
+<h2>Theme</h2>
+<p>There are some nice options for themes. Some include:</p>
+<ul>
+<li>theme_bw</li>
+<li>theme_classic</li>
+<li>theme_minimal</li>
+<li>theme_void</li>
+</ul>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  theme_void()</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="limits" class="section level2">
+<h2>Limits</h2>
+<p>Set a max/min for an axis.</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy)) +
+  xlim(0, 20) +
+  ylim(0, 20) </code></pre>
+<pre><code>## Warning: Removed 145 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="scales" class="section level2">
+<h2>Scales</h2>
+<p>We can customize the axis scales.</p>
+<p>You need to match the type of scale to your datatype. Is the data
+continuous (ie., a number) or discrete (generally text)?</p>
+<div id="discrete-scale" class="section level3">
+<h3>Discrete Scale</h3>
+<p>A discrete scale handles a vector of text values. Set custom
+<code>labels</code> using a vector.</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(y = class, x = hwy)) +
+  scale_y_discrete(
+                  labels = c(&#39;2 Seater&#39;, &#39;Compact Car&#39;, &#39;Midsize&#39;, &#39;Minivan&#39;, 
+                              &#39;Pickup&#39;, &#39;Sub-compact&#39;, &#39;SUV&#39;),
+                  name = &#39;Car Classification&#39;)</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="continuous-scale" class="section level3">
+<h3>Continuous Scale</h3>
+<p>A continuous scale is for a series of numbers.</p>
+<p>We can set custom breaks, as well as the min/max.</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(y = hwy, x = hwy)) +
+  scale_x_continuous(n.breaks = 5, limits = c(20, 30)) +
+  scale_y_continuous(breaks = c(15, 20, 25))</code></pre>
+<pre><code>## Warning: Removed 100 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+#### Label formatting</p>
+<p>Breaks also may need formatting to fix labels.</p>
+<ul>
+<li>label_percent(): show as 30%
+<ul>
+<li>Use <code>accuracy = 0.1</code> to round to 10%, or
+<code>0.01</code> to round to 1%.</li>
+</ul></li>
+<li>label_dollar(): show with a leading $</li>
+<li>label_comma(): insert a comma and avoid scientific notation</li>
+</ul>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(y = cty, x = hwy)) +
+  scale_x_continuous(labels = scales::label_dollar()) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1))</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="date-scale" class="section level3">
+<h3>Date Scale</h3>
+<p>Dates/datetimes are continuous values, but don’t use a continuous
+scale. Use <code>scale_x_date</code> and <code>scale_x_datetime</code>
+for additional options.</p>
+<p>Our main options are:</p>
+<ul>
+<li><em>Labels</em>
+<ul>
+<li><code>labels = scales::label_date("format string")</code>
+<ul>
+<li>Find <code>"format string"</code> options by using F1 on label_date,
+and go to its format section, and click on <code>strptime()</code>.
+Scroll down for a list of options.</li>
+<li>Examples (note lower versus upper case!)
+<ul>
+<li><code>"%Y-%m-%d"</code> shows as <code>'2023-01-09'</code></li>
+<li><code>"%H:%M:%S"</code> shows as <code>'02:00:00'</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><em>Breaks</em>
+<ul>
+<li><code>date_breaks = "number periods"</code>
+<ul>
+<li><code>"number period"</code> is a combination of a number and a
+period (such as hour, minute, year, etc…)</li>
+<li>Examples (use lowercase!):
+<ul>
+<li><code>1 month</code></li>
+<li><code>3 hours</code></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><em>Limits</em>
+<ul>
+<li><code>limits = c(start_date, end_end)</code></li>
+<li>Create a date or datetime with lubridate</li>
+<li>Examples:
+<ul>
+<li><code>limits = c( ymd('2023-01-01'), ymd('2023-01-30')</code>)`</li>
+<li><code>limits = c( ymd_hm('2023-01-01 06:00am'), ymd_hm('2023-01-01 06:00pm')</code></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>See <a
+href="https://scales.r-lib.org/reference/label_date.html">ggplot’s
+label_date</a> for help on the scale.</p>
+<p>See <a href="https://lubridate.tidyverse.org/">lubridate</a> for help
+on dealing with dates.</p>
+<pre class="r"><code>library(lubridate)
+
+date_tibble &lt;- tibble(
+  open = c(ymd_hm(&#39;2023-01-01 8:00am&#39;), 
+           ymd_hm(&#39;2023-01-02 9:00am&#39;), 
+           ymd_hm(&#39;2023-01-09 3:30pm&#39;), 
+           ymd_hm(&#39;2023-01-25 5:45pm&#39;))
+)
+
+ggplot(data = date_tibble) +
+  geom_point(mapping = aes(y = open, x = (open))) +
+  scale_y_datetime(labels = scales::label_date(&quot;%Y-%m-%d&quot;), 
+                   date_breaks = &#39;1 week&#39;,
+                   limits = c(
+                     ymd_hm(&#39;2023-01-01 00:00&#39;), 
+                     ymd_hm(&#39;2023-02-15 00:00&#39;))
+                   ) +
+  scale_x_datetime(labels = scales::label_time(&quot;%H:%M:%S&quot;), 
+                   date_breaks = &#39;100 hours&#39;)</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
