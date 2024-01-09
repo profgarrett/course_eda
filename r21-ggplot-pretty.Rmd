@@ -134,25 +134,20 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(y = hwy, x = hwy)) +
   scale_x_continuous(n.breaks = 5, limits = c(20, 30)) +
   scale_y_continuous(breaks = c(15, 20, 25))
-  
 ```
-#### Label formatting
 
-Breaks also may need formatting to fix labels. 
 
-- label_percent(): show as 30%
-  - Use `accuracy = 0.1` to round to 10%, or `0.01` to round to 1%.
-- label_dollar(): show with a leading $
-- label_comma(): insert a comma and avoid scientific notation
+### Log  Scale
+
+A log scale helps us see data that grows at an exponential level.
 
 ```{r, eval=T, echo=TRUE }
 
 ggplot(data = mpg) +
-  geom_point(mapping = aes(y = cty, x = hwy)) +
-  scale_x_continuous(labels = scales::label_dollar()) +
-  scale_y_continuous(labels = scales::label_percent(accuracy = 1))
-  
+  geom_point(mapping = aes(y = hwy, x = hwy)) +
+  scale_x_log10()
 ```
+
 
 ### Date Scale
 
@@ -207,5 +202,24 @@ ggplot(data = date_tibble) +
                    ) +
   scale_x_datetime(labels = scales::label_time("%H:%M:%S"), 
                    date_breaks = '100 hours')
+  
+```
+
+
+### Label formatting
+
+Breaks also may need formatting to fix labels. 
+
+- label_percent(): show as 30%
+  - Use `accuracy = 0.1` to round to 10%, or `0.01` to round to 1%.
+- label_dollar(): show with a leading $
+- label_comma(): insert a comma and avoid scientific notation
+
+```{r, eval=T, echo=TRUE }
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = cty, x = hwy)) +
+  scale_x_continuous(labels = scales::label_dollar()) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1))
   
 ```

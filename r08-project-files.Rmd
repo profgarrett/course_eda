@@ -117,6 +117,8 @@ examples,
 - ./folder/../file.csv
 - c:/folder/file.csv
 
+One tricky part is that the slash goes in differnt directions on PCs and Macs. In R, you should always use a forward-slash (as shown above).
+
 Below are some samples of opening a file in a different folder.
 
 ```{r, eval=F, echo=TRUE }

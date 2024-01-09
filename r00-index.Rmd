@@ -17,12 +17,13 @@ This section is for ACCT 426 and BUDA 451 students in Spring 2023.
   - [1c. Conditionals](r03-syntax-conditionals.html) (Datacamp *Intermediate R - Conditionals and Control Flow*)
   - [1d. Loops](r04-syntax-loops.html) (Datacamp *Intermediate R - Loops*)
   - [1e. Functions1](r05-syntax-functions1.html) (Datacamp *Intermediate R - Functions* )
-  - [1f. Functions2](r05-syntax-functions2.html) (*List of useful functions* )
+  - [1f. Functions2](r06-syntax-functions2.html) (*List of useful functions* )
 * EDA Process
   - [Machine Learning in Business](ml01-intro.html) (Datacamp *Machine Learning for Business)
-  - Data types
+  - [Managing files in a project](r08-project-files.html)
 * Libraries
   - [dlpyr](r10-dplyr.html)
+  - [Loading data](r15-read.html)
   - [ggplot 1: Introduction](r20-ggplot.html)
   - [ggplot 2: Making plots pretty](r21-ggplot-pretty.html)
   - [ggplot 3: Making maps](r22-ggplot-maps-osm.html)

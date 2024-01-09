@@ -19,9 +19,25 @@ Course study notes for ACCT 425 and BUDA 450 students.
 
 
 # Tableau
-- [Introduction](dv30-tableau-intro.html)
-- [Tableau Introduction](dv30-tableau-intro.html)
+- [Introduction](dv41-tableau-intro.html)
+- [Analyzing Data](dv42-tableau-data.html)
 
+
+
+## Advanced data corrections
+
+
+- Boxplot
+- Annotations
+  - Annotate mark, point, or area
+
+
+
+
+# Good resources
+
+- [What is life like as a Tableau Freelancer?](https://www.reddit.com/r/tableau/comments/1724zdf/six_years_as_a_tableau_freelancer_ama/)
 
 # PowerBI
 
+TBA

@@ -252,6 +252,9 @@ $(document).ready(function () {
   <a href="sql00-index.html">SQL</a>
 </li>
 <li>
+  <a href="dv00-index.html">Tableau/PowerBI</a>
+</li>
+<li>
   <a href="http://ecampus.wvu.edu">eCampus</a>
 </li>
       </ul>
@@ -272,21 +275,93 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
-<ul>
 <li><a href="#why-tibbles" id="toc-why-tibbles">Why tibbles?</a></li>
 <li><a href="#converting-from-data.frame-to-tibble"
 id="toc-converting-from-data.frame-to-tibble">Converting from data.frame
 to tibble</a></li>
 <li><a href="#creating-a-tibble" id="toc-creating-a-tibble">Creating a
 tibble</a></li>
-<li><a href="#select" id="toc-select">select</a></li>
-<li><a href="#filter" id="toc-filter">filter</a></li>
-<li><a href="#mutate" id="toc-mutate">mutate</a></li>
-<li><a href="#arrange" id="toc-arrange">arrange</a></li>
+<li><a href="#dplyr-commands" id="toc-dplyr-commands">dplyr commands</a>
+<ul>
+<li><a href="#select" id="toc-select">select</a>
+<ul>
+<li><a href="#columns-by-name" id="toc-columns-by-name">Columns by
+name</a></li>
+<li><a href="#remove-columns-by-name"
+id="toc-remove-columns-by-name">Remove columns by name</a></li>
+<li><a href="#add-columns-by-name-array"
+id="toc-add-columns-by-name-array">Add columns by name array</a></li>
+<li><a href="#all-numeric-columns" id="toc-all-numeric-columns">All
+numeric columns</a></li>
+<li><a href="#helper-functions" id="toc-helper-functions">Helper
+functions</a></li>
+</ul></li>
+<li><a href="#filter" id="toc-filter">filter</a>
+<ul>
+<li><a href="#basic-example" id="toc-basic-example">Basic
+example</a></li>
+<li><a href="#and" id="toc-and">And</a></li>
+<li><a href="#or" id="toc-or">Or</a></li>
+<li><a href="#not" id="toc-not">Not</a></li>
+<li><a href="#test-for-na-values" id="toc-test-for-na-values">Test for
+NA values</a></li>
+<li><a href="#filter-by-list" id="toc-filter-by-list">Filter by
+list</a></li>
+</ul></li>
+<li><a href="#mutate" id="toc-mutate">mutate</a>
+<ul>
+<li><a href="#change-values-in-a-column"
+id="toc-change-values-in-a-column">Change values in a column</a></li>
+<li><a href="#change-value-to-ratio"
+id="toc-change-value-to-ratio">Change value to ratio</a></li>
+<li><a href="#new-boolean-column" id="toc-new-boolean-column">New
+Boolean column</a></li>
+<li><a href="#ifelse-returning-10" id="toc-ifelse-returning-10">ifelse
+returning 1/0</a></li>
+<li><a href="#ifelse-returning-string"
+id="toc-ifelse-returning-string">ifelse returning string</a></li>
+<li><a href="#multiple-new-columns"
+id="toc-multiple-new-columns">Multiple new columns</a></li>
+</ul></li>
+<li><a href="#arrange" id="toc-arrange">arrange</a>
+<ul>
+<li><a href="#ascending" id="toc-ascending">Ascending</a></li>
+<li><a href="#ascending-with-two-or-more-columns"
+id="toc-ascending-with-two-or-more-columns">Ascending with two or more
+columns</a></li>
+<li><a href="#descending-order" id="toc-descending-order">Descending
+order</a></li>
+</ul></li>
 <li><a href="#group_by-and-summarize"
-id="toc-group_by-and-summarize">group_by and summarize</a></li>
+id="toc-group_by-and-summarize">group_by and summarize</a>
+<ul>
+<li><a href="#summarize-without-group_by"
+id="toc-summarize-without-group_by">Summarize without group_by</a></li>
+<li><a href="#summarize-with-group_by"
+id="toc-summarize-with-group_by">Summarize with group_by</a></li>
+<li><a href="#two-or-more-groups" id="toc-two-or-more-groups">Two or
+more groups</a></li>
+<li><a href="#functions" id="toc-functions">Functions</a></li>
+<li><a href="#ungroup" id="toc-ungroup">ungroup</a></li>
+</ul></li>
 <li><a href="#joins" id="toc-joins">joins</a></li>
+</ul></li>
+<li><a href="#less-commonly-used-dplyr-commands"
+id="toc-less-commonly-used-dplyr-commands">Less commonly used dplyr
+commands</a>
+<ul>
+<li><a href="#slice-minmax" id="toc-slice-minmax">Slice min/max</a>
+<ul>
+<li><a href="#slice_min-when-n-1" id="toc-slice_min-when-n-1">slice_min
+when n = 1</a></li>
+<li><a href="#slice_min-when-n-1-1"
+id="toc-slice_min-when-n-1-1">slice_min when n &gt; 1</a></li>
+</ul></li>
+<li><a href="#rename" id="toc-rename">Rename</a></li>
+<li><a href="#relocate" id="toc-relocate">Relocate</a></li>
+</ul></li>
+<li><a href="#other-concepts" id="toc-other-concepts">Other concepts</a>
+<ul>
 <li><a href="#pipe-operator" id="toc-pipe-operator">pipe
 operator</a></li>
 <li><a href="#references" id="toc-references">References</a></li>
@@ -294,27 +369,26 @@ operator</a></li>
 </ul>
 </div>
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
 <p>dplyr is an important tool for fixing data. If you need further help,
 see <a href="https://dplyr.tidyverse.org/articles/dplyr.html">dplyr
 tutorial</a></p>
-<div id="why-tibbles" class="section level2">
-<h2>Why tibbles?</h2>
+<p>These notes correspond to Datacamp’s <em>Introduction to the
+tidyverse</em>.</p>
+<div id="why-tibbles" class="section level1">
+<h1>Why tibbles?</h1>
 <p>Data.frames are an older technology, and tibbles are their newer
 version. Tibbles do not automatically change data types. A data.frame
 guesses at times, but a tibble must be told exactly what to do with
 incoming data. For example, a factor must be manually created. Tibbles
 also are better at printing.</p>
 </div>
-<div id="converting-from-data.frame-to-tibble" class="section level2">
-<h2>Converting from data.frame to tibble</h2>
+<div id="converting-from-data.frame-to-tibble" class="section level1">
+<h1>Converting from data.frame to tibble</h1>
 <p>If you’ve used data.frames, you may have used the approach below for
 subsetting. The syntax for filtering rows/columns is pretty twitchy.
 dplyr is easier.</p>
 <pre class="r"><code># Create a data.frame
 df &lt;- data.frame(x = c(1, 2, 3, 4, 5), y = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;))
-
 
 # Only include values with x&gt;3
 # Note that we use [rows_to_include, columns_to_include]
@@ -326,12 +400,20 @@ typeof(df$x)
 is.vector(df$x)
 class(df[1])</code></pre>
 </div>
-<div id="creating-a-tibble" class="section level2">
-<h2>Creating a tibble</h2>
+<div id="creating-a-tibble" class="section level1">
+<h1>Creating a tibble</h1>
 <p>You will eventually load tibbles data from a file, but for now I will
 usually include them in the file.</p>
-<pre class="r"><code># a tibble created from vectors.
-t &lt;- tibble(x = c(1, 2, 3, 4), y = c(5,  6,  7,  9), z = c(&quot;?&quot;))
+<pre class="r"><code>library(tidyverse)
+
+# a tibble created from vectors.
+# Note that either they must have the same length,
+# or a length of zero (which are automatically expanded)
+t &lt;- tibble(
+  x = c(1, 2, 3, 4),
+  y = c(5,  6,  7,  9),
+  z = c(&quot;?&quot;)
+)
 
 # You can subset a tibble and get a tibble as a result
 t[&quot;x&quot;]
@@ -339,120 +421,625 @@ t[c(&quot;x&quot;, &quot;y&quot;)]
 
 # Getting a vector requires double brackets.
 t[[&quot;x&quot;]]
+
+# You can verify the output by using the class function.
 class(t[[&quot;x&quot;]])</code></pre>
 </div>
-<div id="select" class="section level2">
-<h2>select</h2>
-<p>Select allows us to grab columns from a dataset. Usually there are a
-lot more columns than we need.</p>
-<pre class="r"><code># Create a tibble from pirates (an older-style data frame)
-class(pirates)
-p &lt;- tibble(pirates)
-names(p)
+<div id="dplyr-commands" class="section level1">
+<h1>dplyr commands</h1>
+<div id="select" class="section level2 tabset">
+<h2 class="tabset">select</h2>
+<p>Select allows us to choose columns. It helps when we load a large
+dataset with more columns than we need.</p>
+<div id="columns-by-name" class="section level3">
+<h3>Columns by name</h3>
+<p>Pick columns by passing their field names, with each separated by a
+comma.</p>
+<pre class="r"><code>library(tidyverse)
 
-# Simple reduced length tibble (not data.frame)
-# Note that we start with the datasource, and then give each column.
-p1 &lt;- select(p, sex, age, college, beard.length, grogg)
-names(p1)
+t &lt;- tibble(
+  names = c(&quot;Bob&quot;, &quot;Sarah&quot;, &quot;Tim&quot;, &quot;John&quot;),
+  ages = c(23,  61,  17,  9),
+  id = c(1, 2, 3, 4)
+)
 
-# Select all EXCEPT certain columns
-# You you can&#39;t mix this with other select options.
-p2 &lt;- select(p, -fav.pixar, -sword.type, -favorite.pirate)
-names(p2)
+t_names &lt;- t %&gt;% 
+  select(names, ages)
 
-# Select a range of columns (from:to)
-p3 &lt;- select(p, id:weight)
-names(p3)
-
-# You can combine ranges and individual fields.
-p4 &lt;- select(p, id, sex:weight, college:parrots)
-names(p4)
-
-# Use select and with to find all numeric columns
-# The below finds all numeric columns and the sword.type text value.
-p5 &lt;- select(p, where(is.numeric), sword.type)
-
-# See the docs for contains, ends_with, started_with, etc...</code></pre>
+print(t_names)</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##   names  ages
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Bob      23
+## 2 Sarah    61
+## 3 Tim      17
+## 4 John      9</code></pre>
 </div>
-<div id="filter" class="section level2">
-<h2>filter</h2>
-<p>Removes rows (observations). Adding multiple items acts like an AND.
-You can also use symbols and is &amp;, not is !, or is |.</p>
-<pre class="r"><code># Create a new tibble. Note that we use the single character name to keep
-# our code shorter and easier to read. Only do this if the file is clearly
-# focused on a single dataset.
-p &lt;- tibble(pirates)
+<div id="remove-columns-by-name" class="section level3">
+<h3>Remove columns by name</h3>
+<p>Remove specific columns by placing a <code>-</code> in front of
+each.</p>
+<pre class="r"><code>library(tidyverse)
 
-# Count the number of males. Note that we can&#39;t use length, as that shows
-# the numbers of columns.
-p_nonmen &lt;- filter(p, p$sex == &quot;male&quot;)
-nrow(p_nonmen)
+t &lt;- tibble(
+  names = c(&quot;Bob&quot;, &quot;Sarah&quot;, &quot;Tim&quot;, &quot;John&quot;),
+  ages = c(23,  61,  17,  9),
+  id = c(1, 2, 3, 4),
+  null_field = c(NA, NA, NA, NA)
+)
 
-# Use two conditions for an AND to find all non-male and non-female
-p_other &lt;- filter(p, p$sex != &quot;female&quot;, p$sex != &quot;male&quot;)
-nrow(p_other)
+t_no_id_or_null &lt;- t %&gt;% 
+  select(-id, -null_field)
 
-# Use | (or) to find male and females
-p_male_and_female &lt;- filter(p, p$sex == &quot;male&quot; | p$sex == &quot;female&quot;)
-nrow(p_male_and_female)
-
-# Make row 1 sex column have an NA for testing purposes.
-p[1, &quot;sex&quot;] &lt;- NA
-
-# Remove NA values, which can be an issue in some datasets.
-# You can&#39;t test for sex == NA, or sex == &quot;NA&quot;, as all NA are unique.
-# Instead, use the is.na function.
-p_no_nas &lt;- filter(p, !is.na(p$sex))
-nrow(p_no_nas)</code></pre>
+print(t_no_id_or_null)</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##   names  ages
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Bob      23
+## 2 Sarah    61
+## 3 Tim      17
+## 4 John      9</code></pre>
 </div>
-<div id="mutate" class="section level2">
-<h2>mutate</h2>
-<p>Adds a new column. This really helps us manipulate data for later
-analysis.</p>
-<pre class="r"><code># Create a new tibble with fewer columns
-# Note that we are updating this same tibble instead of creating a new one
-# each time.
-p &lt;- select(tibble(pirates), id, sex, age)
+<div id="add-columns-by-name-array" class="section level3">
+<h3>Add columns by name array</h3>
+<p>You can include a list of columns with
+<code>start_column:end_column</code>.</p>
+<pre class="r"><code>library(tidyverse)
 
-# Create new columns for is_male and is_female
-# Each column will be either TRUE or FALSE.
-p &lt;- mutate(p, is_male = sex == &quot;male&quot;)
-p &lt;- mutate(p, is_female = sex == &quot;female&quot;)
+t &lt;- tibble(
+  extra = 1:4,
+  name = c(&quot;Bob&quot;, &quot;Sarah&quot;, &quot;Tim&quot;, &quot;John&quot;),
+  ages = c(23,  61,  17,  9),
+  id = c(1, 2, 3, 4),
+  null_field = c(NA, NA, NA, NA)
+)
 
-# Use ifelse to use other values, such as 1 or 0, for a logical test.
-p &lt;- mutate(p, is_male01 = ifelse(sex == &quot;male&quot;, 1, 0))</code></pre>
+t_name_to_id &lt;- t %&gt;% 
+  select(name:id)
+
+print(t_name_to_id)</code></pre>
+<pre><code>## # A tibble: 4 × 3
+##   name   ages    id
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Bob      23     1
+## 2 Sarah    61     2
+## 3 Tim      17     3
+## 4 John      9     4</code></pre>
 </div>
-<div id="arrange" class="section level2">
-<h2>arrange</h2>
-<p>Re-arrange (or sort data)</p>
-<pre class="r"><code># Create a dataset from pirates, select ID, Age, and Grogg, and then sort.
-# Note that we can use desc(fieldname) to sort in reverse order.
-p &lt;- arrange(select(tibble(pirates), id, age, grogg), age, desc(grogg))
-print(p)</code></pre>
+<div id="all-numeric-columns" class="section level3">
+<h3>All numeric columns</h3>
+<p>You can also use the <code>where</code> function pick only fields
+meeting a condition.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  extra = 1:4,
+  name = c(&quot;Bob&quot;, &quot;Sarah&quot;, &quot;Tim&quot;, &quot;John&quot;),
+  ages = c(23,  61,  17,  9),
+  id = c(1, 2, 3, 4),
+  null_field = c(NA, NA, NA, NA)
+)
+
+t_numbers &lt;- t %&gt;% 
+  select(where(is.numeric))
+
+print(t_numbers)</code></pre>
+<pre><code>## # A tibble: 4 × 3
+##   extra  ages    id
+##   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     1    23     1
+## 2     2    61     2
+## 3     3    17     3
+## 4     4     9     4</code></pre>
 </div>
-<div id="group_by-and-summarize" class="section level2">
-<h2>group_by and summarize</h2>
-<p>The function group_by is very similar to the SQL command, but in a
-passive way. Normally, you would expect it to immediate collapse data
-(similar to a pivot table). However, it is better thought of giving an
-annotation to the data that will then be used by the summarize
-command.</p>
-<p>Calculates summary statistics for a field. Use mean, min, max, sum,
-n,<br />
-n_distinct.</p>
-<pre class="r"><code># Create a tibble and group by college
-p &lt;- group_by(tibble(pirates), college)
+<div id="helper-functions" class="section level3">
+<h3>Helper functions</h3>
+<p>We can use helper functions to select fields:</p>
+<ul>
+<li><code>starts_with()</code></li>
+<li><code>ends_with()</code></li>
+<li><code>contains()</code></li>
+<li><code>matches()</code></li>
+</ul>
+<p>See the docs for other options.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  id = c(1, 2, 3),
+  population_start = c(100, 200, 300),
+  population_middle = c(110, 150, 200),
+  population_end = c(120, 80, 20),
+  not_needed_field = c(NA, &quot;hey&quot;, &quot;umn&quot;)
+)
+
+t_smaller &lt;- t %&gt;% 
+  select(starts_with(&#39;population&#39;), id)
+
+print(t_smaller)</code></pre>
+<pre><code>## # A tibble: 3 × 4
+##   population_start population_middle population_end    id
+##              &lt;dbl&gt;             &lt;dbl&gt;          &lt;dbl&gt; &lt;dbl&gt;
+## 1              100               110            120     1
+## 2              200               150             80     2
+## 3              300               200             20     3</code></pre>
+</div>
+</div>
+<div id="filter" class="section level2 tabset">
+<h2 class="tabset">filter</h2>
+<p>Removes rows (observations). Uses the symbols:</p>
+<ul>
+<li><code>&amp;</code> as <em>and</em></li>
+<li><code>!</code> as <em>or</em></li>
+<li><code>|</code> as <em>not</em></li>
+</ul>
+<div id="basic-example" class="section level3">
+<h3>Basic example</h3>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;))
+
+t_men_only &lt;- t %&gt;%
+  filter(sex == &quot;man&quot;)
+
+print(t_men_only)</code></pre>
+<pre><code>## # A tibble: 3 × 1
+##   sex  
+##   &lt;chr&gt;
+## 1 man  
+## 2 man  
+## 3 man</code></pre>
+</div>
+<div id="and" class="section level3">
+<h3>And</h3>
+<p>You can combine multiple logical tests with 3 different
+approaches</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;),
+            age = c(10, 20, 30, 40, 50))
 
 
-# Find the median, length (count), max, and min age by college
-summarise(p,
-          median_age = median(age),
-          length_age = length(age),
-          max_age = max(age),
-          min_age = min(age),
-          n_of_rows = n(),
-          n_of_distinct_ages = n_distinct(age)
-          )</code></pre>
+# Use one the following:
+
+# Option 1: Use &amp; between each test
+t_men_over_30 &lt;- t %&gt;%
+  filter(sex == &quot;man&quot; &amp; age &gt; 30)
+
+# Option 2: Separate each test with a comma
+t_men_over_30 &lt;- t %&gt;%
+  filter(sex == &quot;man&quot;,  age &gt; 30)
+
+# Option 3: Use a separate filter for each logical test
+t_men_over_30 &lt;- t %&gt;%
+  filter(sex == &quot;man&quot;) %&gt;%
+  filter(age &gt; 30)
+
+print(t_men_over_30)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   sex     age
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 man      50</code></pre>
+</div>
+<div id="or" class="section level3">
+<h3>Or</h3>
+<p>The <code>|</code> symbol is used when we want to satisfy <em>at
+least one</em> of several logical tests.</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;),
+            age = c(10, 20, 30, 40, 50))
+
+t_men_or_those_over_30 &lt;- t %&gt;%
+  filter(sex == &quot;man&quot; | age &gt; 30)
+
+print(t_men_or_those_over_30)</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##   sex     age
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 man      10
+## 2 man      30
+## 3 woman    40
+## 4 man      50</code></pre>
+</div>
+<div id="not" class="section level3">
+<h3>Not</h3>
+<p>Use the <code>!</code> symbol to test for anything <em>not true</em>
+(or <em>false</em>).</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;),
+            age = c(10, 20, 30, 40, 50))
+
+t_not_age_30 &lt;- t %&gt;%
+  filter(!age == 30)
+
+print(t_not_age_30)</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##   sex     age
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 man      10
+## 2 woman    20
+## 3 woman    40
+## 4 man      50</code></pre>
+</div>
+<div id="test-for-na-values" class="section level3">
+<h3>Test for NA values</h3>
+<p>Test for <code>NA</code> values with <code>is.na()</code>. You can
+remove <code>NA</code> values by filtering for
+<code>!is.na(column_name)</code>.</p>
+<p>Each <code>NA</code> value is unique. So, testing for
+<code>column_name == NA</code> will always be <code>FALSE</code>.</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, NA))
+
+t_not_na &lt;- t %&gt;%
+  filter(!is.na(sex))
+
+print(t_not_na)</code></pre>
+<pre><code>## # A tibble: 2 × 1
+##   sex  
+##   &lt;chr&gt;
+## 1 man  
+## 2 woman</code></pre>
+</div>
+<div id="filter-by-list" class="section level3">
+<h3>Filter by list</h3>
+<p>We can use the <code>%in%</code> command to find values in a
+vector.</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(tool = c(&quot;driver&quot;, &quot;saw&quot;, &quot;nail&quot;, &quot;hammer&quot;))
+
+t2 &lt;- t %&gt;%
+  filter(tool %in% c(&quot;nail&quot;, &quot;hammer&quot;))
+
+print(t2)</code></pre>
+<pre><code>## # A tibble: 2 × 1
+##   tool  
+##   &lt;chr&gt; 
+## 1 nail  
+## 2 hammer</code></pre>
+</div>
+</div>
+<div id="mutate" class="section level2 tabset">
+<h2 class="tabset">mutate</h2>
+<p>Adds a new column or changes an existing one.</p>
+<div id="change-values-in-a-column" class="section level3">
+<h3>Change values in a column</h3>
+<pre class="r"><code>library(tidyverse)
+# population in millions
+cities &lt;- tibble(population = c(10, 20, 15, 2, 3))
+
+# Change population from millions to thousands
+cities &lt;- cities %&gt;% 
+  mutate(population = population * 1000)
+
+print(cities)</code></pre>
+<pre><code>## # A tibble: 5 × 1
+##   population
+##        &lt;dbl&gt;
+## 1      10000
+## 2      20000
+## 3      15000
+## 4       2000
+## 5       3000</code></pre>
+</div>
+<div id="change-value-to-ratio" class="section level3">
+<h3>Change value to ratio</h3>
+<p>We can change a value into a percentage (or ratio) by using
+<code>sum()</code> and then dividing a field by that value.</p>
+<pre class="r"><code>library(tidyverse)
+# population in millions
+cities &lt;- tibble(population = c(10, 20, 15, 2, 3))
+
+total_population &lt;- sum(cities$population)
+
+# Change population from millions to thousands
+cities &lt;- cities %&gt;% 
+  mutate(population = population / total_population)
+
+print(cities)</code></pre>
+<pre><code>## # A tibble: 5 × 1
+##   population
+##        &lt;dbl&gt;
+## 1       0.2 
+## 2       0.4 
+## 3       0.3 
+## 4       0.04
+## 5       0.06</code></pre>
+</div>
+<div id="new-boolean-column" class="section level3">
+<h3>New Boolean column</h3>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;))
+
+t_is_man &lt;- t %&gt;% 
+  mutate(is_man = sex == &quot;man&quot;)
+
+print(t_is_man)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   sex   is_man
+##   &lt;chr&gt; &lt;lgl&gt; 
+## 1 man   TRUE  
+## 2 woman FALSE 
+## 3 man   TRUE  
+## 4 woman FALSE 
+## 5 man   TRUE</code></pre>
+</div>
+<div id="ifelse-returning-10" class="section level3">
+<h3>ifelse returning 1/0</h3>
+<p>We typically use <code>ifelse()</code> to create new columns. The
+first argument will be a <em>logical test</em>. If the test is
+<code>TRUE</code>, the function will return its second argument. If the
+test is <code>FALSE</code>, it will return the third argument.</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;))
+
+# Function:
+#    ifelse(*logical_test*, *result_if_true*, *result_if_false*)
+# 
+# Below gives a 1 for males, and a 0 for all others
+# 
+# Note that we have to end with two parenthesis, one for the ifelse and one for the mutate.
+t_with_is_man &lt;- t %&gt;% 
+  mutate(is_man01 = ifelse(sex == &quot;man&quot;, 1, 0) )
+
+print(t_with_is_man)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   sex   is_man01
+##   &lt;chr&gt;    &lt;dbl&gt;
+## 1 man          1
+## 2 woman        0
+## 3 man          1
+## 4 woman        0
+## 5 man          1</code></pre>
+</div>
+<div id="ifelse-returning-string" class="section level3">
+<h3>ifelse returning string</h3>
+<p>This example shows <code>ifelse()</code> returning a string.</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;))
+
+t_with_m &lt;- t %&gt;% 
+  mutate(s = ifelse(sex == &quot;man&quot;, &quot;m&quot;, &quot;w&quot;) )
+
+print(t_with_m)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   sex   s    
+##   &lt;chr&gt; &lt;chr&gt;
+## 1 man   m    
+## 2 woman w    
+## 3 man   m    
+## 4 woman w    
+## 5 man   m</code></pre>
+</div>
+<div id="multiple-new-columns" class="section level3">
+<h3>Multiple new columns</h3>
+<p>We can add multiple columns with a single mutate. Below adds two new
+columns and then modifies the <code>sex</code> field.</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;Man&quot;, &quot;Woman&quot;, &quot;MAN&quot;, &quot;wOMan&quot;, &quot;man&quot;))
+
+t2 &lt;- t %&gt;% 
+  mutate(sex_capitalized = str_to_upper(sex),
+         sex_lower = str_to_lower(sex),
+         sex = str_to_title(sex))
+
+print(t2)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+##   sex   sex_capitalized sex_lower
+##   &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;    
+## 1 Man   MAN             man      
+## 2 Woman WOMAN           woman    
+## 3 Man   MAN             man      
+## 4 Woman WOMAN           woman    
+## 5 Man   MAN             man</code></pre>
+</div>
+</div>
+<div id="arrange" class="section level2 tabset">
+<h2 class="tabset">arrange</h2>
+<p>The <code>arrange</code> functions sorts data.</p>
+<div id="ascending" class="section level3">
+<h3>Ascending</h3>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;),
+            age = c(20, 30, 40, 30, 50))
+
+t_sorted &lt;- t %&gt;% 
+  arrange(sex)
+
+print(t_sorted)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   sex     age
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 man      20
+## 2 man      40
+## 3 man      50
+## 4 woman    30
+## 5 woman    30</code></pre>
+</div>
+<div id="ascending-with-two-or-more-columns" class="section level3">
+<h3>Ascending with two or more columns</h3>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;),
+            age = c(20, 30, 40, 30, 50))
+
+t_sorted &lt;- t %&gt;% 
+  arrange(sex, age)
+
+print(t_sorted)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   sex     age
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 man      20
+## 2 man      40
+## 3 man      50
+## 4 woman    30
+## 5 woman    30</code></pre>
+</div>
+<div id="descending-order" class="section level3">
+<h3>Descending order</h3>
+<p>Wrap a field with <code>desc(field_name)</code> to reverse sort
+(z-a).</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;),
+            age = c(20, 30, 40, 30, 50))
+
+t_sorted &lt;- t %&gt;% 
+  arrange(desc(sex), desc(age))
+
+print(t_sorted)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   sex     age
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 woman    30
+## 2 woman    30
+## 3 man      50
+## 4 man      40
+## 5 man      20</code></pre>
+</div>
+</div>
+<div id="group_by-and-summarize" class="section level2 tabset">
+<h2 class="tabset">group_by and summarize</h2>
+<p>These two command are similar to SQL’s <code>GROUP BY</code> or
+Excel’s <em>Pivot Table</em>.</p>
+<p>The <code>group_by</code> command is used first. It doesn’t change
+the data, but instead creates a note on the tibble.</p>
+<p>The <code>summarize</code> command is used second. It reads the note
+on the tibble set by <code>group_by</code> to find which fields to
+include in the results. It then performs some type of aggregation (such
+as sum or count). The results are a new tibble.</p>
+<div id="summarize-without-group_by" class="section level3">
+<h3>Summarize without group_by</h3>
+<p><code>summarize()</code> is similar to mutate, in that both create a
+new column. But, each new field must have an aggregation function on it,
+such as <code>sum()</code>.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_sum &lt;- t %&gt;% 
+  summarise(sum_of_sales = sum(sales))
+
+print(t_sum)</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   sum_of_sales
+##          &lt;dbl&gt;
+## 1           21</code></pre>
+</div>
+<div id="summarize-with-group_by" class="section level3">
+<h3>Summarize with group_by</h3>
+<p>While <code>summarize</code> is helpful, we normally want to break
+the results down by some of the fields.</p>
+<p>Start by using <code>group_by</code>, which includes region in our
+results. Then use <code>summarize()</code> to show which field we want
+to aggregate.</p>
+<p><code>summarize()</code> is similar to mutate, in that both create a
+new column.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_region_sum &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  summarise(sum_of_sales = sum(sales))
+
+print(t_region_sum)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   region sum_of_sales
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 a                 5
+## 2 b                11
+## 3 c                 5</code></pre>
+</div>
+<div id="two-or-more-groups" class="section level3">
+<h3>Two or more groups</h3>
+<p>We can group by more than 1 field.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  country = c(&#39;USA&#39;, &#39;USA&#39;, &#39;DEN&#39;, &#39;USA&#39;, &#39;USA&#39;, &#39;USA&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_region_sum &lt;- t %&gt;% 
+  group_by(country, region) %&gt;% 
+  summarise(sum_of_sales = sum(sales))
+
+print(t_region_sum)</code></pre>
+<pre><code>## # A tibble: 3 × 3
+## # Groups:   country [2]
+##   country region sum_of_sales
+##   &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;
+## 1 DEN     c                 5
+## 2 USA     a                 5
+## 3 USA     b                11</code></pre>
+</div>
+<div id="functions" class="section level3">
+<h3>Functions</h3>
+<p>There are a number of useful functions that can be used in the
+<code>summarize</code> function.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_region_stats &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  summarise(n_of_rows = n(),
+            sum_of_sales = sum(sales),
+            median_sales = median(sales),
+            max_sales = max(sales),
+            min_sales = min(sales),
+            sd_sales = sd(sales),
+            n_of_distinct_sales = n_distinct(sales))
+
+print(t_region_stats)</code></pre>
+<pre><code>## # A tibble: 3 × 8
+##   region n_of_rows sum_of_sales median_sales max_sales min_sales sd_sales
+##   &lt;chr&gt;      &lt;int&gt;        &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 a              3            5          2           3         0     1.53
+## 2 b              2           11          5.5        10         1     6.36
+## 3 c              1            5          5           5         5    NA   
+## # ℹ 1 more variable: n_of_distinct_sales &lt;int&gt;</code></pre>
+</div>
+<div id="ungroup" class="section level3">
+<h3>ungroup</h3>
+<p>Sometimes we want to remove a group from a tibble. You can call
+<code>ungroup()</code>. In this course, we generally create a new tibble
+for each summary. But, in the real world, you sometimes want to avoid
+duplicating tibbles when working with large datasets.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then ungroup
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  ungroup()
+
+print(t)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   region sales
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a          0
+## 2 b         10
+## 3 c          5
+## 4 a          3
+## 5 a          2
+## 6 b          1</code></pre>
+</div>
 </div>
 <div id="joins" class="section level2">
 <h2>joins</h2>
@@ -485,16 +1072,113 @@ sum(checks$amount)
 # use na.rm = TRUE to remove.
 sum(checks$amount, na.rm = TRUE)</code></pre>
 </div>
+</div>
+<div id="less-commonly-used-dplyr-commands" class="section level1">
+<h1>Less commonly used dplyr commands</h1>
+<div id="slice-minmax" class="section level2 tabset">
+<h2 class="tabset">Slice min/max</h2>
+<p>We can use slice_max and slice_min to find the rows with the highest
+and lowest values in a field.</p>
+<div id="slice_min-when-n-1" class="section level3">
+<h3>slice_min when n = 1</h3>
+<p><code>slice_min</code> pulls the rows with the lowest value in the
+given field. It respects the current grouping level. When pulling a
+single value, it is basically identical to <code>min(field_name)</code>.
+<code>slice_max</code> is the same, but pulls the largest item instead
+of the smallest.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find smallest value
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 1) # same as summarize(sales = min(sales))
+
+print(t)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   region [3]
+##   region sales
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a          0
+## 2 b          1
+## 3 c          5</code></pre>
+</div>
+<div id="slice_min-when-n-1-1" class="section level3">
+<h3>slice_min when n &gt; 1</h3>
+<p>When given <code>n &gt; 1</code>, slice will pull multiple rows.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find the 2 smallest items from each group
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 2) 
+
+print(t)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+## # Groups:   region [3]
+##   region sales
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a          0
+## 2 a          2
+## 3 b          1
+## 4 b         10
+## 5 c          5</code></pre>
+</div>
+</div>
+<div id="rename" class="section level2">
+<h2>Rename</h2>
+<p>Rename allows you to change the name of a field. This is really handy
+when dealing with badly-named fields containing spaces.</p>
+<p>Note that we use the <code>backtick</code> for naming fields with
+spaces. These are different from <code>'single quotes'</code> or
+<code>"double quotes"</code>.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Create sample tibbles.
+checks &lt;- tibble(
+  `Item Name` = c(&quot;Cheese&quot;, &quot;Bread&quot;, &quot;Milk&quot;, &quot;Mustard&quot;, &quot;Milk&quot;))
+
+checks &lt;- checks %&gt;% 
+  rename(item_name = `Item Name`)
+
+print(checks)</code></pre>
+<pre><code>## # A tibble: 5 × 1
+##   item_name
+##   &lt;chr&gt;    
+## 1 Cheese   
+## 2 Bread    
+## 3 Milk     
+## 4 Mustard  
+## 5 Milk</code></pre>
+</div>
+<div id="relocate" class="section level2">
+<h2>Relocate</h2>
+<p>The relocate verb moves columns in a table. It is handy when you are
+looking for a table to be in a certain order.</p>
+</div>
+</div>
+<div id="other-concepts" class="section level1">
+<h1>Other concepts</h1>
 <div id="pipe-operator" class="section level2">
 <h2>pipe operator</h2>
-<p>We can put these all together using the %&gt;% (pipe) operator. This
-joins multiple results without needing to re-type stuff.</p>
+<p>We can put these all together using the <code>%\&gt;%</code> (pipe)
+operator. This joins multiple results without needing to re-type
+stuff.</p>
 <p>Note that all dplyr functions use the tibble as the first argument.
 Rather than nesting or using intermediate variables, %&gt;% allows us to
 rewrite them.</p>
-<p>x %&gt;% f(y) turns into f(x, y)</p>
+<p><code>x %\&gt;% f(y)</code> turns into <code>f(x, y)</code></p>
 <p>Read left-to-right, top-to-bottom.</p>
-<p>You can type with Control+Shift+M</p>
+<p>You can type this with <em>Control+Shift+M</em></p>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>

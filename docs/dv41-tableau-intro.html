@@ -11,7 +11,7 @@
 
 
 
-<title>Project files</title>
+<title>Tableau - Introduction</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -269,201 +269,220 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Project files</h1>
+<h1 class="title toc-ignore">Tableau - Introduction</h1>
 
 </div>
 
-<div id="TOC">
+
+<div id="tableau-software" class="section level1">
+<h1>Tableau Software</h1>
+<p>See Datacamp <em>Introduction to Tableau</em></p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>Before class, install Tableau on your computer:</p>
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<li>Download the <a href="https://www.tableau.com/tft/activation">latest
+version of Tableau Desktop</a></li>
+<li>Click on the link above and select “Download Tableau Desktop”. On
+the form, enter your school email address for Business E-mail and enter
+the name of your school for Organization.</li>
+<li>Activate with your product key: <em>See eCampus for key</em></li>
+<li>Already have a copy of Tableau Desktop installed? Update your
+license in the application: Help menu → Manage Product Keys. Make sure
+that you are fully up to date with the latest version.</li>
+</ul>
+</div>
+<div id="interface" class="section level2">
+<h2>Interface</h2>
 <ul>
-<li><a href="#creation-and-publishing-walkthrough"
-id="toc-creation-and-publishing-walkthrough">Creation and publishing
-walkthrough</a></li>
-<li><a href="#further-explanation" id="toc-further-explanation">Further
-explanation</a>
+<li>Data pane for looking at data</li>
+<li>Sheets/pages</li>
+<li>Canvas for your vis</li>
+<li>Filters to limit (either upper-left or right panel)</li>
+<li>Mark cards are used to change how data is displayed</li>
+<li>Undo/Back button</li>
+<li><em>Show me</em> button</li>
+</ul>
+</div>
+<div id="saving" class="section level2">
+<h2>Saving</h2>
+<p>Be careful how you save your file! Normal Tableau files don’t include
+the data. You must save as a <em>packaged workbook</em> for any
+submitted work in this class.</p>
+</div>
+</div>
+<div id="getting-data" class="section level1">
+<h1>Getting data</h1>
 <ul>
-<li><a href="#working-directory." id="toc-working-directory.">Working
-Directory.</a></li>
-<li><a href="#file-paths" id="toc-file-paths">File paths</a></li>
-<li><a href="#rmd-markdown" id="toc-rmd-markdown">Rmd Markdown</a></li>
+<li>Connect to Excel or flat file (csv)
+<ul>
+<li>Excel: multiple-sheets + formatting</li>
+<li>CSV: comma-separated-values, no format or sheets.</li>
 </ul></li>
+<li>Rename fields</li>
+<li>Change datatype of a field</li>
+</ul>
+<p>We can create a calculated field in Tableau, similar to an Excel
+function.</p>
+<ul>
+<li>Arithmetic (PEMDAS)</li>
+<li>ROUND function</li>
+<li>Ratios with one value divided by another</li>
+</ul>
+<div id="terms" class="section level2">
+<h2>Terms</h2>
+<ul>
+<li>Data types
+<ul>
+<li><code>Text</code></li>
+<li><code>Integers</code> are number without a decimal point value</li>
+<li><code>Floats</code>/<code>doubles</code> include information past
+the decimal point</li>
+<li>Money is a type in some databases. It is an integer that records the
+number of pennies, which solves some problems with doubles/floats</li>
+<li>Boolean are True or False values</li>
+<li>Dates
+<ul>
+<li>Dates can be either discrete or continuous. While they default to
+continuous, this may not look like you want.</li>
+<li>You can pick if you want slices (like Months) containing a year or
+being independent. If you want just the month, make the pill blue
+(discrete). If you want the month and the year, then make the pill green
+(continuous).</li>
+</ul></li>
+</ul></li>
+<li>Dimensions
+<ul>
+<li>Discrete / blue pills are discrete categories (like Id number,
+neighborhood)</li>
+<li>Continuous / green pills are continuous ranges (like room
+price)</li>
+</ul></li>
+<li>Measures
+<ul>
+<li>Functions applied to data</li>
+<li>Count, sum, max, min, etc…</li>
+<li>Average can have multiple meanings
+<ul>
+<li>Mode is the most common item</li>
+<li>Mean is sum / count</li>
+<li>Median is middle item when sorted large/small</li>
+</ul></li>
+<li>Can be applied to continuous (like average price) or discrete (like
+count)</li>
+<li>We commonly use discrete measures and continuous dimensions.</li>
 </ul></li>
 </ul>
 </div>
-
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>As we get further along in using R, we will want to share our work
-with others. This can be hard, as the installation of R on our laptops
-is not going to match another person’s computer.</p>
-<div id="creation-and-publishing-walkthrough" class="section level2">
-<h2>Creation and publishing walkthrough</h2>
-<p>We will generally want to use a project for your submissions.</p>
-<p>Follow these steps to create your project, load the data files,
-publish it online, and submitted on eCampus.</p>
+</div>
+<div id="chart-types" class="section level1">
+<h1>Chart Types</h1>
 <ul>
-<li>Make the project
+<li>Bar Chart:
 <ul>
-<li>Go to <code>File</code>, and click <code>New Project</code></li>
-<li>Choose <code>New Directory</code></li>
-<li>Choose <code>New Project</code></li>
-<li>Click <code>Browse</code> to navigate to your class folder.</li>
-<li>Type a name for your project (this will be the new folder’s
-name)</li>
-<li>Click <code>Create Project</code></li>
-<li>You now have a new folder with a single <code>.Rproj</code>
-file</li>
+<li>Sort by name or data</li>
+<li>Color by dimension or measure</li>
 </ul></li>
-<li>Move datafiles into your project folder
+<li>Scatterplot
 <ul>
-<li>Download your data files (and unzip!)</li>
-<li>Open Finder/Windows Explorer</li>
-<li>Go to Downloads, and copy the files</li>
-<li>Go to new project folder, and paste</li>
-<li>You should see the files in the Rstudio <code>Files</code> pane
-(bottom-right)</li>
+<li>Show either aggregated or disaggregated data</li>
 </ul></li>
-<li>Create your Rmd file
+<li>Histogram
 <ul>
-<li>Go to the <code>File</code> menu, click <code>New File</code>, and
-then <code>R Notebook</code></li>
-<li>Save the file (I suggest <code>analysis.Rmd</code>)</li>
-<li>Go to your new file in the editor window, and give it a nice title
-(see line 2)</li>
-<li>You now have a Rmd file project file ready for your analysis!</li>
+<li>Set a custom bin size</li>
 </ul></li>
-<li>Import your data
+<li>Map
 <ul>
-<li>Go to the top block of code in your analysis file</li>
-<li>Import your libraries (tidyverse)</li>
-<li>Use read_csv (or a similar function) to create a raw tibble</li>
-<li>Use dplry to clean up the data</li>
-<li>Hide the block output so it doesn’t show on our published analysis.
+<li>Filled map</li>
+<li>Symbol / dot map
 <ul>
-<li>Click the gear icon on the top-right</li>
-<li>Chose <code>Show nothing (run code)</code></li>
+<li>Understand why you don’t want to use size for negative numbers</li>
+</ul></li>
+<li>Understand the data type for geography data! This includes zip,
+city, state, longitude/latitude etc..</li>
+</ul></li>
+<li>Line chart
+<ul>
+<li>Used only for date data</li>
+</ul></li>
+<li>Combo chart
+<ul>
+<li>Used for multiple scales, usually time + something else</li>
+<li>Create by dragging/dropping, or right-click the pill and choose
+<code>Dual Axis</code></li>
+<li>Know how to synchronize scales</li>
+</ul></li>
+</ul>
+<div id="formatting" class="section level2">
+<h2>Formatting</h2>
+<p>Add the following lines by going to Analytics, and picking the
+appropriate option</p>
+<ul>
+<li>Reference lines</li>
+<li>Trend lines</li>
+<li>Forecasting</li>
+</ul>
+<p>Tooltip</p>
+<ul>
+<li>Add fields to a tooltip</li>
+<li>Know how to edit the text and formatting</li>
+</ul>
+</div>
+</div>
+<div id="filter-sorting" class="section level1">
+<h1>Filter / Sorting</h1>
+<p>Levels (from earlier to latest)</p>
+<ul>
+<li>Extraction filters</li>
+<li>Data source</li>
+<li>Context</li>
+<li>Dimension</li>
+<li>Measure</li>
+</ul>
+<p>Add a filter by:</p>
+<ul>
+<li>Right-clicking on a cell and clicking show only or exclude.</li>
+<li>Adding a field to the filter pane</li>
+</ul>
+<p>Filter options:</p>
+<ul>
+<li>TOP</li>
+<li>Non-null</li>
+<li>Show as (right-click)
+<ul>
+<li>Single value (dropdown, list, slider)</li>
+<li>Multiple values (list, dropdown, custom list, wildcard)</li>
+<li>Show as floating</li>
+</ul></li>
+</ul>
+<p>Sort</p>
+<ul>
+<li>Use sort button on button bar to sort by values</li>
+<li>Use a-z button on chart to sort by a field name</li>
+</ul>
+</div>
+<div id="dashboards-stories" class="section level1">
+<h1>Dashboards / Stories</h1>
+<ul>
+<li>Dashboards
+<ul>
+<li>Contain multiple sheets on a single page</li>
+<li>Format with titles, and font</li>
+<li>Add a filter
+<ul>
+<li>On the right, floating, or by clicking on a chart</li>
 </ul></li>
 </ul></li>
-<li>Create charts
+<li>Stories
 <ul>
-<li>Add a new block of code in the document
-<ul>
-<li>Click the green <code>C</code> on the upper-right corner of the edit
-window</li>
-<li>Choose R</li>
-</ul></li>
-<li>Change the output to <code>Show output only</code> (click the gear
-icon)</li>
-<li>Add your ggplot code</li>
-</ul></li>
-<li>Publish your work
-<ul>
-<li>Save your file</li>
-<li>Click the <code>Preview</code> button (top of the edit window)</li>
-<li>Click the <code>Publish</code> button (top-right corner)</li>
-<li>Choose Rpubs</li>
-<li>Click <code>Publish</code></li>
-<li>You will need to log into your account.</li>
-<li>Choose a title and slug (website address)</li>
-</ul></li>
-<li>Submit your project
-<ul>
-<li>Get a copy of the slug you picked in the prior step</li>
-<li>Put it as a comment in the top of your first code block</li>
-<li>Submit the Rmd file to eCampus</li>
+<li>Contain multiple sheets on multiple pages</li>
 </ul></li>
 </ul>
 </div>
-<div id="further-explanation" class="section level2">
-<h2>Further explanation</h2>
-<p>If you follow the process above, you’ll generally be able to get your
-project set up properly. However, it’s useful to understand what is
-actually happening during this process. The below sections explain the
-key ideas.</p>
-<div id="working-directory." class="section level3">
-<h3>Working Directory.</h3>
-<p>R uses a default starting point on your computer whenever it tries to
-find a file. Run getwd() to find your computer’s working directory.</p>
-<p>This <em>isn’t</em> the same folder as your code!</p>
-<pre class="r"><code>getwd()</code></pre>
-<p>You can set the working directory with setwd(). Be sure to use
-slashes going bottom-left to upper-right.</p>
-<pre class="r"><code>s &lt;- getwd() # s is the current directory.
-
-# Give setwd a string value 
-setwd(s)
-
-getwd() # test to make sure that the new path works!</code></pre>
-<p>When you create a project, it automatically sets the working
-directory to that folder. That allows you to use relative files paths,
-which are explained in the next sections.</p>
-</div>
-<div id="file-paths" class="section level3">
-<h3>File paths</h3>
-<p>We work with files using either a partial or full path. Here are some
-valid examples,</p>
-<ul>
-<li>file.csv</li>
-<li>folder/file.csv</li>
-<li>./folder/../file.csv</li>
-<li>c:/folder/file.csv</li>
-</ul>
-<p>Below are some samples of opening a file in a different folder.</p>
-<pre class="r"><code># Sample tibble
-test_t &lt;- tibble(x = c(1, 2, 3, 4))
-
-
-# Same folder
-# 
-# Write to the working directory and then open with a relative path
-write_csv(test_t, &#39;test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;test.csv&#39;)
-
-# Write a subfolder in our project
-# Do not start the path with a slash!
-write_csv(test_t, &#39;test/test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;test/test.csv&#39;)
-
-# Relative folder
-# 
-# You can start with a ./
-# If you want to go up a folder, you can also use ../
-# Below starts at the wd, goes into the test folder, and walks back up.
-# So, it&#39;s a lot of effort to do the same thing as test.csv 
-write_csv(test_t, &#39;./test/../test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;./test/../test.csv&#39;)
-
-# Full path
-# 
-# Full paths are generally a bad idea. That means that you can&#39;t use the code
-# on another computer.
-# 
-# If you use a full path, be sure to use c:/folder/file.csv
-# Note that you use a slash from bottom-left to upper-right
-write_csv(test_t, &#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)</code></pre>
-<p>When you use a project, try to only use a relative file path (i.e.,
-“data.csv”)</p>
-</div>
-<div id="rmd-markdown" class="section level3">
-<h3>Rmd Markdown</h3>
-<p>A Rmd file uses markdown. You don’t need to know all of the syntax.
-But, you should start each section with a #, and label sub-sections with
-## or ###</p>
-<p>Each section of code can be inserted with the <em>insert new code
-chunk</em> button on the upper-right corner of your screen (it looks
-like a green C).</p>
-<p>You can set various options in the header. The two most useful
-are:</p>
-<ul>
-<li>eval: show the results of the code (TRUE or FALSE)</li>
-<li>echo: show or hide the R code (TRUE or FALSE)</li>
-</ul>
-<p>You can manually type these into the top line of a code block, or
-click the gear icon on the upper-right corner.</p>
-</div>
-</div>
+<div id="publishing" class="section level1">
+<h1>Publishing</h1>
+<p>Publish your work on Tableau Public. Submit the URL for assignments
+to eCampus</p>
 </div>
 
 

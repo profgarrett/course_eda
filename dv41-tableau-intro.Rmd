@@ -1,0 +1,162 @@
+--- 
+title: "Tableau - Introduction"
+output: 
+  html_document:
+    theme: united
+
+---
+
+
+# Tableau Software
+
+See Datacamp *Introduction to Tableau*
+
+## Installation
+
+Before class, install Tableau on your computer:
+
+- Download the [latest version of Tableau Desktop](https://www.tableau.com/tft/activation)
+- Click on the link above and select “Download Tableau Desktop”. On the form, enter your school email address for Business E-mail and enter the name of your school for Organization.
+- Activate with your product key:  *See eCampus for key*
+- Already have a copy of Tableau Desktop installed? Update your license in the application: Help menu → Manage Product Keys. Make sure that you are fully up to date with the latest version.
+
+## Interface
+
+- Data pane for looking at data
+- Sheets/pages
+- Canvas for your vis
+- Filters to limit (either upper-left or right panel)
+- Mark cards are used to change how data is displayed
+- Buttons
+  - Undo/Back 
+  - *Show me* button
+  - Clear sheet
+- Control+click to copy
+
+## Saving
+
+Be careful how you save your file! Normal Tableau files don't include the data. You must save as a *packaged workbook* for any submitted work in this class.
+
+
+
+# Getting data
+
+- Connect to Excel or flat file (csv)
+  - Excel: multiple-sheets + formatting
+  - CSV: comma-separated-values, no format or sheets.
+- Rename fields
+- Change datatype of a field
+
+We can create a calculated field in Tableau, similar to an Excel function.
+
+- Arithmetic (PEMDAS)
+- ROUND function
+- Ratios with one value divided by another
+
+## Terms
+
+
+- Data types
+  - `Text`
+  - `Integers` are number without a decimal point value
+  - `Floats`/`doubles` include information past the decimal point
+  - `Money` is a type in some databases. It is an integer that records the number of pennies, which solves some problems with doubles/floats
+  - `Boolean` are True or False values
+  - `Dates`
+    - Dates can be either discrete or continuous. While they default to continuous, this may not look like you want. 
+    - You can pick if you want slices (like Months) containing a year or being independent. If you want just the month, make the pill blue (discrete). If you want the month and the year, then make the pill green (continuous).
+- Dimensions
+  - `Discrete` / blue pills are discrete categories (like Id number, neighborhood)
+  - `Continuous` / green pills are continuous ranges (like room price)
+- Measures
+  - Functions applied to data
+  - `Count`, `sum`, `max`, `min`, etc...
+  - Average can have multiple meanings
+    - `Mode` is the most common item
+    - `Mean` is sum / count
+    - `Median` is middle item when sorted large/small
+  - Can be applied to continuous (like average price) or discrete (like count)
+  - We commonly use discrete measures and continuous dimensions.
+
+# Chart Types
+
+- Bar Chart:
+  - Sort by name or data
+  - Color by dimension or measure
+- Scatterplot
+  - Show either aggregated or disaggregated data
+- Histogram
+  - Set a custom bin size
+- Map
+  - Filled map
+  - Symbol / dot map
+    - Understand why you don't want to use size for negative numbers
+  - Understand the data type for geography data! This includes zip, city, state, longitude/latitude etc..
+- Line chart
+  - Used only for date data
+- Combo chart
+  - Used for multiple scales, usually time + something else
+  - Create by dragging/dropping, or right-click the pill and choose `Dual Axis`
+  - Know how to synchronize scales
+
+## Formatting
+
+Add the following lines by going to Analytics, and picking the appropriate option
+
+- Reference lines
+- Trend lines
+- Forecasting
+
+Tooltip
+
+- Add fields to a tooltip
+- Know how to edit the text and formatting
+
+
+
+# Filter / Sorting
+
+
+Levels (from earlier to latest)
+
+- Extraction filters 
+- Data source
+- Context
+- Dimension
+- Measure
+
+Add a filter by:
+
+- Right-clicking on a cell and clicking show only or exclude.
+- Adding a field to the filter pane
+
+Filter options:
+
+- TOP 
+- Non-null
+- Show as (right-click)
+  - Single value (dropdown, list, slider)
+  - Multiple values (list, dropdown, custom list, wildcard)
+  - Show as floating
+
+Sort
+
+- Use sort button on button bar to sort by values
+- Use a-z button on chart to sort by a field name
+
+Use Pages for a different style of filter
+
+# Dashboards / Stories
+
+- Dashboards
+  - Contain multiple sheets on a single page
+  - Format with titles, and font
+  - Add a filter
+    - On the right, floating, or by clicking on a chart
+- Stories
+  - Contain multiple sheets on multiple pages
+  
+
+# Publishing
+
+Publish your work on Tableau Public. Submit the URL for assignments to eCampus

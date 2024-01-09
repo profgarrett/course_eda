@@ -252,6 +252,9 @@ $(document).ready(function () {
   <a href="sql00-index.html">SQL</a>
 </li>
 <li>
+  <a href="dv00-index.html">Tableau/PowerBI</a>
+</li>
+<li>
   <a href="http://ecampus.wvu.edu">eCampus</a>
 </li>
       </ul>
@@ -308,6 +311,8 @@ plots</a></li>
 <h1>Introduction</h1>
 <p>ggplot is a super useful graphics tool. See its website at <a
 href="https://ggplot2.tidyverse.org/">dplyr tutorial</a></p>
+<p>These notes correspond to Datacamp’s <em>Introduction to the
+tidyverse</em>.</p>
 <p>There is also a very nice <a
 href="https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf">cheat
 cheat by Afshine Amidi &amp; Shervine Amidi</a></p>
@@ -432,9 +437,10 @@ ggplot(data = mpg) +
                            size = cyl,
                            color = cty,
                            alpha = displ))</code></pre>
-<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values because more than 6 becomes difficult to
-## discriminate
-## ℹ you have requested 7 values. Consider specifying shapes manually if you need that many have them.</code></pre>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values because more
+## than 6 becomes difficult to discriminate
+## ℹ you have requested 7 values. Consider specifying shapes manually if you need
+##   that many have them.</code></pre>
 <pre><code>## Warning: Removed 62 rows containing missing values (`geom_point()`).</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <pre class="r"><code># Note that this can also be set manually

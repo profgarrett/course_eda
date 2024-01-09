@@ -11,7 +11,7 @@
 
 
 
-<title>Project files</title>
+<title>Tableau - Analying Data</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -269,201 +269,189 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Project files</h1>
+<h1 class="title toc-ignore">Tableau - Analying Data</h1>
 
 </div>
 
-<div id="TOC">
+
+<div id="analyzing-data-in-tableau" class="section level1">
+<h1>Analyzing data in Tableau</h1>
+<p>See Datacamp <em>Analyzing data in Tableau</em></p>
+</div>
+<div id="data-fixes" class="section level1">
+<h1>Data Fixes</h1>
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<li>Dimensions v. Measures
 <ul>
-<li><a href="#creation-and-publishing-walkthrough"
-id="toc-creation-and-publishing-walkthrough">Creation and publishing
-walkthrough</a></li>
-<li><a href="#further-explanation" id="toc-further-explanation">Further
-explanation</a>
-<ul>
-<li><a href="#working-directory." id="toc-working-directory.">Working
-Directory.</a></li>
-<li><a href="#file-paths" id="toc-file-paths">File paths</a></li>
-<li><a href="#rmd-markdown" id="toc-rmd-markdown">Rmd Markdown</a></li>
+<li>Know how to drag a field from the measures list to the dimension
+list.</li>
 </ul></li>
+<li>Default properties
+<ul>
+<li>Set default color, number format, and aggregation</li>
+</ul></li>
+<li>Date can be <em>either</em> continuous or discrete
+<ul>
+<li><em>Continuous</em> groups by time period (i.e, all Jan 2020, Feb
+2020, March 2020, …, Jan 2021, Feb 2021, etc…)</li>
+<li><em>Discrete</em> splits into groups (i.e., Jan 2020 &amp; 2021, Feb
+2020-2021, March 2020-2021)</li>
+<li>Suggested using lines for continuous and bars for discrete
+dates</li>
+</ul></li>
+<li>Group data
+<ul>
+<li>Group using Tableau’s features</li>
+<li>Group using SQL / joins and a sub-table</li>
+<li>Select map dots and group them.
+<ul>
+<li>Add/Remove a point to an existing group</li>
+<li>Rename groups</li>
+<li>Edit the group field</li>
+</ul></li>
+<li>Create a custom group sort ## Advanced data fixes</li>
+</ul></li>
+</ul>
+<div id="advanced-fixes" class="section level2">
+<h2>Advanced fixes</h2>
+<ul>
+<li>Connect multiple tables with relationship (including a
+self-join)</li>
+<li>Pivot wide to tall data</li>
+<li>Set a field to link together two different data sources by clicking
+on the linking field</li>
+</ul>
+</div>
+<div id="calculated-field" class="section level2">
+<h2>Calculated field</h2>
+<ul>
+<li>Create a new calculated field with math (i.e., hours to
+minutes)</li>
+<li>Functions
+<ul>
+<li><code>DATEDIFF()</code></li>
+<li><code>DATEPART()</code></li>
+<li><code>IF X = 1 THEN 1 ELSE 2 END</code></li>
+<li><code>DIV()</code></li>
+<li><code>NZ()</code></li>
+<li><code>SUM()</code></li>
+</ul></li>
+<li>Examples
+<ul>
+<li>Find age from birth-date</li>
+</ul></li>
+<li>Bin
+<ul>
+<li>Create a bin size</li>
 </ul></li>
 </ul>
 </div>
-
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>As we get further along in using R, we will want to share our work
-with others. This can be hard, as the installation of R on our laptops
-is not going to match another person’s computer.</p>
-<div id="creation-and-publishing-walkthrough" class="section level2">
-<h2>Creation and publishing walkthrough</h2>
-<p>We will generally want to use a project for your submissions.</p>
-<p>Follow these steps to create your project, load the data files,
-publish it online, and submitted on eCampus.</p>
+<div id="quick-table-calculation" class="section level2">
+<h2>Quick table calculation</h2>
 <ul>
-<li>Make the project
+<li>Create a quick table calculation
 <ul>
-<li>Go to <code>File</code>, and click <code>New Project</code></li>
-<li>Choose <code>New Directory</code></li>
-<li>Choose <code>New Project</code></li>
-<li>Click <code>Browse</code> to navigate to your class folder.</li>
-<li>Type a name for your project (this will be the new folder’s
-name)</li>
-<li>Click <code>Create Project</code></li>
-<li>You now have a new folder with a single <code>.Rproj</code>
-file</li>
+<li>Function (i.e., running total, difference, percent of total)</li>
+<li>Direction (across, down etc..)</li>
+<li>Scope (i.e, group)</li>
 </ul></li>
-<li>Move datafiles into your project folder
+<li>Useful items
 <ul>
-<li>Download your data files (and unzip!)</li>
-<li>Open Finder/Windows Explorer</li>
-<li>Go to Downloads, and copy the files</li>
-<li>Go to new project folder, and paste</li>
-<li>You should see the files in the Rstudio <code>Files</code> pane
-(bottom-right)</li>
-</ul></li>
-<li>Create your Rmd file
-<ul>
-<li>Go to the <code>File</code> menu, click <code>New File</code>, and
-then <code>R Notebook</code></li>
-<li>Save the file (I suggest <code>analysis.Rmd</code>)</li>
-<li>Go to your new file in the editor window, and give it a nice title
-(see line 2)</li>
-<li>You now have a Rmd file project file ready for your analysis!</li>
-</ul></li>
-<li>Import your data
-<ul>
-<li>Go to the top block of code in your analysis file</li>
-<li>Import your libraries (tidyverse)</li>
-<li>Use read_csv (or a similar function) to create a raw tibble</li>
-<li>Use dplry to clean up the data</li>
-<li>Hide the block output so it doesn’t show on our published analysis.
-<ul>
-<li>Click the gear icon on the top-right</li>
-<li>Chose <code>Show nothing (run code)</code></li>
-</ul></li>
-</ul></li>
-<li>Create charts
-<ul>
-<li>Add a new block of code in the document
-<ul>
-<li>Click the green <code>C</code> on the upper-right corner of the edit
-window</li>
-<li>Choose R</li>
-</ul></li>
-<li>Change the output to <code>Show output only</code> (click the gear
-icon)</li>
-<li>Add your ggplot code</li>
-</ul></li>
-<li>Publish your work
-<ul>
-<li>Save your file</li>
-<li>Click the <code>Preview</code> button (top of the edit window)</li>
-<li>Click the <code>Publish</code> button (top-right corner)</li>
-<li>Choose Rpubs</li>
-<li>Click <code>Publish</code></li>
-<li>You will need to log into your account.</li>
-<li>Choose a title and slug (website address)</li>
-</ul></li>
-<li>Submit your project
-<ul>
-<li>Get a copy of the slug you picked in the prior step</li>
-<li>Put it as a comment in the top of your first code block</li>
-<li>Submit the Rmd file to eCampus</li>
+<li>Add a rank, and use it to select top n items in a filter</li>
+<li>Create a running total</li>
+<li>Show a field as a percent of the total row or column</li>
 </ul></li>
 </ul>
 </div>
-<div id="further-explanation" class="section level2">
-<h2>Further explanation</h2>
-<p>If you follow the process above, you’ll generally be able to get your
-project set up properly. However, it’s useful to understand what is
-actually happening during this process. The below sections explain the
-key ideas.</p>
-<div id="working-directory." class="section level3">
-<h3>Working Directory.</h3>
-<p>R uses a default starting point on your computer whenever it tries to
-find a file. Run getwd() to find your computer’s working directory.</p>
-<p>This <em>isn’t</em> the same folder as your code!</p>
-<pre class="r"><code>getwd()</code></pre>
-<p>You can set the working directory with setwd(). Be sure to use
-slashes going bottom-left to upper-right.</p>
-<pre class="r"><code>s &lt;- getwd() # s is the current directory.
-
-# Give setwd a string value 
-setwd(s)
-
-getwd() # test to make sure that the new path works!</code></pre>
-<p>When you create a project, it automatically sets the working
-directory to that folder. That allows you to use relative files paths,
-which are explained in the next sections.</p>
-</div>
-<div id="file-paths" class="section level3">
-<h3>File paths</h3>
-<p>We work with files using either a partial or full path. Here are some
-valid examples,</p>
+<div id="parameters-sets" class="section level2">
+<h2>Parameters / Sets</h2>
 <ul>
-<li>file.csv</li>
-<li>folder/file.csv</li>
-<li>./folder/../file.csv</li>
-<li>c:/folder/file.csv</li>
-</ul>
-<p>Below are some samples of opening a file in a different folder.</p>
-<pre class="r"><code># Sample tibble
-test_t &lt;- tibble(x = c(1, 2, 3, 4))
-
-
-# Same folder
-# 
-# Write to the working directory and then open with a relative path
-write_csv(test_t, &#39;test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;test.csv&#39;)
-
-# Write a subfolder in our project
-# Do not start the path with a slash!
-write_csv(test_t, &#39;test/test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;test/test.csv&#39;)
-
-# Relative folder
-# 
-# You can start with a ./
-# If you want to go up a folder, you can also use ../
-# Below starts at the wd, goes into the test folder, and walks back up.
-# So, it&#39;s a lot of effort to do the same thing as test.csv 
-write_csv(test_t, &#39;./test/../test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;./test/../test.csv&#39;)
-
-# Full path
-# 
-# Full paths are generally a bad idea. That means that you can&#39;t use the code
-# on another computer.
-# 
-# If you use a full path, be sure to use c:/folder/file.csv
-# Note that you use a slash from bottom-left to upper-right
-write_csv(test_t, &#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)</code></pre>
-<p>When you use a project, try to only use a relative file path (i.e.,
-“data.csv”)</p>
-</div>
-<div id="rmd-markdown" class="section level3">
-<h3>Rmd Markdown</h3>
-<p>A Rmd file uses markdown. You don’t need to know all of the syntax.
-But, you should start each section with a #, and label sub-sections with
-## or ###</p>
-<p>Each section of code can be inserted with the <em>insert new code
-chunk</em> button on the upper-right corner of your screen (it looks
-like a green C).</p>
-<p>You can set various options in the header. The two most useful
-are:</p>
+<li>Set
 <ul>
-<li>eval: show the results of the code (TRUE or FALSE)</li>
-<li>echo: show or hide the R code (TRUE or FALSE)</li>
+<li>Define a subset and show a division between IN and OUT. You can only
+use for 2 settings, either TRUE or FALSE. Use a group for more
+options.</li>
+<li>Use a set to highlight color, rename, etc..</li>
+</ul></li>
+<li>Parameter
+<ul>
+<li>Create a parameter, and a custom range</li>
+<li>Add a filter using the parameter</li>
+<li>Use a parameter in a calculated field</li>
+</ul></li>
 </ul>
-<p>You can manually type these into the top line of a code block, or
-click the gear icon on the upper-right corner.</p>
 </div>
 </div>
+<div id="chart-display-options" class="section level1">
+<h1>Chart Display Options</h1>
+<ul>
+<li>Edit an alias for a column</li>
+<li>Add a Highlighter from a field</li>
+<li>Axis
+<ul>
+<li>Rotate a label</li>
+<li>Format date/time label</li>
+<li>Label</li>
+</ul></li>
+<li>Fit to entire view</li>
+<li>Exclude null data
+<ul>
+<li>Exclude a range of data by selecting a range and then excluding</li>
+</ul></li>
+<li>Edit alias for a field’s value</li>
+<li>Format
+<ul>
+<li>Change size / font /color for a cell</li>
+</ul></li>
+<li>Hide a an axis<br />
+</li>
+<li>Labels
+<ul>
+<li>Set data value labels font, size, alignment, and marks style</li>
+</ul></li>
+<li>Tooltip
+<ul>
+<li>Add measure / dimension field</li>
+<li>Edit font and layout</li>
+<li>Add a sub-chart</li>
+</ul></li>
+</ul>
+</div>
+<div id="maps" class="section level1">
+<h1>Maps</h1>
+<p>Maps rely on long/lat. These can be in a dataset, or calculated by
+Tableau.</p>
+<ul>
+<li>Data
+<ul>
+<li>Understand the difference between long/lat coordinates provided in
+the dataset, versus those created by Tableau</li>
+<li>Understand why you can’t do fill for long/lat, but you can for
+generated lat/long geographic data</li>
+</ul></li>
+<li>Create the 4 different types
+<ul>
+<li>Fill</li>
+<li>Point</li>
+<li>Density (includes opacity)
+<ul>
+<li>Set color / intensity</li>
+</ul></li>
+<li>Dual axis</li>
+</ul></li>
+<li>Zoom
+<ul>
+<li>Zoom in, out, and pan (<code>shift</code> to pan)</li>
+<li>Search</li>
+</ul></li>
+<li>Layers
+<ul>
+<li>Color scheme</li>
+<li>Set background layers (including Tableau’s built-in data
+layers)</li>
+<li>Add/remove roads</li>
+</ul></li>
+</ul>
 </div>
 
 
