@@ -16,7 +16,7 @@ Course study notes for ACCT 425 and BUDA 450 students for Spring 2023
 - [Data](dv21-data.html)
 - [Colors](dv21-colors.html)
 - [Good dv examples](dv90-examples.html)
-
+- [Excel Core Skills](dv05-excel.html)
 
 # Tableau
 - [Introduction](dv41-tableau-intro.html)

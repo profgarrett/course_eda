@@ -1,0 +1,46 @@
+---
+title: "Excel"
+author: "Nathan Garrett, PhD CPA"
+date: "Refreshed `r Sys.Date()`"
+output:
+  html_document:
+    theme: united
+
+---
+
+# Why Excel?
+
+Excel is the standard tool for data analysts. Even if we don't spend a lot of time on it in this class, due to covering more modern tools, it is still an essential tool.
+
+# Resources
+
+- [GCF Global - Free Excel tutorials](https://edu.gcfglobal.org/en/excel/)
+- [My YouTube videos](https://www.youtube.com/playlist?list=PLrgGxPD03WJ9EsEjbh5KJA3Q9CFfclvGF)
+
+# Key features
+
+Be able to:
+
+- Create tables
+- Data types
+  - Numbers
+  - Text
+  - Dates
+- Formulas
+  - Absolute / relative references
+  - SUM, IF, XLookup
+  - DATE, YEAR, MONTH, etc...
+- Pivot tables
+- Combo charts
+
+# Concepts
+
+- Compare mean values over time
+- Compare distributions over time
+- Create new fields to transform data
+  - Binary or yes/no fields (such as exclude filters)
+  - Bin data into smaller categories
+  - Convert from raw value into change / difference
+- Use data visualizations
+  - Conditional formatting
+  - Combo chart
