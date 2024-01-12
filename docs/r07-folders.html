@@ -11,7 +11,7 @@
 
 
 
-<title>Project files</title>
+<title>Folder management</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -269,204 +269,127 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Project files</h1>
+<h1 class="title toc-ignore">Folder management</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<li><a href="#computer-folders" id="toc-computer-folders">Computer
+Folders</a></li>
+<li><a href="#making-folders" id="toc-making-folders">Making folders</a>
 <ul>
-<li><a href="#creation-and-publishing-walkthrough"
-id="toc-creation-and-publishing-walkthrough">Creation and publishing
-walkthrough</a></li>
-<li><a href="#further-explanation" id="toc-further-explanation">Further
-explanation</a>
+<li><a href="#make-a-folder-on-pc" id="toc-make-a-folder-on-pc">Make a
+folder on PC</a></li>
+<li><a href="#make-a-folder-on-mac" id="toc-make-a-folder-on-mac">Make a
+folder on Mac</a></li>
+</ul></li>
+<li><a href="#moving-files" id="toc-moving-files">Moving files</a>
 <ul>
-<li><a href="#working-directory." id="toc-working-directory.">Working
-Directory.</a></li>
-<li><a href="#file-paths" id="toc-file-paths">File paths</a></li>
-<li><a href="#rmd-markdown" id="toc-rmd-markdown">Rmd Markdown</a></li>
+<li><a href="#move-files-on-a-pc" id="toc-move-files-on-a-pc">Move files
+on a PC</a></li>
+<li><a href="#move-files-on-a-mac" id="toc-move-files-on-a-mac">Move
+files on a Mac</a></li>
 </ul></li>
-</ul></li>
+<li><a href="#other-setup" id="toc-other-setup">Other setup</a></li>
 </ul>
 </div>
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>As we get further along in using R, we will want to share our work
-with others. This can be hard, as the installation of R on our laptops
-is not going to match another person’s computer.</p>
-<div id="creation-and-publishing-walkthrough" class="section level2">
-<h2>Creation and publishing walkthrough</h2>
-<p>We will generally want to use a project for your submissions.</p>
-<p>Follow these steps to create your project, load the data files,
-publish it online, and submitted on eCampus.</p>
+<p>Managing your folders and files is a key skill. This page walks you
+through the major things you should know.</p>
+<div id="computer-folders" class="section level1">
+<h1>Computer Folders</h1>
+<p>When you save a file, it goes into the hard drive on your computer.
+This hard drive (called the <code>C:\</code> on Windows) organizes files
+into certain locations, called folders.</p>
+<p>All modern systems store your files in several folders:</p>
 <ul>
-<li>Make the project
-<ul>
-<li>Go to <code>File</code>, and click <code>New Project</code></li>
-<li>Choose <code>New Directory</code></li>
-<li>Choose <code>New Project</code></li>
-<li>Click <code>Browse</code> to navigate to your class folder.</li>
-<li>Type a name for your project (this will be the new folder’s
-name)</li>
-<li>Click <code>Create Project</code></li>
-<li>You now have a new folder with a single <code>.Rproj</code>
-file</li>
-</ul></li>
-<li>Move datafiles into your project folder
-<ul>
-<li>Download your data files (and unzip!)</li>
-<li>Open Finder/Windows Explorer</li>
-<li>Go to Downloads, and copy the files</li>
-<li>Go to new project folder, and paste</li>
-<li>You should see the files in the Rstudio <code>Files</code> pane
-(bottom-right)</li>
-</ul></li>
-<li>Create your Rmd file
-<ul>
-<li>Go to the <code>File</code> menu, click <code>New File</code>, and
-then <code>R Notebook</code></li>
-<li>Save the file (I suggest <code>analysis.Rmd</code>)</li>
-<li>Go to your new file in the editor window, and give it a nice title
-(see line 2)</li>
-<li>You now have a Rmd file project file ready for your analysis!</li>
-</ul></li>
-<li>Import your data
-<ul>
-<li>Go to the top block of code in your analysis file</li>
-<li>Import your libraries (tidyverse)</li>
-<li>Use read_csv (or a similar function) to create a raw tibble</li>
-<li>Use dplry to clean up the data</li>
-<li>Hide the block output so it doesn’t show on our published analysis.
-<ul>
-<li>Click the gear icon on the top-right</li>
-<li>Chose <code>Show nothing (run code)</code></li>
-</ul></li>
-</ul></li>
-<li>Create charts
-<ul>
-<li>Add a new block of code in the document
-<ul>
-<li>Click the green <code>C</code> on the upper-right corner of the edit
-window</li>
-<li>Choose R</li>
-</ul></li>
-<li>Change the output to <code>Show output only</code> (click the gear
-icon)</li>
-<li>Add your ggplot code</li>
-</ul></li>
-<li>Publish your work
-<ul>
-<li>Save your file</li>
-<li>Click the <code>Preview</code> button (top of the edit window)</li>
-<li>Click the <code>Publish</code> button (top-right corner)</li>
-<li>Choose Rpubs</li>
-<li>Click <code>Publish</code></li>
-<li>You will need to log into your account.</li>
-<li>Choose a title and slug (website address)</li>
-</ul></li>
-<li>Submit your project
-<ul>
-<li>Get a copy of the slug you picked in the prior step</li>
-<li>Put it as a comment in the top of your first code block</li>
-<li>Submit the Rmd file to eCampus</li>
-</ul></li>
+<li><code>Downloads</code>: this is supposed to be temporary spot for
+files downloaded by Safari or Chrome.</li>
+<li><code>Desktop</code>: files/folders visible on your desktop</li>
+<li><code>Documents</code>: where you should store your long-term
+files</li>
 </ul>
+<p>One wrinkle is that Windows often uses OneDrive. OneDrive is an
+online service that syncs your local files with servers in the Internet.
+Files are typically still stored on your computer, but are regularly
+uploaded. So, if you have OneDrive turned on, typically the OneDrive
+Downloads/Desktop/Documents is the same as the location on your hard
+drive (usually C:).</p>
+<p>Organize your files: <a
+href="https://www.youtube.com/watch?v=gfPujXtQqwc">link to video on
+YouTube</a></p>
+<p>Here is a quick guide for organizing your files, slightly more
+focused on the Mac. <a
+href="https://www.youtube.com/watch?v=gfx7G4NQQMg">link to video on
+YouTube</a></p>
 </div>
-<div id="further-explanation" class="section level2">
-<h2>Further explanation</h2>
-<p>If you follow the process above, you’ll generally be able to get your
-project set up properly. However, it’s useful to understand what is
-actually happening during this process. The below sections explain the
-key ideas.</p>
-<div id="working-directory." class="section level3">
-<h3>Working Directory.</h3>
-<p>R uses a default starting point on your computer whenever it tries to
-find a file. Run getwd() to find your computer’s working directory.</p>
-<p>This <em>isn’t</em> the same folder as your code!</p>
-<pre class="r"><code>getwd()</code></pre>
-<p>You can set the working directory with setwd(). Be sure to use
-slashes going bottom-left to upper-right.</p>
-<pre class="r"><code>s &lt;- getwd() # s is the current directory.
-
-# Give setwd a string value 
-setwd(s)
-
-getwd() # test to make sure that the new path works!</code></pre>
-<p>When you create a project, it automatically sets the working
-directory to that folder. That allows you to use relative files paths,
-which are explained in the next sections.</p>
+<div id="making-folders" class="section level1 tabset">
+<h1 class="tabset">Making folders</h1>
+<p>You should have a folder for our class. Then, create a folder for
+each week or major project. Store your files inside of this folder.</p>
+<div id="make-a-folder-on-pc" class="section level2">
+<h2>Make a folder on PC</h2>
+<p>Right-click in a folder, and choose <code>New folder</code> (or press
+<code>Control+Shift+N</code>)</p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/Amd6V-ERLO8" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=Amd6V-ERLO8">link to video
+on YouTube</a></p>
 </div>
-<div id="file-paths" class="section level3">
-<h3>File paths</h3>
-<p>We work with files using either a partial or full path. Here are some
-valid examples,</p>
+<div id="make-a-folder-on-mac" class="section level2">
+<h2>Make a folder on Mac</h2>
+<p>Right-click in a folder, and choose <code>New Folder</code></p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/xPVOaFmQ7_s" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=xPVOaFmQ7_s">link to video
+on YouTube</a></p>
+</div>
+</div>
+<div id="moving-files" class="section level1">
+<h1>Moving files</h1>
+<p>Avoid modifying any files in your download folder. Instead, download
+them, and then copy them to the appropriate folder.</p>
+<div id="move-files-on-a-pc" class="section level2">
+<h2>Move files on a PC</h2>
+<p>Guide to using Files Explorer on Windows.</p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/hXLpEG3IX-A" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=hXLpEG3IX-A">link to video
+on YouTube</a></p>
+</div>
+<div id="move-files-on-a-mac" class="section level2">
+<h2>Move files on a Mac</h2>
+<p>I suggest <a
+href="https://cupertinotimes.com/disable-force-touch-trackpad-on-macbook-pro/">disabling
+the Force touch feature</a>.</p>
+<p>Right-click on a file, right-click copy, go to the new place, and
+click paste. Or, move a file by opening a separate <code>Finder</code>
+window, and dragging/dropping your files.</p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/gFKJpkpDcwo" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=gFKJpkpDcwo">link to video
+on YouTube</a></p>
+</div>
+</div>
+<div id="other-setup" class="section level1">
+<h1>Other setup</h1>
+<p>One more thing that would be helpful in our class is to turn on file
+extensions. This will tell you the hidden information that lives in ever
+file’s name. So, when you save a Word document as <code>my stuff</code>,
+it actually is saved as <code>my stuff.docx</code>. The
+<code>.docx</code> tells the computer to open the file in Word.</p>
+<p>As we work with more complex files, you will find that you can not
+just click on a file to open it in the right program. Instead, get in
+the habit of opening a program first. Then, inside of the program, open
+the file (usually by going to the file menu and choosing open).</p>
+<p>To turn on:</p>
 <ul>
-<li>file.csv</li>
-<li>folder/file.csv</li>
-<li>./folder/../file.csv</li>
-<li>c:/folder/file.csv</li>
+<li>Open Windows Explorer</li>
+<li>Open View menu</li>
+<li>Show submenu</li>
+<li>File Name Extensions</li>
 </ul>
-<p>One tricky part is that the slash goes in differnt directions on PCs
-and Macs. In R, you should always use a forward-slash (as shown
-above).</p>
-<p>Below are some samples of opening a file in a different folder.</p>
-<pre class="r"><code># Sample tibble
-test_t &lt;- tibble(x = c(1, 2, 3, 4))
-
-
-# Same folder
-# 
-# Write to the working directory and then open with a relative path
-write_csv(test_t, &#39;test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;test.csv&#39;)
-
-# Write a subfolder in our project
-# Do not start the path with a slash!
-write_csv(test_t, &#39;test/test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;test/test.csv&#39;)
-
-# Relative folder
-# 
-# You can start with a ./
-# If you want to go up a folder, you can also use ../
-# Below starts at the wd, goes into the test folder, and walks back up.
-# So, it&#39;s a lot of effort to do the same thing as test.csv 
-write_csv(test_t, &#39;./test/../test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;./test/../test.csv&#39;)
-
-# Full path
-# 
-# Full paths are generally a bad idea. That means that you can&#39;t use the code
-# on another computer.
-# 
-# If you use a full path, be sure to use c:/folder/file.csv
-# Note that you use a slash from bottom-left to upper-right
-write_csv(test_t, &#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)
-loaded_t &lt;- read_csv(&#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv&#39;)</code></pre>
-<p>When you use a project, try to only use a relative file path (i.e.,
-“data.csv”)</p>
-</div>
-<div id="rmd-markdown" class="section level3">
-<h3>Rmd Markdown</h3>
-<p>A Rmd file uses markdown. You don’t need to know all of the syntax.
-But, you should start each section with a #, and label sub-sections with
-## or ###</p>
-<p>Each section of code can be inserted with the <em>insert new code
-chunk</em> button on the upper-right corner of your screen (it looks
-like a green C).</p>
-<p>You can set various options in the header. The two most useful
-are:</p>
-<ul>
-<li>eval: show the results of the code (TRUE or FALSE)</li>
-<li>echo: show or hide the R code (TRUE or FALSE)</li>
-</ul>
-<p>You can manually type these into the top line of a code block, or
-click the gear icon on the upper-right corner.</p>
-</div>
-</div>
 </div>
 
 
