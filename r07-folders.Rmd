@@ -59,7 +59,12 @@ Guide to using Files Explorer on Windows.
 
 ## Move files on a Mac
 
-I suggest [disabling the Force touch feature](https://cupertinotimes.com/disable-force-touch-trackpad-on-macbook-pro/).
+I suggest disabling the Force touch feature:
+
+- Use the Apple menu to open `System Preferences`
+- Click `Trackpad`, the `Point & Click` tab
+- Turn off `Force click and haptic feedback` 
+
 
 Right-click on a file, right-click copy, go to the new place, and click paste. 
 Or, move a file by opening a separate `Finder` window, and dragging/dropping your files.

@@ -11,7 +11,7 @@ output:
 You should be able to:
 
 - Define a database
-- Describe the role of a DMBS
+- Describe the role of a DBMS
 - Describe advantages / disadvantages
 - Describe SQL
 
@@ -31,6 +31,7 @@ Please install the [SQLite DB Browser](https://sqlitebrowser.org/dl/)
 ## Terms
 
 - *relational database* - a structured collection of data (held in formally-defined relations, i.e. tables)
+  - This design helps prevent anomaly / errors relating to update, insert, or delete
 - *Database Management System (DBMS)* software providing an interface for users to interact with the data. It manages the storage, retrieval, and modification of data, ensuring data integrity, security, and concurrency control.
 - *Advantages*
   - Data centralization
@@ -43,18 +44,23 @@ Please install the [SQLite DB Browser](https://sqlitebrowser.org/dl/)
   - Need for skilled administrators
   - Less flexible than using a less structured approach (such as Excel files).
 - *SQL (Structured Query Language)* is a programming language used to manage and manipulate relational databases. It provides a standardized way to create, modify, and query databases, enabling users to interact with the data in a structured and efficient manner. SQL is widely used and supports various operations like selecting data, inserting records, updating data, and creating database objects such as tables and indexes.
-- Table
-  - Record - a horizontal row
-  - Field - similar to a cell in Excel, a single value, generally using a singular name (not plural)
+- Database (group of tables)
+  - Table (contains rows/records)
+    - Record - a horizontal row
+    - Field - similar to a cell in Excel, a single value, generally using a singular name (not plural)
 - Keys
-  - Primary key
-  - Foreign key
+  - Primary key uniquely defines a single row. Usually an auto-increment integer (1, 2, 3, ...)
+    - Never null
+  - Foreign key is a link to a primary key in a another table.
+    - Should have referential integrity, meaning that it always links to another key
 - Data types
   - Whole numbers are integers (1, 2, 3, ...). They may be called int in a diagram.
   - Non-whole are floats (1.2, 2.8). These may be called double or money.
   - String is regular text, such as "Bob" or "Sarah". These are sometimes called VARCHAR, for variable-length character.
-
-
+- Data Warehouse: typically an analysis-oriented database, usually transferred data from an operational database
+- Schema: the data model for a warehouse
+- CRUD access rights: create, read, update, delete
+- Data Dictionary: definition of the fields and tables in a database
 
 ## Database Diagram
 
@@ -67,6 +73,8 @@ A database diagram shows multiple tables and how they are related to each other.
 
 - Lowercase names, no spaces, underscore_naming_is_best
 - Unfortunately, this is rarely the case. You should be able to handle columns with multiple spaces / words in them by wrapping them with "double quotes"
+
+```{undefined eval=FALSE, include=FALSE}
 
 ## Class Activity
 
@@ -83,7 +91,6 @@ identify the issues with the Excel file.
 
 Goal: find five of the six errors.
 
-``` {r, include=FALSE}
 
 # INSTRUCTOR NOTES
 

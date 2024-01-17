@@ -6,7 +6,7 @@ output:
     theme: united
 ---
 
-# Outcomes:
+# Outcomes
 
 This module accompanies the *Introduction to SQL* Datacamp tutorial. Some content can also be found in *Intermediate SQL*.
 
@@ -18,7 +18,7 @@ This module accompanies the *Introduction to SQL* Datacamp tutorial. Some conten
     - Match a number,  "string value", or NULL
     - Use AND/OR
 - Understand the role of capitalization
-- Sort the returned values
+- ORDER BY to sort returned values (either ASC or DESC)
 
 
 

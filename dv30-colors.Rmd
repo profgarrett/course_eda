@@ -26,3 +26,10 @@ output:
 - [Color Blindness](https://www.theverge.com/23650428/colorblindness-design-ui-accessibility-wordle)
 - [Color: From Hexcodes to Eyeballs](https://jamie-wong.com/post/color/)
 - [Saccades and other weird things your eyes do](https://imgur.com/gallery/XNlmPi8)
+
+
+# Issues with your vision
+
+![Dot illusions](dv30-colors-illusion-dots.mp4)
+
+1[Space between lines / letters](https://www.youtube.com/watch?si=faN_Tz3MJ9m6I3Em&v=JTKwpqE9fsc)

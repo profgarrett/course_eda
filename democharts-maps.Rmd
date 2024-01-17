@@ -8,6 +8,7 @@ output:
 
 # Demo Charts - Maps
 
+![Land v. People Comparison](democharts-maps-peoplevland.mp4)
 
 ## Baseball Map
 [Every High School Baseball Field used in the State of West Virginia](https://www.reddit.com/r/baseball/comments/zvta0h/oc_every_high_school_baseball_field_used_in_the/)

@@ -21,6 +21,7 @@ Outcomes:
 
 Help: https://www.youtube.com/watch?v=3VYupIsbLlY
 
+![Normal Distribution](r60-statistics-normaldist-weightrack.jpeg)
 
 ## Correlation 
 
@@ -62,3 +63,6 @@ Outcomes:
 - Interpret a confusion matrix
 
 Help: https://www.youtube.com/watch?v=EKm0spFxFG4
+
+
+# Other Key concepts

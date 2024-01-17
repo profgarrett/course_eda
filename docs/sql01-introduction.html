@@ -283,8 +283,6 @@ Diagram</a>
 <ul>
 <li><a href="#conventions" id="toc-conventions">Conventions</a></li>
 </ul></li>
-<li><a href="#class-activity" id="toc-class-activity">Class
-Activity</a></li>
 </ul></li>
 </ul>
 </div>
@@ -294,7 +292,7 @@ Activity</a></li>
 <p>You should be able to:</p>
 <ul>
 <li>Define a database</li>
-<li>Describe the role of a DMBS</li>
+<li>Describe the role of a DBMS</li>
 <li>Describe advantages / disadvantages</li>
 <li>Describe SQL</li>
 </ul>
@@ -309,7 +307,11 @@ alt="Cute image of Database" />
 <h2>Terms</h2>
 <ul>
 <li><em>relational database</em> - a structured collection of data (held
-in formally-defined relations, i.e. tables)</li>
+in formally-defined relations, i.e. tables)
+<ul>
+<li>This design helps prevent anomaly / errors relating to update,
+insert, or delete</li>
+</ul></li>
 <li><em>Database Management System (DBMS)</em> software providing an
 interface for users to interact with the data. It manages the storage,
 retrieval, and modification of data, ensuring data integrity, security,
@@ -336,16 +338,27 @@ to interact with the data in a structured and efficient manner. SQL is
 widely used and supports various operations like selecting data,
 inserting records, updating data, and creating database objects such as
 tables and indexes.</li>
-<li>Table
+<li>Database (group of tables)
+<ul>
+<li>Table (contains rows/records)
 <ul>
 <li>Record - a horizontal row</li>
 <li>Field - similar to a cell in Excel, a single value, generally using
 a singular name (not plural)</li>
 </ul></li>
+</ul></li>
 <li>Keys
 <ul>
-<li>Primary key</li>
-<li>Foreign key</li>
+<li>Primary key uniquely defines a single row. Usually an auto-increment
+integer (1, 2, 3, …)
+<ul>
+<li>Never null</li>
+</ul></li>
+<li>Foreign key is a link to a primary key in a another table.
+<ul>
+<li>Should have referential integrity, meaning that it always links to
+another key</li>
+</ul></li>
 </ul></li>
 <li>Data types
 <ul>
@@ -356,6 +369,12 @@ money.</li>
 <li>String is regular text, such as “Bob” or “Sarah”. These are
 sometimes called VARCHAR, for variable-length character.</li>
 </ul></li>
+<li>Data Warehouse: typically an analysis-oriented database, usually
+transferred data from an operational database</li>
+<li>Schema: the data model for a warehouse</li>
+<li>CRUD access rights: create, read, update, delete</li>
+<li>Data Dictionary: definition of the fields and tables in a
+database</li>
 </ul>
 </div>
 <div id="database-diagram" class="section level2">
@@ -375,22 +394,6 @@ columns with multiple spaces / words in them by wrapping them with
 “double quotes”</li>
 </ul>
 </div>
-</div>
-<div id="class-activity" class="section level2">
-<h2>Class Activity</h2>
-<p>Review slides Romney Chapter 4</p>
-<p>Open the WhyDB.xlsx file in the shared folder. Working with your
-table, identify the issues with the Excel file.</p>
-<blockquote>
-<p>ABC Consulting has been asked to figure out why a new initiative
-failed to deliver. They have traced the underlying problem to a sales
-initiative for Product D underperforming. This dataset was used to
-justify a decision to move all marketing dollars from A, B, and C to
-D.</p>
-<p>What issues can you find that suggest this initiative was a
-mistake?</p>
-</blockquote>
-<p>Goal: find five of the six errors.</p>
 </div>
 </div>
 
