@@ -17,7 +17,7 @@ Outcomes:
 - Differentiate between a cross-sectional and longitudinal data set
 - Describe problem with a non-zero vertical axis
 - Rank order types of charts based on error rate
-- Describe different attributes making things pop (preattentive attributes)
+- Describe different attributes making things pop (pre-attentive attributes)
 
 Read:
 

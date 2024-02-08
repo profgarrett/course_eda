@@ -6,7 +6,6 @@ output:
 
 ---
 
-
 # Tableau Software
 
 See Datacamp *Introduction to Tableau*
@@ -37,7 +36,7 @@ Before class, install Tableau on your computer:
 
 Be careful how you save your file! Normal Tableau files don't include the data. You must save as a *packaged workbook* for any submitted work in this class.
 
-
+We share our data with Tableau Public *and* our private Tableau group. 
 
 # Getting data
 
@@ -54,7 +53,6 @@ We can create a calculated field in Tableau, similar to an Excel function.
 - Ratios with one value divided by another
 
 ## Terms
-
 
 - Data types
   - `Text`
@@ -80,24 +78,33 @@ We can create a calculated field in Tableau, similar to an Excel function.
 
 # Chart Types
 
-- Bar Chart:
+- Heat Map / Table:
+  - Color by measure
+  - Sort by value or title
+- Bar:
   - Sort by name or data
   - Color by dimension or measure
-- Scatterplot
-  - Show either aggregated or disaggregated data
 - Histogram
   - Set a custom bin size
+- Scatterplot
+  - Show either aggregated or disaggregated data
+  - Use color, size, x, and y
+  - Trend lines, reference lines
+  - Use custom scale
+- Boxplot
+  - Good for showing data range by dimension
+- Line chart
+  - Used only for date data
+  - Custom date scale
+- Combo chart
+  - Used for multiple scales, usually time + something else
+  - Create by dragging/dropping, or right-click the pill and choose `Dual Axis`
+  - Know how to synchronize left and right scales
 - Map
   - Filled map
   - Symbol / dot map
     - Understand why you don't want to use size for negative numbers
   - Understand the data type for geography data! This includes zip, city, state, longitude/latitude etc..
-- Line chart
-  - Used only for date data
-- Combo chart
-  - Used for multiple scales, usually time + something else
-  - Create by dragging/dropping, or right-click the pill and choose `Dual Axis`
-  - Know how to synchronize scales
 
 ## Formatting
 
@@ -111,7 +118,6 @@ Tooltip
 
 - Add fields to a tooltip
 - Know how to edit the text and formatting
-
 
 
 # Filter / Sorting
@@ -156,7 +162,3 @@ Use Pages for a different style of filter
 - Stories
   - Contain multiple sheets on multiple pages
   
-
-# Publishing
-
-Publish your work on Tableau Public. Submit the URL for assignments to eCampus

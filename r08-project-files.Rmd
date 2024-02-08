@@ -75,14 +75,14 @@ Run getwd() to find your computer's working directory.
 
 This *isn't* the same folder as your code! 
 
-```{r, eval=F, echo=TRUE }
+```{r block_getwd, eval=F, echo=TRUE }
 getwd()
 ```
 
 You can set the working directory with setwd(). Be sure to use slashes going bottom-left to upper-right.
 
 
-```{r, eval=F, echo=TRUE }
+```{r block_setwd, eval=F, echo=TRUE }
 s <- getwd() # s is the current directory.
 
 # Give setwd a string value 
@@ -110,7 +110,7 @@ One tricky part is that the slash goes in differnt directions on PCs and Macs. I
 
 Below are some samples of opening a file in a different folder.
 
-```{r, eval=F, echo=TRUE }
+```{r block_sample, eval=F, echo=TRUE }
 # Sample tibble
 test_t <- tibble(x = c(1, 2, 3, 4))
 
@@ -165,3 +165,30 @@ You can set various options in the header. The two most useful are:
 
 You can manually type these into the top line of a code block, or click
 the gear icon on the upper-right corner.
+
+I've had issues with the 'setup' block, and usually remove it.
+Pulling out this line of code 'knitr::opts_chunk$set(include = FALSE)' is generally helpful in debugging problems.
+
+If you have troubles rendering, click the dropdown on the top button bar and change it to knit to html. Then, try running each block in your document.
+
+### Samples
+
+A block with '{r include=FALSE}' has no output or code displayed, but it does run.
+
+```{r include=FALSE}
+print(1)
+```
+
+A block with '{r echo=FALSE}' shows shows results, but not any code.
+
+```{r echo=FALSE}
+# Print our tibble, not showing the code
+print(1)
+```
+
+A block with '{r echo=TRUE}` shows both the code and its output.
+
+```{r echo=TRUE}
+# Print our tibble, showing the code
+print(1)
+```

@@ -23,7 +23,7 @@ This section is for ACCT 426 and BUDA 451 students in Spring 2023.
   - [Folders and files](r07-folders.html)
   - [Managing files in a project](r08-project-files.html)
 * Libraries
-  - [dlpyr](r10-dplyr.html)
+  - [dplyr](r10-dplyr.html)
   - [Loading data](r15-read.html)
   - [ggplot 1: Introduction](r20-ggplot.html)
   - [ggplot 2: Making plots pretty](r21-ggplot-pretty.html)

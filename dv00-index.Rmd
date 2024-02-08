@@ -8,7 +8,7 @@ output:
 
 ---
 
-Course study notes for ACCT 425 and BUDA 450 students for Spring 2023
+Course study notes for ACCT 425 and BUDA 450 students for Spring 2024
 
 # General Data Visualization 
 
@@ -44,4 +44,4 @@ TBA
 
 # EDA Process
 
-![EDA Process illustrated with Legos](dv001-index-eda-lego.jpeg)
+![EDA Process illustrated with Legos](dv01-index-eda-lego.jpeg)

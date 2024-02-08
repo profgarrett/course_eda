@@ -344,21 +344,26 @@ more groups</a></li>
 <li><a href="#functions" id="toc-functions">Functions</a></li>
 <li><a href="#ungroup" id="toc-ungroup">ungroup</a></li>
 </ul></li>
-<li><a href="#joins" id="toc-joins">joins</a></li>
+<li><a href="#pivot" id="toc-pivot">pivot</a>
+<ul>
+<li><a href="#wider" id="toc-wider">wider</a></li>
+<li><a href="#longer" id="toc-longer">longer</a></li>
+</ul></li>
+<li><a href="#joins" id="toc-joins">Joins</a></li>
 </ul></li>
 <li><a href="#less-commonly-used-dplyr-commands"
 id="toc-less-commonly-used-dplyr-commands">Less commonly used dplyr
 commands</a>
 <ul>
-<li><a href="#slice-minmax" id="toc-slice-minmax">Slice min/max</a>
+<li><a href="#slice_minmax" id="toc-slice_minmax">slice_min/max</a>
 <ul>
 <li><a href="#slice_min-when-n-1" id="toc-slice_min-when-n-1">slice_min
 when n = 1</a></li>
 <li><a href="#slice_min-when-n-1-1"
 id="toc-slice_min-when-n-1-1">slice_min when n &gt; 1</a></li>
 </ul></li>
-<li><a href="#rename" id="toc-rename">Rename</a></li>
-<li><a href="#relocate" id="toc-relocate">Relocate</a></li>
+<li><a href="#rename" id="toc-rename">rename</a></li>
+<li><a href="#relocate" id="toc-relocate">relocate</a></li>
 </ul></li>
 <li><a href="#other-concepts" id="toc-other-concepts">Other concepts</a>
 <ul>
@@ -387,7 +392,9 @@ also are better at printing.</p>
 <p>If you’ve used data.frames, you may have used the approach below for
 subsetting. The syntax for filtering rows/columns is pretty twitchy.
 dplyr is easier.</p>
-<pre class="r"><code># Create a data.frame
+<pre class="r"><code>library(tidyverse)
+
+# Create a data.frame
 df &lt;- data.frame(x = c(1, 2, 3, 4, 5), y = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;))
 
 # Only include values with x&gt;3
@@ -575,6 +582,7 @@ print(t_smaller)</code></pre>
 <div id="basic-example" class="section level3">
 <h3>Basic example</h3>
 <pre class="r"><code>library(tidyverse)
+
 t &lt;- tibble(sex = c(&quot;man&quot;, &quot;woman&quot;, &quot;man&quot;, &quot;woman&quot;, &quot;man&quot;))
 
 t_men_only &lt;- t %&gt;%
@@ -1041,12 +1049,94 @@ print(t)</code></pre>
 ## 6 b          1</code></pre>
 </div>
 </div>
+<div id="pivot" class="section level2">
+<h2>pivot</h2>
+<p>We often want to transition data from a wide format to tall, and vice
+versa.</p>
+<div id="wider" class="section level3">
+<h3>wider</h3>
+<p>Going wide means we take multiple rows and turn them into a single
+row with multiple columns.</p>
+<p>The two key arguments are:</p>
+<ul>
+<li><code>names_from</code> is a field, each value will turn into a new
+column</li>
+<li><code>values_from</code> is a field, each value will turn into the
+data for a new column</li>
+</ul>
+<pre class="r"><code>library(tidyverse)
+
+t_long &lt;- tibble(
+  state = c(&#39;CA&#39;, &#39;CA&#39;, &#39;CA&#39;, &#39;TX&#39;, &#39;TX&#39;, &#39;TX&#39;),
+  year = c(2000, 2001, 2002, 2000, 2001, 2002),
+  sales = c(1, 2, 3, 11, 12, 13)
+)
+
+t_wide &lt;- t_long %&gt;% 
+  pivot_wider(names_from = year, values_from = sales )
+
+print(t_wide)</code></pre>
+<pre><code>## # A tibble: 2 × 4
+##   state `2000` `2001` `2002`
+##   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 CA         1      2      3
+## 2 TX        11     12     13</code></pre>
+</div>
+<div id="longer" class="section level3">
+<h3>longer</h3>
+<p>Going long/tall means we go from a single row with multiple columns
+and into multiple rows with a single column.</p>
+<p>The three key arguments are:</p>
+<ul>
+<li><code>cols</code> are the fields/columns we should remove
+<ul>
+<li>Name individual items in a vector,
+i.e. <code>c(field1, field2)</code></li>
+<li>Use anything that works in <code>dplyr::select</code>
+<ul>
+<li><code>field1:field10</code> selects all of the columns from one
+field to another. Very good for year columns</li>
+<li><code>starts_with('value')</code> picks all fields with the
+beginning value.</li>
+</ul></li>
+</ul></li>
+<li><code>names_from</code> is a “string” to call the new column for the
+names</li>
+<li><code>values_from</code> is a “string” to call the new column for
+the values</li>
+</ul>
+<pre class="r"><code>library(tidyverse)
+
+t_wide &lt;- tibble(
+  year = c(2000, 2001, 2002),
+  ca = c(1, 2, 3),
+  tx = c(11, 12, 13)
+)
+
+t_long &lt;- t_wide %&gt;% 
+  pivot_longer(cols = c(ca, tx), names_to = &#39;state&#39;, values_to = &#39;sales&#39; )
+
+print(t_long)</code></pre>
+<pre><code>## # A tibble: 6 × 3
+##    year state sales
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1  2000 ca        1
+## 2  2000 tx       11
+## 3  2001 ca        2
+## 4  2001 tx       12
+## 5  2002 ca        3
+## 6  2002 tx       13</code></pre>
+</div>
+</div>
 <div id="joins" class="section level2">
-<h2>joins</h2>
+<h2>Joins</h2>
 <p>Similar to SQL, we will use joins in dplyr. Note that this uses very
 weird syntax. There are multiple ways to specify the join, but try to
-always use the by = c(“field_1” = “field_2”) version. This is the most
-consistently useful approach.</p>
+always use the <code>by = c("field_1" = "field_2")</code> version. This
+is the most consistently useful approach.</p>
+<p>Here is a more thorough guide: (Let’s talk about joins)[<a
+href="https://cghlewis.com/blog/joins/"
+class="uri">https://cghlewis.com/blog/joins/</a>]</p>
 <pre class="r"><code># Create sample tibbles.
 checks &lt;- tibble(
   check_id = c(1, 2, 3, 4, 5),
@@ -1075,8 +1165,8 @@ sum(checks$amount, na.rm = TRUE)</code></pre>
 </div>
 <div id="less-commonly-used-dplyr-commands" class="section level1">
 <h1>Less commonly used dplyr commands</h1>
-<div id="slice-minmax" class="section level2 tabset">
-<h2 class="tabset">Slice min/max</h2>
+<div id="slice_minmax" class="section level2 tabset">
+<h2 class="tabset">slice_min/max</h2>
 <p>We can use slice_max and slice_min to find the rows with the highest
 and lowest values in a field.</p>
 <div id="slice_min-when-n-1" class="section level3">
@@ -1135,7 +1225,7 @@ print(t)</code></pre>
 </div>
 </div>
 <div id="rename" class="section level2">
-<h2>Rename</h2>
+<h2>rename</h2>
 <p>Rename allows you to change the name of a field. This is really handy
 when dealing with badly-named fields containing spaces.</p>
 <p>Note that we use the <code>backtick</code> for naming fields with
@@ -1161,7 +1251,7 @@ print(checks)</code></pre>
 ## 5 Milk</code></pre>
 </div>
 <div id="relocate" class="section level2">
-<h2>Relocate</h2>
+<h2>relocate</h2>
 <p>The relocate verb moves columns in a table. It is handy when you are
 looking for a table to be in a certain order.</p>
 </div>

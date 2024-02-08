@@ -275,30 +275,26 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
-<ul>
-<li><a href="#creation-and-publishing-walkthrough"
-id="toc-creation-and-publishing-walkthrough">Creation and publishing
-walkthrough</a></li>
 <li><a href="#further-explanation" id="toc-further-explanation">Further
 explanation</a>
 <ul>
 <li><a href="#working-directory." id="toc-working-directory.">Working
 Directory.</a></li>
 <li><a href="#file-paths" id="toc-file-paths">File paths</a></li>
-<li><a href="#rmd-markdown" id="toc-rmd-markdown">Rmd Markdown</a></li>
+<li><a href="#rmd-markdown" id="toc-rmd-markdown">Rmd Markdown</a>
+<ul>
+<li><a href="#samples" id="toc-samples">Samples</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </div>
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
 <p>As we get further along in using R, we will want to share our work
 with others. This can be hard, as the installation of R on our laptops
 is not going to match another person’s computer.</p>
-<div id="creation-and-publishing-walkthrough" class="section level2">
-<h2>Creation and publishing walkthrough</h2>
+<p>Before you start this, you should be comfortable with managing
+files/folders on your computer. See <a href="r07-folders.html">this
+link</a> # Creation and publishing walkthrough</p>
 <p>We will generally want to use a project for your submissions.</p>
 <p>Follow these steps to create your project, load the data files,
 publish it online, and submitted on eCampus.</p>
@@ -374,15 +370,14 @@ icon)</li>
 <li>Submit the Rmd file to eCampus</li>
 </ul></li>
 </ul>
-</div>
-<div id="further-explanation" class="section level2">
-<h2>Further explanation</h2>
+<div id="further-explanation" class="section level1">
+<h1>Further explanation</h1>
 <p>If you follow the process above, you’ll generally be able to get your
 project set up properly. However, it’s useful to understand what is
 actually happening during this process. The below sections explain the
 key ideas.</p>
-<div id="working-directory." class="section level3">
-<h3>Working Directory.</h3>
+<div id="working-directory." class="section level2">
+<h2>Working Directory.</h2>
 <p>R uses a default starting point on your computer whenever it tries to
 find a file. Run getwd() to find your computer’s working directory.</p>
 <p>This <em>isn’t</em> the same folder as your code!</p>
@@ -399,8 +394,8 @@ getwd() # test to make sure that the new path works!</code></pre>
 directory to that folder. That allows you to use relative files paths,
 which are explained in the next sections.</p>
 </div>
-<div id="file-paths" class="section level3">
-<h3>File paths</h3>
+<div id="file-paths" class="section level2">
+<h2>File paths</h2>
 <p>We work with files using either a partial or full path. Here are some
 valid examples,</p>
 <ul>
@@ -449,8 +444,8 @@ loaded_t &lt;- read_csv(&#39;C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test
 <p>When you use a project, try to only use a relative file path (i.e.,
 “data.csv”)</p>
 </div>
-<div id="rmd-markdown" class="section level3">
-<h3>Rmd Markdown</h3>
+<div id="rmd-markdown" class="section level2">
+<h2>Rmd Markdown</h2>
 <p>A Rmd file uses markdown. You don’t need to know all of the syntax.
 But, you should start each section with a #, and label sub-sections with
 ## or ###</p>
@@ -465,6 +460,23 @@ are:</p>
 </ul>
 <p>You can manually type these into the top line of a code block, or
 click the gear icon on the upper-right corner.</p>
+<p>I’ve had issues with the ‘setup’ block, and usually remove it.
+Pulling out this line of code ‘knitr::opts_chunk$set(include = FALSE)’
+is generally helpful in debugging problems.</p>
+<p>If you have troubles rendering, click the dropdown on the top button
+bar and change it to knit to html. Then, try running each block in your
+document.</p>
+<div id="samples" class="section level3">
+<h3>Samples</h3>
+<p>A block with ‘{r include=FALSE}’ has no output or code displayed, but
+it does run.</p>
+<p>A block with ‘{r echo=FALSE}’ shows shows results, but not any
+code.</p>
+<pre><code>## [1] 1</code></pre>
+<p>A block with ’{r echo=TRUE}` shows both the code and its output.</p>
+<pre class="r"><code># Print our tibble, showing the code
+print(1)</code></pre>
+<pre><code>## [1] 1</code></pre>
 </div>
 </div>
 </div>

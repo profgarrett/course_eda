@@ -300,8 +300,13 @@ that you are fully up to date with the latest version.</li>
 <li>Canvas for your vis</li>
 <li>Filters to limit (either upper-left or right panel)</li>
 <li>Mark cards are used to change how data is displayed</li>
-<li>Undo/Back button</li>
+<li>Buttons
+<ul>
+<li>Undo/Back</li>
 <li><em>Show me</em> button</li>
+<li>Clear sheet</li>
+</ul></li>
+<li>Control+click to copy</li>
 </ul>
 </div>
 <div id="saving" class="section level2">
@@ -309,6 +314,8 @@ that you are fully up to date with the latest version.</li>
 <p>Be careful how you save your file! Normal Tableau files don’t include
 the data. You must save as a <em>packaged workbook</em> for any
 submitted work in this class.</p>
+<p>We share our data with Tableau Public <em>and</em> our private
+Tableau group.</p>
 </div>
 </div>
 <div id="getting-data" class="section level1">
@@ -338,10 +345,11 @@ function.</p>
 <li><code>Integers</code> are number without a decimal point value</li>
 <li><code>Floats</code>/<code>doubles</code> include information past
 the decimal point</li>
-<li>Money is a type in some databases. It is an integer that records the
-number of pennies, which solves some problems with doubles/floats</li>
-<li>Boolean are True or False values</li>
-<li>Dates
+<li><code>Money</code> is a type in some databases. It is an integer
+that records the number of pennies, which solves some problems with
+doubles/floats</li>
+<li><code>Boolean</code> are True or False values</li>
+<li><code>Dates</code>
 <ul>
 <li>Dates can be either discrete or continuous. While they default to
 continuous, this may not look like you want.</li>
@@ -353,20 +361,21 @@ being independent. If you want just the month, make the pill blue
 </ul></li>
 <li>Dimensions
 <ul>
-<li>Discrete / blue pills are discrete categories (like Id number,
-neighborhood)</li>
-<li>Continuous / green pills are continuous ranges (like room
-price)</li>
+<li><code>Discrete</code> / blue pills are discrete categories (like Id
+number, neighborhood)</li>
+<li><code>Continuous</code> / green pills are continuous ranges (like
+room price)</li>
 </ul></li>
 <li>Measures
 <ul>
 <li>Functions applied to data</li>
-<li>Count, sum, max, min, etc…</li>
+<li><code>Count</code>, <code>sum</code>, <code>max</code>,
+<code>min</code>, etc…</li>
 <li>Average can have multiple meanings
 <ul>
-<li>Mode is the most common item</li>
-<li>Mean is sum / count</li>
-<li>Median is middle item when sorted large/small</li>
+<li><code>Mode</code> is the most common item</li>
+<li><code>Mean</code> is sum / count</li>
+<li><code>Median</code> is middle item when sorted large/small</li>
 </ul></li>
 <li>Can be applied to continuous (like average price) or discrete (like
 count)</li>
@@ -378,18 +387,42 @@ count)</li>
 <div id="chart-types" class="section level1">
 <h1>Chart Types</h1>
 <ul>
-<li>Bar Chart:
+<li>Heat Map / Table:
+<ul>
+<li>Color by measure</li>
+<li>Sort by value or title</li>
+</ul></li>
+<li>Bar:
 <ul>
 <li>Sort by name or data</li>
 <li>Color by dimension or measure</li>
 </ul></li>
-<li>Scatterplot
-<ul>
-<li>Show either aggregated or disaggregated data</li>
-</ul></li>
 <li>Histogram
 <ul>
 <li>Set a custom bin size</li>
+</ul></li>
+<li>Scatterplot
+<ul>
+<li>Show either aggregated or disaggregated data</li>
+<li>Use color, size, x, and y</li>
+<li>Trend lines, reference lines</li>
+<li>Use custom scale</li>
+</ul></li>
+<li>Boxplot
+<ul>
+<li>Good for showing data range by dimension</li>
+</ul></li>
+<li>Line chart
+<ul>
+<li>Used only for date data</li>
+<li>Custom date scale</li>
+</ul></li>
+<li>Combo chart
+<ul>
+<li>Used for multiple scales, usually time + something else</li>
+<li>Create by dragging/dropping, or right-click the pill and choose
+<code>Dual Axis</code></li>
+<li>Know how to synchronize left and right scales</li>
 </ul></li>
 <li>Map
 <ul>
@@ -400,17 +433,6 @@ count)</li>
 </ul></li>
 <li>Understand the data type for geography data! This includes zip,
 city, state, longitude/latitude etc..</li>
-</ul></li>
-<li>Line chart
-<ul>
-<li>Used only for date data</li>
-</ul></li>
-<li>Combo chart
-<ul>
-<li>Used for multiple scales, usually time + something else</li>
-<li>Create by dragging/dropping, or right-click the pill and choose
-<code>Dual Axis</code></li>
-<li>Know how to synchronize scales</li>
 </ul></li>
 </ul>
 <div id="formatting" class="section level2">
@@ -460,6 +482,7 @@ appropriate option</p>
 <li>Use sort button on button bar to sort by values</li>
 <li>Use a-z button on chart to sort by a field name</li>
 </ul>
+<p>Use Pages for a different style of filter</p>
 </div>
 <div id="dashboards-stories" class="section level1">
 <h1>Dashboards / Stories</h1>
@@ -478,11 +501,6 @@ appropriate option</p>
 <li>Contain multiple sheets on multiple pages</li>
 </ul></li>
 </ul>
-</div>
-<div id="publishing" class="section level1">
-<h1>Publishing</h1>
-<p>Publish your work on Tableau Public. Submit the URL for assignments
-to eCampus</p>
 </div>
 
 

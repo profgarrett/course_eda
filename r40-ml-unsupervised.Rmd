@@ -8,6 +8,12 @@ output:
 
 # Introduction
 
+Cluster dataset: 
+- Board Game Geek Data - https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-03-12
+
+Error in weather predictions
+https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-12-20
+
 
 ``` {r, echo = FALSE, include = FALSE}
 library(tidyverse)

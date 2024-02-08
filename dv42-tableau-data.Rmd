@@ -6,6 +6,25 @@ output:
 
 ---
 
+Ask a manager data
+
+https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-05-18/readme.md
+
+
+Horror Movies
+https://github.com/tashapiro/horror-movies/tree/main
+https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-11-01
+
+
+Data:
+
+National Parks - https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-09-17
+https://fivethirtyeight.com/features/the-national-parks-have-never-been-more-popular/
+
+Big Mac Index - https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-12-22/readme.md
+
+https://www.economist.com/big-mac-index
+
 # Analyzing data in Tableau
  
 See Datacamp *Analyzing data in Tableau*
