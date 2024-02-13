@@ -275,7 +275,6 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#janitor" id="toc-janitor">Janitor</a></li>
 <li><a href="#read_csv" id="toc-read_csv">read_csv</a>
 <ul>
 <li><a href="#basic-example" id="toc-basic-example">Basic
@@ -294,35 +293,11 @@ example</a></li>
 <li><a href="#complex-example" id="toc-complex-example">Complex
 example</a></li>
 </ul></li>
+<li><a href="#janitor" id="toc-janitor">Janitor</a></li>
 </ul>
 </div>
 
 <p>How do we get data into R?</p>
-<div id="janitor" class="section level1">
-<h1>Janitor</h1>
-<p>Janitor is a helpful library that cleans up badly-formatted column
-titles. I generally use the function that fixes titles.T</p>
-<p>Treat it like <code>dplyr</code>, using the pipe symbol as part of
-your clean-up code.</p>
-<pre class="r"><code>library(tidyverse)
-library(janitor)
-
-bad_tibble &lt;- tibble(
-  `Title with spaces and CAPITALIZATION` = c(1, 2, 3, 4)
-)
-
-good_tibble &lt;- bad_tibble %&gt;% 
-  janitor::clean_names()
-
-print(good_tibble)</code></pre>
-<pre><code>## # A tibble: 4 × 1
-##   title_with_spaces_and_capitalization
-##                                  &lt;dbl&gt;
-## 1                                    1
-## 2                                    2
-## 3                                    3
-## 4                                    4</code></pre>
-</div>
 <div id="read_csv" class="section level1 tabset">
 <h1 class="tabset">read_csv</h1>
 <p>There are a collection of read functions, which all use similar
@@ -387,7 +362,8 @@ such as blank strings, spaces, “magic” numbers, or “NA”</p>
 1, 
 NA,&quot;Sam&quot;
 -1,&quot;Joe&quot;</code></pre>
-<p>Tell read_csv the names for columns</p>
+<p>Tell read_csv which values should be transformed into
+<code>NA</code>.</p>
 <pre class="r"><code>library(tidyverse)
 
 t &lt;- read_csv(&quot;r15-read.txt&quot;, na = c(&#39;&#39;, &#39; &#39;, &#39;NA&#39;, &#39;-1&#39;))
@@ -436,6 +412,31 @@ print(t)</code></pre>
 ## 3    NA Sue  
 ## 4     4 &lt;NA&gt;</code></pre>
 </div>
+</div>
+<div id="janitor" class="section level1">
+<h1>Janitor</h1>
+<p>Janitor is a helpful library that cleans up badly-formatted column
+titles. I generally use the function that fixes titles.</p>
+<p>Treat it like <code>dplyr</code>, using the pipe symbol as part of
+your clean-up code.</p>
+<pre class="r"><code>library(tidyverse)
+library(janitor)
+
+bad_tibble &lt;- tibble(
+  `Title with spaces and CAPITALIZATION` = c(1, 2, 3, 4)
+)
+
+good_tibble &lt;- bad_tibble %&gt;% 
+  janitor::clean_names()
+
+print(good_tibble)</code></pre>
+<pre><code>## # A tibble: 4 × 1
+##   title_with_spaces_and_capitalization
+##                                  &lt;dbl&gt;
+## 1                                    1
+## 2                                    2
+## 3                                    3
+## 4                                    4</code></pre>
 </div>
 
 

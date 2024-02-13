@@ -8,25 +8,6 @@ output:
 
 How do we get data into R?
 
-# Janitor
-
-Janitor is a helpful library that cleans up badly-formatted column titles. I generally use the function that fixes titles.T  
-
-Treat it like `dplyr`, using the pipe symbol as part of your clean-up code.
-
-```{r echo=TRUE, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(janitor)
-
-bad_tibble <- tibble(
-  `Title with spaces and CAPITALIZATION` = c(1, 2, 3, 4)
-)
-
-good_tibble <- bad_tibble %>% 
-  janitor::clean_names()
-
-print(good_tibble)
-```
 
 # read_csv {.tabset}
 
@@ -110,7 +91,7 @@ print(t)
 
 ## Fix NA values 
 
-Some datafiles have missing values. This can take different forms, such as blank strings, spaces, "magic" numbers, or "NA"
+Some data files have missing values. This can take different forms, such as blank strings, spaces, "magic" numbers, or "NA"
 
 ```text
 id,name
@@ -119,7 +100,7 @@ NA,"Sam"
 -1,"Joe"
 ```
 
-Tell read_csv the names for columns
+Tell read_csv which values should be transformed into `NA`.
 
 ```{r include=FALSE}
 cat('id,name\n1,""\nNA,"Sam"\n-1,"Joe"', file = 'r15-read.txt')
@@ -165,3 +146,26 @@ t <- read_xlsx("r15-read.xlsx",
                skip = 2)
 print(t)
 ```
+
+
+
+# Janitor
+
+Janitor is a helpful library that cleans up badly-formatted column titles. I generally use the function that fixes titles.  
+
+Treat it like `dplyr`, using the pipe symbol as part of your clean-up code.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(janitor)
+
+bad_tibble <- tibble(
+  `Title with spaces and CAPITALIZATION` = c(1, 2, 3, 4)
+)
+
+good_tibble <- bad_tibble %>% 
+  janitor::clean_names()
+
+print(good_tibble)
+```
+
