@@ -276,20 +276,166 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#janitor" id="toc-janitor">Janitor</a></li>
-<li><a href="#read_csv" id="toc-read_csv">read_csv</a></li>
-<li><a href="#read_xlsx" id="toc-read_xlsx">read_xlsx</a></li>
+<li><a href="#read_csv" id="toc-read_csv">read_csv</a>
+<ul>
+<li><a href="#basic-example" id="toc-basic-example">Basic
+example</a></li>
+<li><a href="#skip-starting-lines" id="toc-skip-starting-lines">Skip
+starting lines</a></li>
+<li><a href="#fix-missing-column-names"
+id="toc-fix-missing-column-names">Fix missing column names</a></li>
+<li><a href="#fix-na-values" id="toc-fix-na-values">Fix NA
+values</a></li>
+</ul></li>
+<li><a href="#read_xlsx" id="toc-read_xlsx">read_xlsx</a>
+<ul>
+<li><a href="#basic-example-1" id="toc-basic-example-1">Basic
+example</a></li>
+<li><a href="#complex-example" id="toc-complex-example">Complex
+example</a></li>
+</ul></li>
 </ul>
 </div>
 
-<p>TBD</p>
+<p>How do we get data into R?</p>
 <div id="janitor" class="section level1">
 <h1>Janitor</h1>
+<p>Janitor is a helpful library that cleans up badly-formatted column
+titles. I generally use the function that fixes titles.T</p>
+<p>Treat it like <code>dplyr</code>, using the pipe symbol as part of
+your clean-up code.</p>
+<pre class="r"><code>library(tidyverse)
+library(janitor)
+
+bad_tibble &lt;- tibble(
+  `Title with spaces and CAPITALIZATION` = c(1, 2, 3, 4)
+)
+
+good_tibble &lt;- bad_tibble %&gt;% 
+  janitor::clean_names()
+
+print(good_tibble)</code></pre>
+<pre><code>## # A tibble: 4 × 1
+##   title_with_spaces_and_capitalization
+##                                  &lt;dbl&gt;
+## 1                                    1
+## 2                                    2
+## 3                                    3
+## 4                                    4</code></pre>
 </div>
-<div id="read_csv" class="section level1">
-<h1>read_csv</h1>
+<div id="read_csv" class="section level1 tabset">
+<h1 class="tabset">read_csv</h1>
+<p>There are a collection of read functions, which all use similar
+parameters.</p>
+<div id="basic-example" class="section level2">
+<h2>Basic example</h2>
+<p>This will read a text file that looks like this:</p>
+<pre class="text"><code>id,name
+1,&quot;Bob&quot;
+2,&quot;Sam&quot;</code></pre>
+<p>We only need to pass the name of the file.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- read_csv(&quot;r15-read.txt&quot;)
+print(t)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##      id name 
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 Bob  
+## 2     2 Sam</code></pre>
 </div>
-<div id="read_xlsx" class="section level1">
-<h1>read_xlsx</h1>
+<div id="skip-starting-lines" class="section level2">
+<h2>Skip starting lines</h2>
+<p>This datafile has some starting lines that we need to skip</p>
+<pre class="text"><code>Here is a datafile
+
+id,name
+1,&quot;Bob&quot;
+2,&quot;Sam&quot;</code></pre>
+<p>Tell read_csv to skip the first 2 lines.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- read_csv(&quot;r15-read.txt&quot;, skip = 2)
+print(t)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##      id name 
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 Bob  
+## 2     2 Sam</code></pre>
+</div>
+<div id="fix-missing-column-names" class="section level2">
+<h2>Fix missing column names</h2>
+<p>Some datafiles are missing column names.</p>
+<pre class="text"><code>1,&quot;Bob&quot;
+2,&quot;Sam&quot;</code></pre>
+<p>Tell read_csv the names for columns</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- read_csv(&quot;r15-read.txt&quot;, col_names = c(&#39;id&#39;, &#39;name&#39;))
+print(t)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##      id name 
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 Bob  
+## 2     2 Sam</code></pre>
+</div>
+<div id="fix-na-values" class="section level2">
+<h2>Fix NA values</h2>
+<p>Some datafiles have missing values. This can take different forms,
+such as blank strings, spaces, “magic” numbers, or “NA”</p>
+<pre class="text"><code>id,name
+1, 
+NA,&quot;Sam&quot;
+-1,&quot;Joe&quot;</code></pre>
+<p>Tell read_csv the names for columns</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- read_csv(&quot;r15-read.txt&quot;, na = c(&#39;&#39;, &#39; &#39;, &#39;NA&#39;, &#39;-1&#39;))
+print(t)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##      id name 
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 &lt;NA&gt; 
+## 2    NA Sam  
+## 3    NA Joe</code></pre>
+</div>
+</div>
+<div id="read_xlsx" class="section level1 tabset">
+<h1 class="tabset">read_xlsx</h1>
+<p>We can use <code>read_xlsx</code> to load <em>Excel</em> files.</p>
+<div id="basic-example-1" class="section level2">
+<h2>Basic example</h2>
+<p>We typically need to provide the name of the sheet.</p>
+<pre class="r"><code>library(tidyverse)
+library(readxl)
+
+t &lt;- read_xlsx(&quot;r15-read.xlsx&quot;, sheet = &#39;Sheet of Data&#39;)
+print(t)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##      id name 
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 Bob  
+## 2     2 Joe</code></pre>
+</div>
+<div id="complex-example" class="section level2">
+<h2>Complex example</h2>
+<p>We can use similar options as <code>read_csv</code></p>
+<pre class="r"><code>library(tidyverse)
+library(readxl)
+
+t &lt;- read_xlsx(&quot;r15-read.xlsx&quot;, 
+               sheet = &#39;Weird Data Sheet&#39;,
+               na = c(&#39;&#39;, &#39; &#39;, &#39;NA&#39;, &#39;-1&#39;),
+               skip = 2)
+print(t)</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##      id name 
+##   &lt;dbl&gt; &lt;chr&gt;
+## 1     1 Bob  
+## 2     2 Joe  
+## 3    NA Sue  
+## 4     4 &lt;NA&gt;</code></pre>
+</div>
 </div>
 
 

@@ -306,7 +306,7 @@ that you are fully up to date with the latest version.</li>
 <li><em>Show me</em> button</li>
 <li>Clear sheet</li>
 </ul></li>
-<li>Control+click to copy</li>
+<li>Control+click to copy a pill</li>
 </ul>
 </div>
 <div id="saving" class="section level2">
@@ -314,8 +314,8 @@ that you are fully up to date with the latest version.</li>
 <p>Be careful how you save your file! Normal Tableau files don’t include
 the data. You must save as a <em>packaged workbook</em> for any
 submitted work in this class.</p>
-<p>We share our data with Tableau Public <em>and</em> our private
-Tableau group.</p>
+<p>We share our data with Tableau Public. Later in the course, when we
+use private data, we will use our private Tableau group.</p>
 </div>
 </div>
 <div id="getting-data" class="section level1">
@@ -386,103 +386,285 @@ count)</li>
 </div>
 <div id="chart-types" class="section level1">
 <h1>Chart Types</h1>
+<div id="heat-map" class="section level2">
+<h2>Heat Map</h2>
 <ul>
-<li>Heat Map / Table:
+<li>Best for
 <ul>
-<li>Color by measure</li>
-<li>Sort by value or title</li>
+<li>2 dimensions</li>
+<li>1 measure</li>
 </ul></li>
-<li>Bar:
+<li>Pre-attentive attributes
 <ul>
-<li>Sort by name or data</li>
-<li>Color by dimension or measure</li>
+<li>Color (use sequential and diverging scales, not categorical)</li>
 </ul></li>
-<li>Histogram
+<li>Limits
+<ul>
+<li>Color has limited accuracy</li>
+<li>Hard to visualize too many numbers</li>
+</ul></li>
+<li>Basic features
+<ul>
+<li>Sort by dimension name or by measure value</li>
+</ul></li>
+</ul>
+</div>
+<div id="bar" class="section level2">
+<h2>Bar</h2>
+<ul>
+<li>Best for
+<ul>
+<li>0-1 dimension</li>
+<li>1 measure</li>
+</ul></li>
+<li>Pre-attentive attributes
+<ul>
+<li>Length (either stacked or at zero)</li>
+<li>Color (either categorical, sequential, or diverging)</li>
+</ul></li>
+<li>Limits
+<ul>
+<li>Best for n&lt;10</li>
+<li>Hard to visualize very precise data (use histogram instead)</li>
+</ul></li>
+<li>Basic features
+<ul>
+<li>Sort by dimension name or by measure value</li>
+</ul></li>
+</ul>
+</div>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
+<ul>
+<li>Best for
+<ul>
+<li>No dimensions</li>
+<li>1 measure</li>
+</ul></li>
+<li>Pre-attentive attributes
+<ul>
+<li>Length (either stacked or at zero)</li>
+<li>Color (not as useful, but you can pick either sequential or
+diverging)</li>
+</ul></li>
+<li>Limits
+<ul>
+<li>Best for n&gt;10</li>
+<li>Best for very precise data</li>
+</ul></li>
+<li>Basic features
 <ul>
 <li>Set a custom bin size</li>
 </ul></li>
-<li>Scatterplot
+<li>Advanced features
+<ul>
+<li>Remove outliers</li>
+</ul></li>
+</ul>
+</div>
+<div id="scatterplot" class="section level2">
+<h2>Scatterplot</h2>
+<ul>
+<li>Best for
+<ul>
+<li>2 <em>numeric</em> dimensions</li>
+<li>0-1 measure (aggregated or disaggregated)</li>
+</ul></li>
+<li>Pre-attentive attributes
+<ul>
+<li>Color (best for n&lt;=5 categorical)</li>
+<li>Position on a common scale (x, y)</li>
+<li>Size</li>
+</ul></li>
+<li>Limits
+<ul>
+<li>Best for n&gt;100</li>
+<li>Best for a cause (x) and effect (y)</li>
+</ul></li>
+<li>Basic features
 <ul>
 <li>Show either aggregated or disaggregated data</li>
-<li>Use color, size, x, and y</li>
+</ul></li>
+<li>Advanced features
+<ul>
 <li>Trend lines, reference lines</li>
-<li>Use custom scale</li>
 </ul></li>
-<li>Boxplot
-<ul>
-<li>Good for showing data range by dimension</li>
-</ul></li>
-<li>Line chart
-<ul>
-<li>Used only for date data</li>
-<li>Custom date scale</li>
-</ul></li>
-<li>Combo chart
-<ul>
-<li>Used for multiple scales, usually time + something else</li>
-<li>Create by dragging/dropping, or right-click the pill and choose
-<code>Dual Axis</code></li>
-<li>Know how to synchronize left and right scales</li>
-</ul></li>
-<li>Map
-<ul>
-<li>Filled map</li>
-<li>Symbol / dot map
-<ul>
-<li>Understand why you don’t want to use size for negative numbers</li>
-</ul></li>
-<li>Understand the data type for geography data! This includes zip,
-city, state, longitude/latitude etc..</li>
-</ul></li>
-</ul>
-<div id="formatting" class="section level2">
-<h2>Formatting</h2>
-<p>Add the following lines by going to Analytics, and picking the
-appropriate option</p>
-<ul>
-<li>Reference lines</li>
-<li>Trend lines</li>
-<li>Forecasting</li>
-</ul>
-<p>Tooltip</p>
-<ul>
-<li>Add fields to a tooltip</li>
-<li>Know how to edit the text and formatting</li>
 </ul>
 </div>
-</div>
-<div id="filter-sorting" class="section level1">
-<h1>Filter / Sorting</h1>
-<p>Levels (from earlier to latest)</p>
+<div id="boxplot" class="section level2">
+<h2>Boxplot</h2>
 <ul>
-<li>Extraction filters</li>
-<li>Data source</li>
-<li>Context</li>
-<li>Dimension</li>
-<li>Measure</li>
+<li>Best for
+<ul>
+<li>1 dimension</li>
+<li>1 disaggregated measure</li>
+</ul></li>
+<li>Pre-attentive attributes
+<ul>
+<li>Position on a common scale</li>
+</ul></li>
+<li>Limits
+<ul>
+<li>Best for n&gt;100</li>
+<li>Best for problems with too much data to see individual points,
+requiring quartiles to better understand.</li>
+</ul></li>
+<li>Basic features
+<ul>
+<li>Change bin size</li>
+</ul></li>
 </ul>
+</div>
+<div id="line" class="section level2">
+<h2>Line</h2>
+<ul>
+<li>Best for
+<ul>
+<li>1 date</li>
+<li>1 measure</li>
+</ul></li>
+<li>Pre-attentive attributes
+<ul>
+<li>Position on a common scale</li>
+</ul></li>
+<li>Limits
+<ul>
+<li>Requires date information!</li>
+</ul></li>
+<li>Advanced features
+<ul>
+<li>Custom date scales</li>
+</ul></li>
+</ul>
+</div>
+<div id="combo" class="section level2">
+<h2>Combo</h2>
+<ul>
+<li>Best for
+<ul>
+<li>2 measures (one must be a date!)</li>
+<li>0-1 measures</li>
+</ul></li>
+<li>Process
+<ul>
+<li>Add 2 measures to row. Then, go to marks and change one type of bar.
+Then, right-lick the right-pill and change to a dual axis.</li>
+</ul></li>
+<li>Pre-attentive attributes
+<ul>
+<li>Position on a common scale</li>
+</ul></li>
+<li>Limits
+<ul>
+<li>Requires date information!</li>
+</ul></li>
+<li>Advanced features
+<ul>
+<li>Synchronize axis</li>
+</ul></li>
+</ul>
+</div>
+<div id="map" class="section level2">
+<h2>Map</h2>
+<p>Understand the limits of showing values with geographic size. Know
+the difference between showing data as a point, or as color area.</p>
+<ul>
+<li>Best for
+<ul>
+<li>Geographic data (point or region)</li>
+<li>1-2 measures</li>
+</ul></li>
+<li>Pre-attentive attributes
+<ul>
+<li>Position on a common scale</li>
+<li>Color</li>
+<li>Area</li>
+</ul></li>
+<li>Limits
+<ul>
+<li>Must categorize your data as geographic</li>
+</ul></li>
+<li>Advanced features
+<ul>
+<li>Synchronize axis</li>
+</ul></li>
+</ul>
+<p>Understand why you don’t want to use size for negative numbers</p>
+<p>Understand the data type for geography data! This includes zip, city,
+state, longitude/latitude etc..</p>
+</div>
+</div>
+<div id="other-features" class="section level1">
+<h1>Other Features</h1>
+<div id="tooltip" class="section level2">
+<h2>Tooltip</h2>
+<ul>
+<li>Add fields to a tooltip by dragging a pill to that button in the
+marks menu.</li>
+<li>Know how to edit the text and formatting by clicking on the button
+in the marks menu.</li>
+</ul>
+</div>
+<div id="pivot" class="section level2">
+<h2>Pivot</h2>
+<p>Pivot columns to turn wide data into tall data.</p>
+</div>
+<div id="join" class="section level2">
+<h2>Join</h2>
+<p>Understand how to join multiple tables on a common key value.</p>
+</div>
+<div id="filter-sorting" class="section level2">
+<h2>Filter / Sorting</h2>
+<p>Understand the different levels of filtering</p>
+<ul>
+<li><code>Extraction filters</code>/<code>Data source</code> are used on
+the dataset. We don’t use these options, as we generally will pull from
+csv files in this course. They are typically used when we give
+parameters to a query from a database.</li>
+<li><code>Context</code> is used when clicking on items in a dashboard.
+We will see this more when creating dashboards later in the course.</li>
+<li><code>Dimension</code>/<code>Measure</code> can be filtered on a
+row-level</li>
+<li><code>Aggregate</code> filters are applied to the <em>result</em> of
+a function on a measure. For example, show only regions with
+<code>SUM(sales)</code> over $1 million.</li>
+</ul>
+<p>Generally you should focus on two types of filters: <code>row</code>
+and <code>aggregate</code>. Use a row-level to filter on a single’s row
+value. Use aggregate when we want to look at the result of
+SUM/COUNT/etc… These correspond to SQL’s WHERE and HAVING clauses.</p>
 <p>Add a filter by:</p>
 <ul>
 <li>Right-clicking on a cell and clicking show only or exclude.</li>
-<li>Adding a field to the filter pane</li>
+<li>Drag/drop a field to the filter pane
+<ul>
+<li>Use <code>all values</code> to filter on the row-level</li>
+<li>Use a function (such as <code>SUM</code>) when you want to filter on
+an aggregate measure.</li>
+</ul></li>
 </ul>
 <p>Filter options:</p>
 <ul>
 <li>TOP</li>
 <li>Non-null</li>
-<li>Show as (right-click)
+<li>Show as (right-click on a shown filter)
 <ul>
 <li>Single value (dropdown, list, slider)</li>
 <li>Multiple values (list, dropdown, custom list, wildcard)</li>
 <li>Show as floating</li>
 </ul></li>
 </ul>
-<p>Sort</p>
+</div>
+<div id="sort" class="section level2">
+<h2>Sort</h2>
 <ul>
 <li>Use sort button on button bar to sort by values</li>
 <li>Use a-z button on chart to sort by a field name</li>
+<li>Right-click on a pill to get the <code>Sort</code> menu. You can
+pick from original data, or choose an alternative sort option.</li>
 </ul>
 <p>Use Pages for a different style of filter</p>
+</div>
 </div>
 <div id="dashboards-stories" class="section level1">
 <h1>Dashboards / Stories</h1>

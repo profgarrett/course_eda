@@ -1,0 +1,39 @@
+---
+title: Statistics Refresher
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+## Linear Regression
+
+Outcomes:
+
+- Describe when using a linear regression model is useful
+- Describe dependent and independent variables
+- Describe linear and non-linear relationships
+- Transform inputs to meet various requirements
+
+
+Terms:
+
+- Coefficients 
+- Residuals, sse (sum of squares error / loss function)
+- Bias / intercept
+- R^2
+
+Help: https://www.youtube.com/watch?v=3dhcmeOTZ_Q
+
+
+## Logistic Refression
+
+Outcomes:
+
+- When do we use logistic regression?
+- Interpret a confusion matrix
+
+Help: https://www.youtube.com/watch?v=EKm0spFxFG4
+
+
+# Other Key concepts

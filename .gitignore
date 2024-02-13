@@ -4,3 +4,6 @@
 
 # Knit files in progress
 *.knit.md
+
+# Excel open files
+~*

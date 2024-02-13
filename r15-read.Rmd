@@ -6,11 +6,162 @@ output:
     theme: united
 ---
 
-TBD
+How do we get data into R?
 
 # Janitor
 
-# read_csv
+Janitor is a helpful library that cleans up badly-formatted column titles. I generally use the function that fixes titles.T  
 
-# read_xlsx
+Treat it like `dplyr`, using the pipe symbol as part of your clean-up code.
 
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(janitor)
+
+bad_tibble <- tibble(
+  `Title with spaces and CAPITALIZATION` = c(1, 2, 3, 4)
+)
+
+good_tibble <- bad_tibble %>% 
+  janitor::clean_names()
+
+print(good_tibble)
+```
+
+# read_csv {.tabset}
+
+There are a collection of read functions, which all use similar parameters.
+
+## Basic example
+
+This will read a text file that looks like this:
+```text
+id,name
+1,"Bob"
+2,"Sam"
+```
+
+We only need to pass the name of the file.
+
+```{r include=FALSE}
+cat('id,name\n1,"Bob"\n2,"Sam"\n', file = 'r15-read.txt')
+```
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t <- read_csv("r15-read.txt")
+print(t)
+```
+
+
+## Skip starting lines
+
+This datafile has some starting lines that we need to skip
+
+```text
+Here is a datafile
+
+id,name
+1,"Bob"
+2,"Sam"
+```
+
+Tell read_csv to skip the first 2 lines.
+
+```{r include=FALSE}
+cat('\n\nid,name\n1,"Bob"\n2,"Sam"\n', file = 'r15-read.txt')
+```
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t <- read_csv("r15-read.txt", skip = 2)
+print(t)
+```
+
+
+
+## Fix missing column names
+
+Some datafiles are missing column names.
+
+```text
+1,"Bob"
+2,"Sam"
+```
+
+Tell read_csv the names for columns
+
+```{r include=FALSE}
+cat('1,"Bob"\n2,"Sam"\n', file = 'r15-read.txt')
+```
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t <- read_csv("r15-read.txt", col_names = c('id', 'name'))
+print(t)
+```
+
+
+## Fix NA values 
+
+Some datafiles have missing values. This can take different forms, such as blank strings, spaces, "magic" numbers, or "NA"
+
+```text
+id,name
+1, 
+NA,"Sam"
+-1,"Joe"
+```
+
+Tell read_csv the names for columns
+
+```{r include=FALSE}
+cat('id,name\n1,""\nNA,"Sam"\n-1,"Joe"', file = 'r15-read.txt')
+```
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t <- read_csv("r15-read.txt", na = c('', ' ', 'NA', '-1'))
+print(t)
+```
+
+# read_xlsx {.tabset}
+
+We can use `read_xlsx` to load *Excel* files.
+
+## Basic example
+
+We typically need to provide the name of the sheet.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+
+t <- read_xlsx("r15-read.xlsx", sheet = 'Sheet of Data')
+print(t)
+```
+
+
+## Complex example
+
+We can use similar options as `read_csv`
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(readxl)
+
+t <- read_xlsx("r15-read.xlsx", 
+               sheet = 'Weird Data Sheet',
+               na = c('', ' ', 'NA', '-1'),
+               skip = 2)
+print(t)
+```

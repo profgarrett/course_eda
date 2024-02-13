@@ -8,15 +8,9 @@ output:
 
 # Introduction
 
-```{r, include=FALSE}
+This tutorial also supports Datacamp's *Introduction to Data Visualization with ggplot2*.
 
-# Add libraries
-library(tidyverse)
-
-```
-
-
-Below are a number of useful functions to improve the attractiveness of your plots.
+It builds on the prior section by discussing ways to clean-up basic charts.
 
 ## Geoms for annotations
 
@@ -76,10 +70,13 @@ ggplot(data = mpg) +
 
 There are some nice options for themes. Some include: 
 
-- theme_bw
-- theme_classic
-- theme_minimal
-- theme_void
+- theme_gray (the default)
+- theme_bw (good for transparency)
+- theme_classic (traditional)
+- theme_minimal 
+- theme_void (removes all but the data)
+
+You can also find more themes in the `ggthemes` package.
 
 ```{r, eval=T, echo=TRUE }
 ggplot(data = mpg) +
@@ -99,7 +96,7 @@ ggplot(data = mpg) +
   ylim(0, 20) 
 ```
 
-## Scales
+## Scales {.tabset}
 
 We can customize the axis scales.
 
@@ -206,7 +203,8 @@ ggplot(data = date_tibble) +
 ```
 
 
-### Label formatting
+
+### Breaks
 
 Breaks also may need formatting to fix labels. 
 
@@ -221,5 +219,22 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(y = cty, x = hwy)) +
   scale_x_continuous(labels = scales::label_dollar()) +
   scale_y_continuous(labels = scales::label_percent(accuracy = 1))
+  
+```
+
+### Expand
+
+Use expand to give some extra space around the start / end points on the axis. 
+
+`expand = c(*multiply*, *add*)` can be a little confusing. Use *multiply* to times the limits by a number to find the most extreme values. Use *add* to manually expand a little by adding / subtracting a number.
+
+The below gives some extra space. We multiply the y axis by 40 to find the upper limit of 80, and the lower of -40. We add 5 to the x to find the limits of -5 and 45.
+
+```{r, eval=T, echo=TRUE }
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(y = cty, x = hwy)) +
+  scale_x_continuous(limits = c(0, 50), expand = c(0, 5)) +
+  scale_y_continuous(limits = c(0, 40), expand = c(1, 0))
   
 ```

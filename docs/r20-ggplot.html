@@ -275,18 +275,39 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
-<ul>
-<li><a href="#why-ggplot" id="toc-why-ggplot">Why ggplot?</a></li>
-<li><a href="#creating-a-plot" id="toc-creating-a-plot">Creating a
-plot</a></li>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#ggplot-elements" id="toc-ggplot-elements">Ggplot
+elements</a></li>
 <li><a href="#geoms-for-1-2-variables"
 id="toc-geoms-for-1-2-variables">Geoms for 1-2 variables</a>
 <ul>
-<li><a href="#geom_bar" id="toc-geom_bar">geom_bar</a></li>
-<li><a href="#geom_smooth" id="toc-geom_smooth">geom_smooth</a></li>
-<li><a href="#geom_line" id="toc-geom_line">geom_line</a></li>
-<li><a href="#geom_point" id="toc-geom_point">geom_point</a></li>
+<li><a href="#geom_bar" id="toc-geom_bar">geom_bar</a>
+<ul>
+<li><a href="#minimal-example" id="toc-minimal-example">Minimal
+example</a></li>
+<li><a href="#more-options" id="toc-more-options">More options</a></li>
+<li><a href="#geom_col-alternative"
+id="toc-geom_col-alternative">geom_col alternative</a></li>
+</ul></li>
+<li><a href="#geom_smooth" id="toc-geom_smooth">geom_smooth</a>
+<ul>
+<li><a href="#minimal-example-1" id="toc-minimal-example-1">Minimal
+example</a></li>
+<li><a href="#more-options-1" id="toc-more-options-1">More
+options</a></li>
+<li><a href="#geom_line-alternative"
+id="toc-geom_line-alternative">geom_line alternative</a></li>
+</ul></li>
+<li><a href="#geom_point" id="toc-geom_point">geom_point</a>
+<ul>
+<li><a href="#minimal-example-2" id="toc-minimal-example-2">Minimal
+example</a></li>
+<li><a href="#mapping-options" id="toc-mapping-options">Mapping
+options</a></li>
+<li><a href="#formatting-examples"
+id="toc-formatting-examples">Formatting examples</a></li>
+<li><a href="#jitter" id="toc-jitter">jitter</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#geoms-for-distributions"
 id="toc-geoms-for-distributions">Geoms for distributions</a>
@@ -303,7 +324,8 @@ id="toc-geom_histogram">geom_histogram</a></li>
 </ul></li>
 <li><a href="#dynamic-plots" id="toc-dynamic-plots">Dynamic
 plots</a></li>
-</ul></li>
+<li><a href="#other-references" id="toc-other-references">Other
+references</a></li>
 </ul>
 </div>
 
@@ -311,93 +333,139 @@ plots</a></li>
 <h1>Introduction</h1>
 <p>ggplot is a super useful graphics tool. See its website at <a
 href="https://ggplot2.tidyverse.org/">dplyr tutorial</a></p>
-<p>These notes correspond to Datacamp’s <em>Introduction to the
-tidyverse</em>.</p>
-<p>There is also a very nice <a
-href="https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf">cheat
-cheat by Afshine Amidi &amp; Shervine Amidi</a></p>
-<p>Here is a great systematic introduction: <a
-href="https://ggplot2-book.org/">Elegant Graphics for Data
-Analysis</a></p>
-<p>Here is a list of example charts: <a href="https://r-graphics.org/">R
-Graphics Cookbook</a></p>
-<p>Here is a great step-by-step tutorial: <a
-href="https://socviz.co/groupfacettx.html">Show the right
-numbers</a></p>
-<div id="why-ggplot" class="section level2">
-<h2>Why ggplot?</h2>
-<p>R has a number of built-in graphical functions. However, they are
-limited in customizability, and all work a little differently. ggplot is
-a consistent approach that allows you to build very elegant plots.</p>
-</div>
-<div id="creating-a-plot" class="section level2">
-<h2>Creating a plot</h2>
-<p>You will eventually load tibbles data from a file, but for now I will
-usually include them in the file. We are going to use a sample dataset
-called mpg.</p>
-<p>First, call <code>ggplot</code> to start your plot. It’s easiest to
-give it the data at this point.</p>
-<p>Note that nothing happens. This is because we need to draw stuff on
-the chart.</p>
-<pre class="r"><code>ggplot(data = mpg)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-</div>
-<div id="geoms-for-1-2-variables" class="section level2">
-<h2>Geoms for 1-2 variables</h2>
-<p>There are different types of geoms:</p>
+<p>This tutorial also supports Datacamp’s <em>Introduction to Data
+Visualization with ggplot2</em>.</p>
+<p>Datacamp makes a distinction between two types of graphs:</p>
 <ul>
-<li>Individual: <code>geom_area</code>, <code>geom_col</code>,
-<code>geom_line</code>, <code>geom_point</code></li>
-<li>Collective: <code>geom_boxplot</code>,
-<code>geom_histogram</code></li>
-<li>Maps: <code>geom_sf</code></li>
+<li>Exploratory: data-heavy charts to help a specialist or researcher
+understand their data.</li>
+<li>Explanatory: cleaner / simpler charts for common readers.</li>
 </ul>
-<div id="geom_bar" class="section level3">
-<h3>geom_bar</h3>
+</div>
+<div id="ggplot-elements" class="section level1 tabset">
+<h1 class="tabset">Ggplot elements</h1>
+<p>There are number of key layers in a ggplot.</p>
+<ul>
+<li>data</li>
+<li>geometries are shapes (point, line, ..)</li>
+<li>aesthetics map our data to shape properties (size, x-axis, …)
+<ul>
+<li>Note that these aren’t attributes! Attributes are things assigned to
+a constand value, not our data.</li>
+</ul></li>
+<li>statistics let us change how geometries respond to data, such as
+showing one shape per row, one shape per sum of rows, etc…</li>
+</ul>
+<p>We also have several other types of things:</p>
+<ul>
+<li>themes are color/style defaults</li>
+<li>coordinates help us map geometries to a space (cartesian, polar,
+…)</li>
+<li>scales show us numbers along an axis</li>
+<li>facets plot small multiples (columns, rows)</li>
+</ul>
+</div>
+<div id="geoms-for-1-2-variables" class="section level1">
+<h1>Geoms for 1-2 variables</h1>
+<p>There are different types of geoms:</p>
+<div id="geom_bar" class="section level2 tabset">
+<h2 class="tabset">geom_bar</h2>
 <p>A bar plot will show the <em>count</em> of items at every point in an
 axis (either x or y).</p>
-<p>Note that we use the + to join it to the ggplot.</p>
+<p>Note that we use <code>+</code> to join it with ggplot.</p>
 <p>We need to add a mapping argument to geom_bar, and will use an
 aesthetic (aes). This allows us to define which parts of the chart will
 map to our dataset.</p>
-<p>Any properties that don’t map to the <code>aes</code> (data set) need
-to be placed outside of the mapping argument. See examples below.</p>
-<p>Here is a minimal example</p>
+<div id="minimal-example" class="section level3">
+<h3>Minimal example</h3>
+<p>Map a field to either x or y. The axis other will be the
+<code>count</code> (i.e., number of rows).</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <pre class="r"><code># Minimal example
 ggplot(data = mpg) +
-  geom_bar(mapping = aes(y = hwy))</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>With some options:</p>
+  geom_bar(mapping = aes(y = hwy))  # or x</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="more-options" class="section level3">
+<h3>More options</h3>
+<p>Any properties that don’t map to the <code>aes</code> (data set) need
+to be placed outside of the mapping argument.</p>
 <ul>
-<li>x/y: use either x or y, but not both. The other will be count of
-rows.</li>
-<li>fill: text of color.</li>
-<li>color: border (text color)</li>
+<li>fill: bar color</li>
+<li>color: border color</li>
 </ul>
-<pre class="r"><code># Example with color/fill
+<pre class="r"><code>library(tidyverse)
+
+# Example with color/fill
 ggplot(data = mpg) +
   geom_bar(mapping = aes(x = hwy),
            color = &#39;blue&#39;,
-           fill = &#39;black&#39;)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+           fill = &#39;green&#39;)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
-<div id="geom_smooth" class="section level3">
-<h3>geom_smooth</h3>
+<div id="geom_col-alternative" class="section level3">
+<h3>geom_col alternative</h3>
+<p>A bar plot can also show specific values (instead of
+<code>count</code>). A <code>geom_col</code> is the same as
+<code>geom_bar</code>, except for a default <code>stat</code> of
+“identity”. Geom_bar uses <code>count</code> (i.e., the number of rows
+matching the dimension).</p>
+<pre class="r"><code>library(tidyverse)
+
+t_identity &lt;- tibble(
+  state = c(&#39;tx&#39;, &#39;ca&#39;, &#39;wv&#39;),
+  sales = c(100, 120, 70)
+)
+
+
+# Minimal example
+# 
+# 
+# Alternatively, we can use a bar with stat set to identity
+# ggplot(data = t_identity) +
+#    geom_bar(mapping = aes(x = state, y = sales), stat = &#39;identity&#39;)
+#    
+ggplot(data = t_identity) +
+  geom_col(mapping = aes(x = state, y = sales))</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="geom_smooth" class="section level2 tabset">
+<h2 class="tabset">geom_smooth</h2>
 <p>The smooth geom shows a smoothed line. It shows the <em>average</em>
-value at each point, instead of the bar (which defaults to count).</p>
-<p>Note that we need both an X and a Y (numeric).</p>
-<pre class="r"><code># Show with error bars
+value at each point. Error bars are shown in gray.</p>
+<div id="minimal-example-1" class="section level3">
+<h3>Minimal example</h3>
+<p>We need x and y values.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Show with error bars
 ggplot(data = mpg) +
   geom_smooth(mapping = aes(y = hwy, x = cty))</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<pre class="r"><code># Full example
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="more-options-1" class="section level3">
+<h3>More options</h3>
+<pre class="r"><code>library(tidyverse)
+
+# Full example
 # method: loess is default for small items. Can also use lm (linear reg)
-# color: line color
+# color: line color (as a string value)
 # linewidth: width for the bar (number)
-# se: False to use no error bars (confidence interval around smooth)
-# na.rm: T to remove na values with no error
-# stat: default is smooth (shows a smoothed line). To show all, use identity.
+# se: FALSE to remove error bars (confidence interval around smooth)
+# na.rm: TRUE to remove na values with no error
+# stat: default is &#39;smooth&#39; (shows a smoothed line). To show all items, use &#39;identity&#39;.
 ggplot(data = mpg) +
   geom_smooth(mapping = aes(y = hwy, x = cty), 
               method = &#39;lm&#39;,
@@ -406,25 +474,36 @@ ggplot(data = mpg) +
               se = FALSE,
               color = &#39;green&#39;,
               linewidth = 3)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div id="geom_line" class="section level3">
-<h3>geom_line</h3>
+<div id="geom_line-alternative" class="section level3">
+<h3>geom_line alternative</h3>
 <p>This is identical to <code>geom_smooth</code>, but defaults to
-showing the stat as identity, instead of smooth.</p>
+showing the stat as identity, instead of smooth. This is similar to the
+difference between <code>geom_bar</code> and <code>geom_col</code>.</p>
 <pre class="r"><code># Show with error bars
 ggplot(data = mpg) +
   geom_line(mapping = aes(y = hwy, x = cty))</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div id="geom_point" class="section level3">
-<h3>geom_point</h3>
+</div>
+<div id="geom_point" class="section level2 tabset">
+<h2 class="tabset">geom_point</h2>
 <p>This shows a separate dot for each row in the dataset (identity)</p>
+<p>They are great for showing a large amount of data, but you typically
+will need to account for overlapping / overplotting data by changing the
+alpha or adding jitter.</p>
+<div id="minimal-example-2" class="section level3">
+<h3>Minimal example</h3>
 <pre class="r"><code># Basic example
 #   x and y: can be either categorical or numerical data
 ggplot(data = mpg) +
   geom_point(mapping = aes(y = hwy, x = class))</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="mapping-options" class="section level3">
+<h3>Mapping options</h3>
+<p>We can map a lot of different point properties to our tibble.</p>
 <pre class="r"><code># We have a lot of properties that can be mapped
 #   shape: best discrete, (suggested max of 6 different items)
 #   size: continuous value
@@ -442,7 +521,12 @@ ggplot(data = mpg) +
 ## ℹ you have requested 7 values. Consider specifying shapes manually if you need
 ##   that many have them.</code></pre>
 <pre><code>## Warning: Removed 62 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="formatting-examples" class="section level3">
+<h3>Formatting examples</h3>
+<p>We can also set individual values for each property (instead of
+mapping them to fields in our tibble).</p>
 <pre class="r"><code># Note that this can also be set manually
 #   shape: Number, 1-20
 #   size: Number 
@@ -453,75 +537,76 @@ ggplot(data = mpg) +
                            x = manufacturer),
              shape = 2,
              size = 3,
-             color = &#39;#00bb00&#39;,
-             alpha = 0.1)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
-<div id="jitter" class="section level4">
-<h4>jitter</h4>
+             color = &#39;#ffbbff&#39;,
+             alpha = 0.9)</code></pre>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="jitter" class="section level3">
+<h3>jitter</h3>
 <p>Another useful function combined with point is <code>jitter.</code>
-This will slightly adjust the values given, making it easier to see
-overplotted data.</p>
-<p>Use in combination with a low alpha value to see density of points on
-your plot.</p>
+This will slightly adjust the values given, making it easier to see over
+plotted data (where we have a lot of different items with the same x and
+y)</p>
+<p>Use in combination with a low alpha value to see the density of
+points on your plot.</p>
 <pre class="r"><code># jitter takes in a variable, and adjusts it by the factor
 # Note that it only works with continuous data
 ggplot(data = mpg) +
   geom_point(mapping = aes(y = jitter(hwy, factor = 1.5), 
                            x = manufacturer),
-             
              alpha = 0.1)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
 </div>
-<div id="geoms-for-distributions" class="section level2">
-<h2>Geoms for distributions</h2>
-<div id="geom_histogram" class="section level3">
-<h3>geom_histogram</h3>
+<div id="geoms-for-distributions" class="section level1 tabset">
+<h1 class="tabset">Geoms for distributions</h1>
+<div id="geom_histogram" class="section level2">
+<h2>geom_histogram</h2>
 <p>Show the count of items using bins</p>
 <pre class="r"><code>ggplot(data = mpg) +
   geom_histogram(mapping = aes(x = hwy),
                  binwidth = 5)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
-<div id="geom_density" class="section level3">
-<h3>geom_density</h3>
+<div id="geom_density" class="section level2">
+<h2>geom_density</h2>
 <p>Similar to a histogram, but you can layer different lines on top of
 each other.</p>
 <pre class="r"><code>ggplot(data = mpg) +
   geom_density(mapping = aes(x =hwy, color = class, fill = class),
                alpha = 0.2)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
-<div id="geom_boxplot" class="section level3">
-<h3>geom_boxplot</h3>
+<div id="geom_boxplot" class="section level2">
+<h2>geom_boxplot</h2>
 <p>Show a boxplot for a series of discrete values (usually text)</p>
 <pre class="r"><code>ggplot(data = mpg) +
   geom_boxplot(mapping = aes(x = class, y = hwy))</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 </div>
-<div id="facets" class="section level2">
-<h2>Facets</h2>
+<div id="facets" class="section level1 tabset">
+<h1 class="tabset">Facets</h1>
 <p>We can create multiple plots using facets</p>
-<div id="facet_wrap" class="section level3">
-<h3>facet_wrap</h3>
+<p>Small multiples (facets) are a great technique for exploring
+categorical data # and its relationship with continuous data.</p>
+<p>Note the ~ symbol. ~ (tilde) is commonly use in lm (regression) to
+show [dependent variable] ~ [independent variable] For now, just
+remember to keep the left blank and put your category variable on the
+right.</p>
+<div id="facet_wrap" class="section level2">
+<h2>facet_wrap</h2>
 <p>Show a separate plot for each categorical data</p>
-<pre class="r"><code># Small multiples (facets) are a great technique for exploring categorical data
-# and its relationship with continuous data.
-#
-# Note the ~ symbol.  ~ (tilde) is commonly use in lm (regression) to
-# show [dependent variable] ~ [independent variable] For now, just
-# remember to keep the left blank and put your category variable on the right.
-# 
+<pre class="r"><code># 
 # nrow says how many plots to put per row
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap( ~ class, nrow = 3)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
-<div id="facet_grid" class="section level3">
-<h3>facet_grid</h3>
+<div id="facet_grid" class="section level2">
+<h2>facet_grid</h2>
 <p>Show a grid of charts, using two continuous variables.</p>
 <pre class="r"><code># Small multiples (facets) can be used with two separate variables.
 # Use facet_grid instead of facet_wrap.
@@ -530,14 +615,27 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(cyl ~ drv)</code></pre>
-<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="r20-ggplot_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 </div>
-<div id="dynamic-plots" class="section level2">
-<h2>Dynamic plots</h2>
+<div id="dynamic-plots" class="section level1">
+<h1>Dynamic plots</h1>
 <p>Plotly can be used to make a plot more dynamic. See its <a
 href="https://plotly.com/ggplot2">website</a> for more information.</p>
 </div>
+<div id="other-references" class="section level1">
+<h1>Other references</h1>
+<p>There is also a very nice <a
+href="https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf">cheat
+cheat by Afshine Amidi &amp; Shervine Amidi</a></p>
+<p>Here is a great systematic introduction: <a
+href="https://ggplot2-book.org/">Elegant Graphics for Data
+Analysis</a></p>
+<p>Here is a list of example charts: <a href="https://r-graphics.org/">R
+Graphics Cookbook</a></p>
+<p>Here is a great step-by-step tutorial: <a
+href="https://socviz.co/groupfacettx.html">Show the right
+numbers</a></p>
 </div>
 
 

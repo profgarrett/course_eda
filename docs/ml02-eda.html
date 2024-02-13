@@ -11,7 +11,7 @@
 
 
 
-<title>Statistics Refresher</title>
+<title>EDA</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -269,181 +269,193 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Statistics Refresher</h1>
+<h1 class="title toc-ignore">EDA</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#statics-in-r---introduction"
-id="toc-statics-in-r---introduction">Statics in R -
-Introduction</a></li>
-<li><a href="#data-types" id="toc-data-types">Data types:</a></li>
-<li><a href="#measures" id="toc-measures">Measures</a></li>
-<li><a href="#distributions" id="toc-distributions">Distributions</a>
+<li><a href="#eda-in-r---introduction"
+id="toc-eda-in-r---introduction">EDA in R - Introduction</a></li>
+<li><a href="#concepts" id="toc-concepts">Concepts</a></li>
+<li><a href="#categorical-data" id="toc-categorical-data">Categorical
+data</a>
 <ul>
-<li><a href="#normal-distribution" id="toc-normal-distribution">Normal
-distribution</a></li>
-<li><a href="#binomial" id="toc-binomial">Binomial</a></li>
-<li><a href="#poisson-distribution"
-id="toc-poisson-distribution">Poisson Distribution</a></li>
-<li><a href="#exponential-distribution"
-id="toc-exponential-distribution">Exponential Distribution</a></li>
+<li><a href="#table" id="toc-table">table</a></li>
+<li><a href="#proportion-table" id="toc-proportion-table">Proportion
+table</a></li>
+<li><a href="#charts" id="toc-charts">Charts</a></li>
 </ul></li>
-<li><a href="#probability" id="toc-probability">Probability</a></li>
-<li><a href="#central-limit-theorem"
-id="toc-central-limit-theorem">Central Limit Theorem</a>
+<li><a href="#distribution-data" id="toc-distribution-data">Distribution
+data</a></li>
+<li><a href="#plots-for-3-variables"
+id="toc-plots-for-3-variables">Plots for 3 variables</a></li>
+<li><a href="#measures" id="toc-measures">Measures</a>
 <ul>
-<li><a href="#correlation" id="toc-correlation">Correlation</a></li>
+<li><a href="#centrality" id="toc-centrality">Centrality</a></li>
+<li><a href="#variability" id="toc-variability">Variability</a></li>
 </ul></li>
-<li><a href="#experiment" id="toc-experiment">Experiment</a></li>
+<li><a href="#shape-and-transformations"
+id="toc-shape-and-transformations">Shape and Transformations</a></li>
+<li><a href="#outliers" id="toc-outliers">Outliers</a></li>
+<li><a href="#zero-inflation-strategy"
+id="toc-zero-inflation-strategy">Zero-inflation strategy</a></li>
 </ul>
 </div>
 
-<div id="statics-in-r---introduction" class="section level1">
-<h1>Statics in R - Introduction</h1>
-<p>This corresponds to the DataCamp <em>Introduction to Statistics in
+<div id="eda-in-r---introduction" class="section level1">
+<h1>EDA in R - Introduction</h1>
+<p>This corresponds to the DataCamp <em>Exploratory Data Analysis in
 R</em> course.</p>
-<p>There are two main branches of statistics</p>
+<p>It helps us understand how multiple variables are related to each
+other.</p>
+</div>
+<div id="concepts" class="section level1">
+<h1>Concepts</h1>
+<p>Marginal: the chance that of an event happening. Example, what are
+the chances of a heads on a coin flip, given that we had just had a
+head. It is still 50%.</p>
+<p>Conditional: If A, then the proportion of B changes As an example: If
+a person is man, then they are more likely to be tall.</p>
+</div>
+<div id="categorical-data" class="section level1">
+<h1>Categorical data</h1>
+<p>Process:</p>
 <ul>
-<li><em>Descriptive</em> describe our data</li>
-<li><em>Inferential</em> uses a sample to predict a population</li>
+<li>Find unique values for a field
+<ul>
+<li>low-count items as needed</li>
+<li>Use both count and proportions</li>
+</ul></li>
+<li>Remove bad categories</li>
+</ul>
+<div id="table" class="section level2">
+<h2>table</h2>
+<p>Print raw count of two categorical variables</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>t &lt;- tibble(x = c(&#39;Bob&#39;, &#39;Bob&#39;, &#39;Bob&#39;, &#39;Sue&#39;, &#39;Sue&#39;), 
+            z = c(&#39;a&#39;, &#39;b&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;))
+
+
+# Print normal table
+table(t$x, t$z)</code></pre>
+<pre><code>##      
+##       a b
+##   Bob 2 1
+##   Sue 1 1</code></pre>
+</div>
+<div id="proportion-table" class="section level2">
+<h2>Proportion table</h2>
+<p>Show the counts as proportions</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(x = c(&#39;Bob&#39;, &#39;Bob&#39;, &#39;Bob&#39;, &#39;Sue&#39;, &#39;Sue&#39;), 
+            z = c(&#39;a&#39;, &#39;b&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;))
+
+# Change printout to simplify output
+options(scipen = 999, digits = 3)
+
+# Print table of % (of total)
+#   For 2nd argument, 
+#     NA: % of total
+#     1: % of row
+#     2: % of column
+prop.table(table(t$x, t$z), 2)</code></pre>
+<pre><code>##      
+##           a     b
+##   Bob 0.667 0.500
+##   Sue 0.333 0.500</code></pre>
+</div>
+<div id="charts" class="section level2">
+<h2>Charts</h2>
+<p>Good chart designs:</p>
+<ul>
+<li>Stacked bar chart</li>
+<li>Faceted bar charts</li>
 </ul>
 </div>
-<div id="data-types" class="section level1">
-<h1>Data types:</h1>
+</div>
+<div id="distribution-data" class="section level1">
+<h1>Distribution data</h1>
+<p>We generally need a chart that shows a range of data.</p>
 <ul>
-<li>Numerical
+<li>Point
 <ul>
-<li><em>Continuous data</em>’s precision is set by the measuring tool,
-not the underlying value. A good example is height or weight.</li>
-<li><em>Discrete data</em> has no intermediate values, such as ranks or
-number of classes completed</li>
+<li>Points are good for smaller sets (n &lt; 100), but have issues with
+overplotting.</li>
 </ul></li>
-<li><em>Categorical</em> is generally text (though it can be stored as a
-number, such as K-12)
+<li>Histogram
 <ul>
-<li>Can have order (such as freshman/…/senior) or not (majors)</li>
+<li>Very good for one variable</li>
+<li>Need facets to add in categorical variable</li>
+</ul></li>
+<li>Density plot</li>
+<li>Boxplot
+<ul>
+<li>Great for large numbers of categorical variables</li>
 </ul></li>
 </ul>
+</div>
+<div id="plots-for-3-variables" class="section level1">
+<h1>Plots for 3 variables</h1>
+<p>Ensure that we have enough data points for each combination of
+variables.</p>
+<p>High dimension plots can easily be created through the use of facets.
+But, dotplots are also a good approach.</p>
 </div>
 <div id="measures" class="section level1">
 <h1>Measures</h1>
+<div id="centrality" class="section level2">
+<h2>Centrality</h2>
+<p>Process:</p>
 <ul>
-<li>Measures of central tendency
-<ul>
-<li>Mean, median, mode</li>
-<li>Skew</li>
-</ul></li>
-<li>Measures of spread
-<ul>
-<li>Variance: difference between mean and each data point, squared.</li>
-<li>Standard deviation: square root of variance</li>
-<li>Mean absolute deviation: similar to standard deviation ,but not
-square that causes longer distances to have more of a penalty.</li>
-<li>Quartiles: data split into 4 categories</li>
-<li>Quantiles: data split into 10 categories</li>
-<li>Interquartile range (IQR): difference between 25% and 75%
-percentile.</li>
-</ul></li>
-<li>Outliers: anything less than 25th quartile less 1.5 IQR (or 75%
-quartile + 1.5 IQR)</li>
+<li>Create a group by</li>
+<li>Summarize iwth mean, median, mode</li>
 </ul>
 </div>
-<div id="distributions" class="section level1">
-<h1>Distributions</h1>
-<div id="normal-distribution" class="section level2">
-<h2>Normal distribution</h2>
+<div id="variability" class="section level2">
+<h2>Variability</h2>
+<p>var:</p>
 <ul>
-<li>Describe the concept of a normal distribution</li>
-<li>Describe why having a normal distribution is useful</li>
-<li>List some items having (or not) a normal distribution</li>
+<li>Measure distance between each item and mean</li>
+<li>Square it, to create all positives and increase weight of bigger
+differences.</li>
+<li>Divide by the count</li>
+<li>End up with units^2</li>
 </ul>
-<p><em>3-minute data science</em> “Normal distribution”: <a
-href="https://www.youtube.com/watch?v=3VYupIsbLlY"
-class="uri">https://www.youtube.com/watch?v=3VYupIsbLlY</a></p>
-<p><img src="r60-statistics-normaldist-weightrack.jpeg"
-alt="Normal Distribution" /> ## Uniform</p>
-<p>All outcomes have an equal probability.</p>
-<p>Use <code>runif</code></p>
-</div>
-<div id="binomial" class="section level2">
-<h2>Binomial</h2>
-<p>An outcome with either true or false (1 or 0).</p>
-<p>Use <code>rbinom</code></p>
-</div>
-<div id="poisson-distribution" class="section level2">
-<h2>Poisson Distribution</h2>
-<p>The probability of some number of events happening over a fixed
-period of time.</p>
-</div>
-<div id="exponential-distribution" class="section level2">
-<h2>Exponential Distribution</h2>
+<p>sd: same as var, but square root (original units)</p>
+<p>summary gets quartiles</p>
+<p>IQR: inter-quartile range.</p>
 </div>
 </div>
-<div id="probability" class="section level1">
-<h1>Probability</h1>
+<div id="shape-and-transformations" class="section level1">
+<h1>Shape and Transformations</h1>
+<p>Modality: - Unimodal: one point - Bimodal: two - Multimodal: 3+</p>
+<p>Skew: left or right (where the long tail is!)</p>
+<p>Transform by applying a log transformation.</p>
+</div>
+<div id="outliers" class="section level1">
+<h1>Outliers</h1>
+<p>Solutions:</p>
 <ul>
-<li>Sampling with and without replacement</li>
-<li>Independent and dependent events</li>
-<li>Probability distribution
-<ul>
-<li>Discrete: rolling a dice</li>
-<li>Continuous: bus delay</li>
-</ul></li>
+<li>Create a new variable to identify outliers and plot</li>
+<li>Filter out outliers</li>
 </ul>
 </div>
-<div id="central-limit-theorem" class="section level1">
-<h1>Central Limit Theorem</h1>
-<p>A sampling distribution will approach a normal distribution as the
-number of trials increases.</p>
-<p>Use <code>sample()</code></p>
-<div id="correlation" class="section level2">
-<h2>Correlation</h2>
-<p>Outcomes:</p>
-<ul>
-<li>Describe the role of a correlation</li>
-<li>Know the difference between the statistical significant of a
-correlation, versus its strength.</li>
-<li>Magnitude
-<ul>
-<li>Strong &gt; 50, moderate &gt;25, weak around 20%.</li>
-<li>Understand - versus positive sign</li>
-</ul></li>
-<li>Problems
-<ul>
-<li>Non-linear relationships.
-<ul>
-<li>Can have log applied</li>
-</ul></li>
-<li>Correlation v. causation v. confounding</li>
-</ul></li>
-</ul>
-<p>Help: <a href="https://www.youtube.com/watch?v=rijqfllOq6g"
-class="uri">https://www.youtube.com/watch?v=rijqfllOq6g</a></p>
-<p><a
-href="https://www.reddit.com/r/dataisbeautiful/comments/18p85yp/correlating_four_other_variables_with_a_states/?share_id=IsERBPtlNN-F0Bw9s0kSn">Good
-discussion and examples of correlation</a></p>
-</div>
-</div>
-<div id="experiment" class="section level1">
-<h1>Experiment</h1>
-<p>Controlled experiment</p>
-<ul>
-<li>Control group</li>
-<li>Treatment / experimental group</li>
-<li>Double-blind</li>
-<li>Selection
-<ul>
-<li>Random</li>
-<li>Observational</li>
-</ul></li>
-<li>Time
-<ul>
-<li>Longitudinal</li>
-<li>Cross-sectional</li>
-</ul></li>
-</ul>
+<div id="zero-inflation-strategy" class="section level1">
+<h1>Zero-inflation strategy</h1>
+<p>We often have issues with variables having a lot of zeros. We can
+convert that into a yes/no variable.</p>
 </div>
 
 

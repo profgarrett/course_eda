@@ -6,29 +6,10 @@ output:
 
 ---
 
-Ask a manager data
-
-https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-05-18/readme.md
-
-
-Horror Movies
-https://github.com/tashapiro/horror-movies/tree/main
-https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-11-01
-
-
-Data:
-
-National Parks - https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-09-17
-https://fivethirtyeight.com/features/the-national-parks-have-never-been-more-popular/
-
-Big Mac Index - https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-12-22/readme.md
-
-https://www.economist.com/big-mac-index
 
 # Analyzing data in Tableau
  
 See Datacamp *Analyzing data in Tableau*
-
 
 # Data Fixes
 
@@ -48,7 +29,6 @@ See Datacamp *Analyzing data in Tableau*
     - Rename groups
     - Edit the group field
   - Create a custom group sort
-## Advanced data fixes
 
 
 
@@ -119,7 +99,8 @@ See Datacamp *Analyzing data in Tableau*
   - Add a sub-chart
   
 
-# Maps
+# Maps (part 2)
+
 
 Maps rely on long/lat. These can be in a dataset, or calculated by Tableau.
 
@@ -140,7 +121,5 @@ Maps rely on long/lat. These can be in a dataset, or calculated by Tableau.
   - Set background layers (including Tableau's built-in data layers)
   - Add/remove roads
   
-
-
 
 

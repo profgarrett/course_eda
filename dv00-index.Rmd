@@ -14,7 +14,7 @@ Course study notes for ACCT 425 and BUDA 450 students for Spring 2024
 
 - [Writing an effective report](dv10-effective-reports.html)
 - [Data](dv21-data.html)
-- [Colors](dv21-colors.html)
+- [Colors](dv30-colors.html)
 - [Good dv examples](dv90-examples.html)
 - [Excel Core Skills](dv05-excel.html)
 
@@ -26,12 +26,8 @@ Course study notes for ACCT 425 and BUDA 450 students for Spring 2024
 
 ## Advanced data corrections
 
-
-- Boxplot
 - Annotations
   - Annotate mark, point, or area
-
-
 
 
 # Good resources

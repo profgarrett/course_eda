@@ -8,120 +8,133 @@ output:
 
 # Introduction
 
-```{r, include=FALSE}
-
-# Add libraries
-library(tidyverse)
-
-```
-
-ggplot is a super useful graphics tool. See its website at [dplyr
-tutorial](https://ggplot2.tidyverse.org/)
+ggplot is a super useful graphics tool. See its website at [dplyr tutorial](https://ggplot2.tidyverse.org/)
 
 
-These notes correspond to Datacamp's *Introduction to the tidyverse*.
+This tutorial also supports Datacamp's *Introduction to Data Visualization with ggplot2*.
+
+Datacamp makes a distinction between two types of graphs:
+
+- Exploratory: data-heavy charts to help a specialist or researcher understand their data.
+- Explanatory: cleaner / simpler charts for common readers.
+
+# Ggplot elements  {.tabset}
+
+There are number of key layers in a ggplot.
+
+- data
+- geometries are shapes (point, line, ..)
+- aesthetics map our data to shape properties (size, x-axis, ...)
+  - Note that these aren't attributes! Attributes are things assigned to a constand value, not our data.
+- statistics let us change how geometries respond to data, such as showing one shape per row, one shape per sum of rows, etc... 
 
 
-## Why ggplot?
+We also have several other types of things:
 
-R has a number of built-in graphical functions. However, they are
-limited in customizability, and all work a little differently. ggplot is
-a consistent approach that allows you to build very elegant plots.
+- themes are color/style defaults
+- coordinates help us map geometries to a space (cartesian, polar, ...)
+- scales show us numbers along an axis
+- facets plot small multiples (columns, rows)
 
-## Other references
 
-There is also a very nice [cheat cheat by Afshine Amidi & Shervine Amidi](https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf)
-
-Here is a great systematic introduction:
-[Elegant Graphics for Data Analysis](https://ggplot2-book.org/)
-
-Here is a list of example charts:
-[R Graphics Cookbook](https://r-graphics.org/)
-
-Here is a great step-by-step tutorial: [Show the right numbers](https://socviz.co/groupfacettx.html)
-
-# Creating a plot
-
-You will eventually load tibbles data from a file, but for now I will
-usually include them in the file. We are going to use a sample dataset
-called mpg.
-
-First, call `ggplot` to start your plot. It's easiest to give it the data
-at this point.
-
-Note that nothing happens. This is because we need to draw stuff on the
-chart.
-
-```{r, eval=T, echo=TRUE }
-ggplot(data = mpg)
-```
-
-## Geoms for 1-2 variables 
+# Geoms for 1-2 variables 
 
 There are different types of geoms:
 
-- Individual: `geom_area`, `geom_col`, `geom_line`, `geom_point`
-- Collective: `geom_boxplot`, `geom_histogram`
-- Maps: `geom_sf`
+## geom_bar {.tabset}
 
+A bar plot will show the *count* of items at every point in an axis (either x or y).
 
-### geom_bar
+Note that we use  `+` to join it with ggplot.
 
-A bar plot will show the *count* of items at every point in an axis
-(either x or y).
+We need to add a mapping argument to geom_bar, and will use an aesthetic (aes). This allows us to define which parts of the chart will map to our dataset.
 
-Note that we use the + to join it to the ggplot.
+### Minimal example
 
-We need to add a mapping argument to geom_bar, and will use an aesthetic
-(aes). This allows us to define which parts of the chart will map to our
-dataset.
-
-Any properties that don't map to the `aes` (data set) need to be placed
-outside of the mapping argument. See examples below.
-
-Here is a minimal example
+Map a field to either x or y.  The axis other will be the `count` (i.e., number of rows).
 
 ```{r, eval=T, echo=TRUE }
+library(tidyverse)
+
 # Minimal example
 ggplot(data = mpg) +
-  geom_bar(mapping = aes(y = hwy))
+  geom_bar(mapping = aes(y = hwy))  # or x
 ```
 
-With some options:
+### More options
 
-- x/y: use either x or y, but not both. The other will be count of rows.
-- fill: text of color.
-- color: border (text color) 
+Any properties that don't map to the `aes` (data set) need to be placed outside of the mapping argument.
+
+- fill: bar color
+- color: border color
 
 ```{r, eval=T, echo=TRUE }
+library(tidyverse)
 
 # Example with color/fill
 ggplot(data = mpg) +
   geom_bar(mapping = aes(x = hwy),
            color = 'blue',
-           fill = 'black')
+           fill = 'green')
+```
+
+### geom_col alternative
+
+A bar plot can also show specific values (instead of `count`). A `geom_col` is the same as `geom_bar`, except for a default `stat` of "identity". Geom_bar uses `count` (i.e., the number of rows matching the dimension).
+
+
+```{r, eval=T, echo=TRUE }
+library(tidyverse)
+
+t_identity <- tibble(
+  state = c('tx', 'ca', 'wv'),
+  sales = c(100, 120, 70)
+)
+
+
+# Minimal example
+# 
+# 
+# Alternatively, we can use a bar with stat set to identity
+# ggplot(data = t_identity) +
+#    geom_bar(mapping = aes(x = state, y = sales), stat = 'identity')
+#    
+ggplot(data = t_identity) +
+  geom_col(mapping = aes(x = state, y = sales))
+
+
 ```
 
 
-### geom_smooth
+## geom_smooth  {.tabset}
 
-The smooth geom shows a smoothed line. It shows the *average* value at each
-point, instead of the bar (which defaults to count).
+The smooth geom shows a smoothed line. It shows the *average* value at each point. Error bars are shown in gray.
 
-Note that we need both an X and a Y (numeric).
+
+### Minimal example
+
+We need x and y values.
 
 ```{r, eval=T, echo=TRUE }
+library(tidyverse)
+
 # Show with error bars
 ggplot(data = mpg) +
   geom_smooth(mapping = aes(y = hwy, x = cty))
+```
+
+### More options
+
+```{r, eval=T, echo=TRUE }
+library(tidyverse)
 
 # Full example
 # method: loess is default for small items. Can also use lm (linear reg)
-# color: line color
+# color: line color (as a string value)
 # linewidth: width for the bar (number)
-# se: False to use no error bars (confidence interval around smooth)
-# na.rm: T to remove na values with no error
-# stat: default is smooth (shows a smoothed line). To show all, use identity.
+# se: FALSE to remove error bars (confidence interval around smooth)
+# na.rm: TRUE to remove na values with no error
+# stat: default is 'smooth' (shows a smoothed line). To show all items, use 'identity'.
 ggplot(data = mpg) +
   geom_smooth(mapping = aes(y = hwy, x = cty), 
               method = 'lm',
@@ -133,10 +146,9 @@ ggplot(data = mpg) +
 
 ```
 
-### geom_line
+### geom_line alternative
 
-This is identical to `geom_smooth`, but defaults to showing the stat as 
-identity, instead of smooth.
+This is identical to `geom_smooth`, but defaults to showing the stat as identity, instead of smooth. This is similar to the difference between `geom_bar` and `geom_col`.
 
 ```{r, eval=T, echo=TRUE }
 # Show with error bars
@@ -144,9 +156,13 @@ ggplot(data = mpg) +
   geom_line(mapping = aes(y = hwy, x = cty))
 ```
 
-### geom_point
+## geom_point {.tabset}
 
 This shows a separate dot for each row in the dataset (identity) 
+
+They are great for showing a large amount of data, but you typically will need to account for overlapping / overplotting data by changing the alpha or adding jitter.
+
+### Minimal example
 
 ```{r, eval=T, echo=TRUE }
 
@@ -154,6 +170,14 @@ This shows a separate dot for each row in the dataset (identity)
 #   x and y: can be either categorical or numerical data
 ggplot(data = mpg) +
   geom_point(mapping = aes(y = hwy, x = class))
+```
+
+### Mapping options
+
+We can map a lot of different point properties to our tibble.
+
+```{r, eval=T, echo=TRUE }
+
 
 # We have a lot of properties that can be mapped
 #   shape: best discrete, (suggested max of 6 different items)
@@ -167,7 +191,13 @@ ggplot(data = mpg) +
                            size = cyl,
                            color = cty,
                            alpha = displ))
+```
 
+### Formatting examples
+
+We can also set individual values for each property (instead of mapping them to fields in our tibble).
+
+```{r, eval=T, echo=TRUE }
 # Note that this can also be set manually
 #   shape: Number, 1-20
 #   size: Number 
@@ -178,21 +208,17 @@ ggplot(data = mpg) +
                            x = manufacturer),
              shape = 2,
              size = 3,
-             color = '#00bb00',
-             alpha = 0.1)
-
-
+             color = '#ffbbff',
+             alpha = 0.9)
 
 ```
 
 
+### jitter
 
-#### jitter
+Another useful function combined with point is `jitter.` This will slightly adjust the values given, making it easier to see over plotted data (where we have a lot of different items with the same x and y)
 
-Another useful function combined with point is `jitter.` This will slightly
-adjust the values given, making it easier to see overplotted data.
-
-Use in combination with a low alpha value to see density of points on your plot.
+Use in combination with a low alpha value to see the density of points on your plot.
 
 ```{r, eval=T, echo=TRUE }
 
@@ -201,13 +227,12 @@ Use in combination with a low alpha value to see density of points on your plot.
 ggplot(data = mpg) +
   geom_point(mapping = aes(y = jitter(hwy, factor = 1.5), 
                            x = manufacturer),
-             
              alpha = 0.1)
 ```
 
-## Geoms for distributions
+# Geoms for distributions {.tabset}
 
-### geom_histogram
+## geom_histogram
 
 Show the count of items using bins
 
@@ -218,7 +243,7 @@ ggplot(data = mpg) +
 ```
 
 
-### geom_density
+## geom_density
 
 Similar to a histogram, but you can layer different lines on top of each other.
 
@@ -228,7 +253,7 @@ ggplot(data = mpg) +
                alpha = 0.2)
 ```
 
-### geom_boxplot
+## geom_boxplot
 
 Show a boxplot for a series of discrete values (usually text)
 
@@ -240,23 +265,22 @@ ggplot(data = mpg) +
 
 
 
-
-## Facets
+# Facets {.tabset}
 
 We can create multiple plots using facets
 
-### facet_wrap
+Small multiples (facets) are a great technique for exploring categorical data # and its relationship with continuous data.
+
+Note the ~ symbol.  ~ (tilde) is commonly use in lm (regression) to
+ show [dependent variable] ~ [independent variable] For now, just
+ remember to keep the left blank and put your category variable on the right.
+
+## facet_wrap
 
 Show a separate plot for each categorical data
 
 ```{r, eval=T, echo=TRUE }
 
-# Small multiples (facets) are a great technique for exploring categorical data
-# and its relationship with continuous data.
-#
-# Note the ~ symbol.  ~ (tilde) is commonly use in lm (regression) to
-# show [dependent variable] ~ [independent variable] For now, just
-# remember to keep the left blank and put your category variable on the right.
 # 
 # nrow says how many plots to put per row
 ggplot(data = mpg) +
@@ -265,7 +289,7 @@ ggplot(data = mpg) +
 
 ```
 
-### facet_grid
+## facet_grid
 
 Show a grid of charts, using two continuous variables.
 
@@ -284,10 +308,19 @@ ggplot(data = mpg) +
 
 
 
-
-
-
-
-## Dynamic plots
+# Dynamic plots
 
 Plotly can be used to make a plot more dynamic. See its [website](https://plotly.com/ggplot2) for more information.
+
+
+# Other references
+
+There is also a very nice [cheat cheat by Afshine Amidi & Shervine Amidi](https://github.com/shervinea/mit-15-003-data-science-tools/blob/master/en/study-guide-data-visualization-with-r.pdf)
+
+Here is a great systematic introduction:
+[Elegant Graphics for Data Analysis](https://ggplot2-book.org/)
+
+Here is a list of example charts:
+[R Graphics Cookbook](https://r-graphics.org/)
+
+Here is a great step-by-step tutorial: [Show the right numbers](https://socviz.co/groupfacettx.html)

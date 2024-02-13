@@ -20,6 +20,7 @@ This section is for ACCT 426 and BUDA 451 students in Spring 2023.
   - [1f. Functions2](r06-syntax-functions2.html) (*List of useful functions* )
 * EDA Process
   - [Machine Learning in Business](ml01-intro.html) (Datacamp *Machine Learning for Business*)
+  - [Exploratory Data Analysis in R](ml02-eda.html) (DataCamp *Exploratory Data Analysis in R*)
   - [Folders and files](r07-folders.html)
   - [Managing files in a project](r08-project-files.html)
 * Libraries

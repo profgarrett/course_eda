@@ -1,0 +1,144 @@
+---
+title: EDA
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# EDA in R - Introduction
+
+This corresponds to the DataCamp *Exploratory Data Analysis in R* course.
+
+It helps us understand how multiple variables are related to each other.
+
+# Concepts
+
+Marginal: the chance that of an event happening. Example, what are the chances of a heads on a coin flip, given that we had just had a head. It is still 50%. 
+
+Conditional: If A, then the proportion of B changes
+As an example: If a person is man, then they are more likely to be tall.
+
+# Categorical data
+
+Process:
+
+- Find unique values for a field
+  - low-count items as needed
+  - Use both count and proportions
+- Remove bad categories
+ 
+
+## table
+
+Print raw count of two categorical variables
+
+```{r echo=TRUE}
+library(tidyverse)
+
+t <- tibble(x = c('Bob', 'Bob', 'Bob', 'Sue', 'Sue'), 
+            z = c('a', 'b', 'a', 'a', 'b'))
+
+
+# Print normal table
+table(t$x, t$z)
+```
+
+## Proportion table
+
+Show the counts as proportions
+
+```{r echo=TRUE}
+library(tidyverse)
+
+t <- tibble(x = c('Bob', 'Bob', 'Bob', 'Sue', 'Sue'), 
+            z = c('a', 'b', 'a', 'a', 'b'))
+
+# Change printout to simplify output
+options(scipen = 999, digits = 3)
+
+# Print table of % (of total)
+#   For 2nd argument, 
+#     NA: % of total
+#     1: % of row
+#     2: % of column
+prop.table(table(t$x, t$z), 2)
+```
+
+## Charts
+
+Good chart designs:
+
+- Stacked bar chart
+- Faceted bar charts
+
+# Distribution data
+
+We generally need a chart that shows a range of data.
+
+- Point
+  - Points are good for smaller sets (n < 100), but have issues with overplotting.
+- Histogram
+  - Very good for one variable
+  - Need facets to add in categorical variable
+- Density plot
+- Boxplot
+  - Great for large numbers of categorical variables
+  
+  
+# Plots for 3 variables
+
+Ensure that we have enough data points for each combination of variables.
+
+High dimension plots can easily be created through the use of facets. But, dotplots are also a good approach.
+
+
+# Measures 
+
+## Centrality
+
+Process:
+
+- Create a group by
+- Summarize iwth mean, median, mode
+
+## Variability
+
+var:
+
+- Measure distance between each item and mean
+- Square it, to create all positives and increase weight of bigger differences.
+- Divide by the count
+- End up with units^2
+
+sd: same as var, but square root (original units)
+
+summary gets quartiles
+
+IQR: inter-quartile range.
+
+
+
+# Shape and Transformations
+
+
+Modality: 
+- Unimodal: one point
+- Bimodal: two
+- Multimodal: 3+
+
+Skew: left or right (where the long tail is!)
+
+Transform by applying a log transformation.
+
+# Outliers
+
+Solutions:
+
+- Create a new variable to identify outliers and plot
+- Filter out outliers
+
+
+# Zero-inflation strategy
+
+We often have issues with variables having a lot of zeros. We can convert that into a yes/no variable.
