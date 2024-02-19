@@ -123,3 +123,16 @@ Maps rely on long/lat. These can be in a dataset, or calculated by Tableau.
   
 
 
+# Other key skills
+
+- Use filters to dynamically update charts in a dashboard
+- Use Bookmarks
+  - Dynamic filter
+  - Go to page
+
+- Understand distortions
+  - Non-zero axis
+  - Areas not matching value
+  - Non-proportional values
+  - Bad color scales
+  - Bad grouping

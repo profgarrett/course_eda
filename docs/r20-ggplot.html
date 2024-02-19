@@ -380,18 +380,9 @@ map to our dataset.</p>
 <h3>Minimal example</h3>
 <p>Map a field to either x or y. The axis other will be the
 <code>count</code> (i.e., number of rows).</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.2     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code># Minimal example
+<pre class="r"><code>library(tidyverse)
+
+# Minimal example
 ggplot(data = mpg) +
   geom_bar(mapping = aes(y = hwy))  # or x</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
@@ -452,7 +443,6 @@ value at each point. Error bars are shown in gray.</p>
 # Show with error bars
 ggplot(data = mpg) +
   geom_smooth(mapping = aes(y = hwy, x = cty))</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="more-options-1" class="section level3">
@@ -495,7 +485,9 @@ will need to account for overlapping / overplotting data by changing the
 alpha or adding jitter.</p>
 <div id="minimal-example-2" class="section level3">
 <h3>Minimal example</h3>
-<pre class="r"><code># Basic example
+<pre class="r"><code>library(tidyverse)
+
+# Basic example
 #   x and y: can be either categorical or numerical data
 ggplot(data = mpg) +
   geom_point(mapping = aes(y = hwy, x = class))</code></pre>
@@ -504,7 +496,9 @@ ggplot(data = mpg) +
 <div id="mapping-options" class="section level3">
 <h3>Mapping options</h3>
 <p>We can map a lot of different point properties to our tibble.</p>
-<pre class="r"><code># We have a lot of properties that can be mapped
+<pre class="r"><code>library(tidyverse)
+
+# We have a lot of properties that can be mapped
 #   shape: best discrete, (suggested max of 6 different items)
 #   size: continuous value
 #   alpha: continuous values
@@ -527,7 +521,9 @@ ggplot(data = mpg) +
 <h3>Formatting examples</h3>
 <p>We can also set individual values for each property (instead of
 mapping them to fields in our tibble).</p>
-<pre class="r"><code># Note that this can also be set manually
+<pre class="r"><code>library(tidyverse)
+
+# Note that this can also be set manually
 #   shape: Number, 1-20
 #   size: Number 
 #   alpha: Number 0-1
@@ -549,7 +545,9 @@ plotted data (where we have a lot of different items with the same x and
 y)</p>
 <p>Use in combination with a low alpha value to see the density of
 points on your plot.</p>
-<pre class="r"><code># jitter takes in a variable, and adjusts it by the factor
+<pre class="r"><code>library(tidyverse)
+
+# jitter takes in a variable, and adjusts it by the factor
 # Note that it only works with continuous data
 ggplot(data = mpg) +
   geom_point(mapping = aes(y = jitter(hwy, factor = 1.5), 
@@ -564,7 +562,9 @@ ggplot(data = mpg) +
 <div id="geom_histogram" class="section level2">
 <h2>geom_histogram</h2>
 <p>Show the count of items using bins</p>
-<pre class="r"><code>ggplot(data = mpg) +
+<pre class="r"><code>library(tidyverse)
+
+ggplot(data = mpg) +
   geom_histogram(mapping = aes(x = hwy),
                  binwidth = 5)</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
@@ -573,7 +573,9 @@ ggplot(data = mpg) +
 <h2>geom_density</h2>
 <p>Similar to a histogram, but you can layer different lines on top of
 each other.</p>
-<pre class="r"><code>ggplot(data = mpg) +
+<pre class="r"><code>library(tidyverse)
+
+ggplot(data = mpg) +
   geom_density(mapping = aes(x =hwy, color = class, fill = class),
                alpha = 0.2)</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
@@ -581,7 +583,9 @@ each other.</p>
 <div id="geom_boxplot" class="section level2">
 <h2>geom_boxplot</h2>
 <p>Show a boxplot for a series of discrete values (usually text)</p>
-<pre class="r"><code>ggplot(data = mpg) +
+<pre class="r"><code>library(tidyverse)
+
+ggplot(data = mpg) +
   geom_boxplot(mapping = aes(x = class, y = hwy))</code></pre>
 <p><img src="r20-ggplot_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
@@ -598,7 +602,8 @@ right.</p>
 <div id="facet_wrap" class="section level2">
 <h2>facet_wrap</h2>
 <p>Show a separate plot for each categorical data</p>
-<pre class="r"><code># 
+<pre class="r"><code>library(tidyverse)
+
 # nrow says how many plots to put per row
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
@@ -608,7 +613,9 @@ ggplot(data = mpg) +
 <div id="facet_grid" class="section level2">
 <h2>facet_grid</h2>
 <p>Show a grid of charts, using two continuous variables.</p>
-<pre class="r"><code># Small multiples (facets) can be used with two separate variables.
+<pre class="r"><code>library(tidyverse)
+
+# Small multiples (facets) can be used with two separate variables.
 # Use facet_grid instead of facet_wrap.
 # Use categorical variables.
 # Note the ~  uses drv (type of drive-train) and cyl (cylinders)

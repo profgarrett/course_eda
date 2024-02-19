@@ -53,7 +53,7 @@ We need to add a mapping argument to geom_bar, and will use an aesthetic (aes). 
 
 Map a field to either x or y.  The axis other will be the `count` (i.e., number of rows).
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
 library(tidyverse)
 
 # Minimal example
@@ -68,7 +68,7 @@ Any properties that don't map to the `aes` (data set) need to be placed outside 
 - fill: bar color
 - color: border color
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
 library(tidyverse)
 
 # Example with color/fill
@@ -83,7 +83,7 @@ ggplot(data = mpg) +
 A bar plot can also show specific values (instead of `count`). A `geom_col` is the same as `geom_bar`, except for a default `stat` of "identity". Geom_bar uses `count` (i.e., the number of rows matching the dimension).
 
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
 library(tidyverse)
 
 t_identity <- tibble(
@@ -115,7 +115,7 @@ The smooth geom shows a smoothed line. It shows the *average* value at each poin
 
 We need x and y values.
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
 library(tidyverse)
 
 # Show with error bars
@@ -125,7 +125,7 @@ ggplot(data = mpg) +
 
 ### More options
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
 library(tidyverse)
 
 # Full example
@@ -150,7 +150,7 @@ ggplot(data = mpg) +
 
 This is identical to `geom_smooth`, but defaults to showing the stat as identity, instead of smooth. This is similar to the difference between `geom_bar` and `geom_col`.
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
 # Show with error bars
 ggplot(data = mpg) +
   geom_line(mapping = aes(y = hwy, x = cty))
@@ -164,7 +164,8 @@ They are great for showing a large amount of data, but you typically will need t
 
 ### Minimal example
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
 
 # Basic example
 #   x and y: can be either categorical or numerical data
@@ -176,8 +177,8 @@ ggplot(data = mpg) +
 
 We can map a lot of different point properties to our tibble.
 
-```{r, eval=T, echo=TRUE }
-
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
 
 # We have a lot of properties that can be mapped
 #   shape: best discrete, (suggested max of 6 different items)
@@ -197,7 +198,9 @@ ggplot(data = mpg) +
 
 We can also set individual values for each property (instead of mapping them to fields in our tibble).
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
+
 # Note that this can also be set manually
 #   shape: Number, 1-20
 #   size: Number 
@@ -220,7 +223,8 @@ Another useful function combined with point is `jitter.` This will slightly adju
 
 Use in combination with a low alpha value to see the density of points on your plot.
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
 
 # jitter takes in a variable, and adjusts it by the factor
 # Note that it only works with continuous data
@@ -236,7 +240,9 @@ ggplot(data = mpg) +
 
 Show the count of items using bins
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
+
 ggplot(data = mpg) +
   geom_histogram(mapping = aes(x = hwy),
                  binwidth = 5)
@@ -247,7 +253,9 @@ ggplot(data = mpg) +
 
 Similar to a histogram, but you can layer different lines on top of each other.
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
+
 ggplot(data = mpg) +
   geom_density(mapping = aes(x =hwy, color = class, fill = class),
                alpha = 0.2)
@@ -257,7 +265,9 @@ ggplot(data = mpg) +
 
 Show a boxplot for a series of discrete values (usually text)
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
+
 ggplot(data = mpg) +
   geom_boxplot(mapping = aes(x = class, y = hwy))
 ```
@@ -279,9 +289,9 @@ Note the ~ symbol.  ~ (tilde) is commonly use in lm (regression) to
 
 Show a separate plot for each categorical data
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
 
-# 
 # nrow says how many plots to put per row
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
@@ -293,7 +303,8 @@ ggplot(data = mpg) +
 
 Show a grid of charts, using two continuous variables.
 
-```{r, eval=T, echo=TRUE }
+```{r eval=T, echo=TRUE, message=FALSE}
+library(tidyverse)
 
 # Small multiples (facets) can be used with two separate variables.
 # Use facet_grid instead of facet_wrap.
