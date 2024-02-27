@@ -61,12 +61,6 @@ An outcome with either true or false (1 or 0).
 
 Use `rbinom`
 
-## Poisson Distribution
-
-The probability of some number of events happening over a fixed period of time.
-
-## Exponential Distribution
-
 
 
 # Probability
@@ -77,11 +71,6 @@ The probability of some number of events happening over a fixed period of time.
   - Discrete: rolling a dice
   - Continuous: bus delay
 
-# Central Limit Theorem
-
-A sampling distribution will approach a normal distribution as the number of trials increases.
-
-Use `sample()`
 
 ## Correlation 
 

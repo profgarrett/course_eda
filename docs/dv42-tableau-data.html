@@ -322,43 +322,28 @@ self-join)</li>
 on the linking field</li>
 </ul>
 </div>
-<div id="calculated-field" class="section level2">
-<h2>Calculated field</h2>
+<div id="calculation" class="section level2">
+<h2>Calculation</h2>
 <ul>
-<li>Create a new calculated field with math (i.e., hours to
-minutes)</li>
-<li>Functions
+<li>Create a new calculated field with math (i.e., hours to minutes)
 <ul>
+<li>Basic ratios (x / y)</li>
 <li><code>DATEDIFF()</code></li>
 <li><code>DATEPART()</code></li>
+<li><code>makeDATE()</code></li>
 <li><code>IF X = 1 THEN 1 ELSE 2 END</code></li>
-<li><code>DIV()</code></li>
-<li><code>NZ()</code></li>
-<li><code>SUM()</code></li>
-</ul></li>
-<li>Examples
-<ul>
-<li>Find age from birth-date</li>
+<li><code>ZN()</code></li>
+<li><code>SUM()</code>, <code>MEDIAN()</code>, <code>AVG()</code></li>
 </ul></li>
 <li>Bin
 <ul>
 <li>Create a bin size</li>
 </ul></li>
-</ul>
-</div>
-<div id="quick-table-calculation" class="section level2">
-<h2>Quick table calculation</h2>
-<ul>
 <li>Create a quick table calculation
 <ul>
 <li>Function (i.e., running total, difference, percent of total)</li>
 <li>Direction (across, down etc..)</li>
-<li>Scope (i.e, group)</li>
-</ul></li>
-<li>Useful items
-<ul>
-<li>Add a rank, and use it to select top n items in a filter</li>
-<li>Create a running total</li>
+<li>Compare against first, previous, etc…</li>
 <li>Show a field as a percent of the total row or column</li>
 </ul></li>
 </ul>
@@ -385,35 +370,32 @@ options.</li>
 <div id="chart-display-options" class="section level1">
 <h1>Chart Display Options</h1>
 <ul>
-<li>Edit an alias for a column</li>
-<li>Add a Highlighter from a field</li>
-<li>Axis
-<ul>
-<li>Rotate a label</li>
-<li>Format date/time label</li>
-<li>Label</li>
-</ul></li>
-<li>Fit to entire view</li>
-<li>Exclude null data
-<ul>
-<li>Exclude a range of data by selecting a range and then excluding</li>
-</ul></li>
-<li>Edit alias for a field’s value</li>
-<li>Format
+<li>Text
 <ul>
 <li>Change size / font /color for a cell</li>
 </ul></li>
-<li>Hide a an axis<br />
-</li>
-<li>Labels
+<li>Axis
 <ul>
-<li>Set data value labels font, size, alignment, and marks style</li>
+<li>Hide an axis</li>
+<li>Label
+<ul>
+<li>Font, size, alignment, and rotation</li>
+<li>Marks style</li>
+<li>Set interval, min, and max values</li>
+<li>Format date values</li>
 </ul></li>
+<li>Data
+<ul>
+<li>Group dimensions and edit the grouped field</li>
+<li>Relabel a dimension value using an alias</li>
+<li>Exclude data (by range, null values)</li>
+</ul></li>
+</ul></li>
+<li>Fit to entire view</li>
 <li>Tooltip
 <ul>
-<li>Add measure / dimension field</li>
-<li>Edit font and layout</li>
-<li>Add a sub-chart</li>
+<li>Add measure / dimension field to a tooltip</li>
+<li>Edit font and layout of a tooltip</li>
 </ul></li>
 </ul>
 </div>

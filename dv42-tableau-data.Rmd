@@ -6,7 +6,6 @@ output:
 
 ---
 
-
 # Analyzing data in Tableau
  
 See Datacamp *Analyzing data in Tableau*
@@ -30,39 +29,28 @@ See Datacamp *Analyzing data in Tableau*
     - Edit the group field
   - Create a custom group sort
 
-
-
 ## Advanced fixes
 
 - Connect multiple tables with relationship (including a self-join)
 - Pivot wide to tall data
 - Set a field to link together two different data sources by clicking on the linking field
 
-## Calculated field
+## Calculation
   
--  Create a new calculated field with math (i.e., hours to minutes)
-- Functions
+- Create a new calculated field with math (i.e., hours to minutes)
+  - Basic ratios (x / y)
   - `DATEDIFF()`
   - `DATEPART()`
+  - `makeDATE()`
   - `IF X = 1 THEN 1 ELSE 2 END`
-  - `DIV()`
-  - `NZ()`
-  - `SUM()`
-- Examples
-  - Find age from birth-date
+  - `ZN()`
+  - `SUM()`, `MEDIAN()`, `AVG()`
 - Bin
   - Create a bin size
-
-
-## Quick table calculation
-
 - Create a quick table calculation 
   - Function (i.e., running total, difference, percent of total)
   - Direction (across, down etc..)
-  - Scope (i.e, group)
-- Useful items
-  - Add a rank, and use it to select top n items in a filter
-  - Create a running total
+  - Compare against first, previous, etc...
   - Show a field as a percent of the total row or column
 
 ## Parameters / Sets
@@ -78,26 +66,23 @@ See Datacamp *Analyzing data in Tableau*
   
 # Chart Display Options
 
-- Edit an alias for a column
-- Add a Highlighter from a field
-- Axis
-  - Rotate a label
-  - Format date/time label
-  - Label 
-- Fit to entire view
-- Exclude null data
-  - Exclude a range of data by selecting a range and then excluding
-- Edit alias for a field's value
-- Format
+- Text
   - Change size / font /color for a cell
-- Hide a an axis  
-- Labels
-  - Set data value labels font, size, alignment, and marks style
+- Axis
+  - Hide an axis
+  - Label
+    - Font, size, alignment, and rotation
+    - Marks style
+    - Set interval, min, and max values
+    - Format date values
+  - Data
+    - Group dimensions and edit the grouped field
+    - Relabel a dimension value using an alias
+    - Exclude data (by range, null values)
+- Fit to entire view
 - Tooltip
-  - Add measure / dimension field
-  - Edit font and layout
-  - Add a sub-chart
-  
+  - Add measure / dimension field to a tooltip
+  - Edit font and layout of a tooltip
 
 # Maps (part 2)
 
