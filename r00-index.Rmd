@@ -30,8 +30,8 @@ This section is for ACCT 426 and BUDA 451 students in Spring 2023.
   - [ggplot 2: Making plots pretty](r21-ggplot-pretty.html)
   - [ggplot 3: Making maps](r22-ggplot-maps-osm.html)
 * Machine Learning
+  - [Statistics Refresher](r60-statistics.html)
   - [Unsupervised Learning](r40-ml-unsupervised.html)
   - [Supervised Learning](r50-ml-supervised.html)
-  - [Statistics Refresher](r60-statistics.html)
 * Other topics
   - [Dates](r80-dates.html)
