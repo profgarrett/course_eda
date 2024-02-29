@@ -74,7 +74,6 @@ print(t2)
 
 Remove or group low-count items. View both absolute count *and* proportions
 
-
 ```{r echo=TRUE, message=F, warning=F}
 library(tidyverse)
 
@@ -99,7 +98,36 @@ t_fixed <- t %>%
 prop.table(table(t$x, t$region))
 ```
 
+### Convert text into numeric variables
 
+Convert textual values into numbers, where it makes sense with the underlying data.
+
+```{r echo=TRUE, message=F, warning=F}
+library(tidyverse)
+
+# Bad tibble
+t_raw <- tibble(
+            sales_rank = c('Rank 1', 'Rank 2', 'Rank 3'),
+            level = c('a', 'b', 'c')
+          )
+
+# Conversion table or ifelse
+t_fix = tibble(
+  from = c('a', 'b', 'c'),
+  to = 1:3
+)
+
+t1 <- t_raw %>% 
+  mutate(sales_rank = as.numeric(substr(sales_rank, 6, 6)))
+
+# Join fix
+t2 <- t1 %>% 
+  left_join(t_fix, by = c('level' = 'from')) %>% 
+  mutate(level = to,
+         to = NULL)
+
+print(t2)
+```
 
 ### Charts
 
@@ -184,7 +212,7 @@ We typically want to understand cause and effect in our dataset.
 
 ### Correlation {.tabset}
 
-#### Cor Table
+#### cor
 
 Cause/effect is typically started with some type of correlation table. However, we have to be careful about blinding trusting this table. It can be very misleading, as well as require some setup.
 
@@ -207,7 +235,7 @@ t_numbers <- t %>%
 cor(t_numbers)
 ```
 
-### cor.test
+#### cor.test
 
 The cor.test function will show the statistical significane of any correlations you find.
 
@@ -257,7 +285,7 @@ ggcorrplot(cor(t_numbers),
 
 ### Plot Correlations {.tabset}
 
-#### Point Chart (n < 100)
+#### Point Chart (continuous, n < 100)
 
 After we see a connection between our variables, you should plot the relationship.
 
@@ -280,7 +308,7 @@ ggplot(data = t) +
              alpha = 0.1)
 ```
 
-#### Density Chart (n > 200)
+#### Density Chart (categories, n > 200)
 
 At a certain point, you should shift to a density plot, which is basically a nicer histogram.
 
@@ -301,7 +329,7 @@ ggplot(data = t) +
                alpha = .5)
 ```
 
-#### Boxplot Chart (n > 2,000)
+#### Boxplot Chart (categories, n > 2,000)
 
 At a certain point, you should shift to boxplots. Add both a x and y scale, and use facets as needed.
 

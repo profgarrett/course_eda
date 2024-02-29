@@ -289,6 +289,9 @@ unique values</a></li>
 <li><a href="#find-unique-items-and-counts"
 id="toc-find-unique-items-and-counts">Find unique items and
 counts</a></li>
+<li><a href="#convert-text-into-numeric-variables"
+id="toc-convert-text-into-numeric-variables">Convert text into numeric
+variables</a></li>
 <li><a href="#charts" id="toc-charts">Charts</a></li>
 </ul></li>
 <li><a href="#vizualize-continuous-data"
@@ -304,7 +307,6 @@ id="toc-zero-inflation-strategy">Zero-inflation strategy</a></li>
 Correlations</a>
 <ul>
 <li><a href="#correlation" id="toc-correlation">Correlation</a></li>
-<li><a href="#cor.test" id="toc-cor.test">cor.test</a></li>
 <li><a href="#plot-correlations" id="toc-plot-correlations">Plot
 Correlations</a></li>
 </ul></li>
@@ -419,6 +421,41 @@ prop.table(table(t$x, t$region))</code></pre>
 ##   Dave 0.000 0.143 0.000
 ##   Sue  0.286 0.000 0.000</code></pre>
 </div>
+<div id="convert-text-into-numeric-variables" class="section level3">
+<h3>Convert text into numeric variables</h3>
+<p>Convert textual values into numbers, where it makes sense with the
+underlying data.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Bad tibble
+t_raw &lt;- tibble(
+            sales_rank = c(&#39;Rank 1&#39;, &#39;Rank 2&#39;, &#39;Rank 3&#39;),
+            level = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+          )
+
+# Conversion table or ifelse
+t_fix = tibble(
+  from = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;),
+  to = 1:3
+)
+
+t1 &lt;- t_raw %&gt;% 
+  mutate(sales_rank = as.numeric(substr(sales_rank, 6, 6)))
+
+# Join fix
+t2 &lt;- t1 %&gt;% 
+  left_join(t_fix, by = c(&#39;level&#39; = &#39;from&#39;)) %&gt;% 
+  mutate(level = to,
+         to = NULL)
+
+print(t2)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   sales_rank level
+##        &lt;dbl&gt; &lt;int&gt;
+## 1          1     1
+## 2          2     2
+## 3          3     3</code></pre>
+</div>
 <div id="charts" class="section level3">
 <h3>Charts</h3>
 <p>Bar charts are very useful for categorical data. You can show the
@@ -433,7 +470,7 @@ t &lt;- tibble(person = c(&#39;Bob&#39;, &#39;Bob&#39;, &#39;Bob&#39;, &#39;Sue&
 ggplot(data = t) +
   geom_bar(mapping = aes(x = person, fill = region)) +
   facet_wrap( ~ year)</code></pre>
-<p><img src="ml02-eda_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="ml02-eda_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
 <div id="vizualize-continuous-data" class="section level2 tabset">
@@ -475,7 +512,7 @@ t &lt;- t_raw %&gt;%
 
 ggplot(data = t) +
   geom_histogram(mapping = aes(x = height_in_inches))</code></pre>
-<p><img src="ml02-eda_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="ml02-eda_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="zero-inflation-strategy" class="section level3">
 <h3>Zero-inflation strategy</h3>
@@ -504,8 +541,8 @@ table(t$winner01)</code></pre>
 <p>We typically want to understand cause and effect in our dataset.</p>
 <div id="correlation" class="section level3 tabset">
 <h3 class="tabset">Correlation</h3>
-<div id="cor-table" class="section level4">
-<h4>Cor Table</h4>
+<div id="cor" class="section level4">
+<h4>cor</h4>
 <p>Cause/effect is typically started with some type of correlation
 table. However, we have to be careful about blinding trusting this
 table. It can be very misleading, as well as require some setup.</p>
@@ -530,9 +567,8 @@ cor(t_numbers)</code></pre>
 ## y         0.663  1.000    -0.277
 ## regionA01 0.000 -0.277     1.000</code></pre>
 </div>
-</div>
-<div id="cor.test" class="section level3">
-<h3>cor.test</h3>
+<div id="cor.test" class="section level4">
+<h4>cor.test</h4>
 <p>The cor.test function will show the statistical significane of any
 correlations you find.</p>
 <pre class="r"><code>library(tidyverse)
@@ -562,6 +598,7 @@ cor.test(t_numbers$x, t_numbers$y)</code></pre>
 ## sample estimates:
 ##   cor 
 ## 0.663</code></pre>
+</div>
 <div id="correlation-chart" class="section level4">
 <h4>Correlation chart</h4>
 <p>ggcorrplot is a nice library for printing correlation tables</p>
@@ -583,13 +620,13 @@ t_numbers &lt;- t %&gt;%
 # Show the correlation&#39;s statistical significance
 ggcorrplot(cor(t_numbers),
            colors = c(&#39;red&#39;, &#39;white&#39;, &#39;blue&#39;))</code></pre>
-<p><img src="ml02-eda_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="ml02-eda_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 </div>
 <div id="plot-correlations" class="section level3 tabset">
 <h3 class="tabset">Plot Correlations</h3>
-<div id="point-chart-n-100" class="section level4">
-<h4>Point Chart (n &lt; 100)</h4>
+<div id="point-chart-continuous-n-100" class="section level4">
+<h4>Point Chart (continuous, n &lt; 100)</h4>
 <p>After we see a connection between our variables, you should plot the
 relationship.</p>
 <p>Point plots are pretty good for small to mid-size datasets. However,
@@ -610,10 +647,10 @@ ggplot(data = t) +
   geom_point(mapping = aes(x = jitter(height_in_feet, factor = 1.1), 
                            y = weight_in_lbs),
              alpha = 0.1)</code></pre>
-<p><img src="ml02-eda_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="ml02-eda_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
-<div id="density-chart-n-200" class="section level4">
-<h4>Density Chart (n &gt; 200)</h4>
+<div id="density-chart-categories-n-200" class="section level4">
+<h4>Density Chart (categories, n &gt; 200)</h4>
 <p>At a certain point, you should shift to a density plot, which is
 basically a nicer histogram.</p>
 <pre class="r"><code>library(tidyverse)
@@ -630,10 +667,10 @@ ggplot(data = t) +
   geom_density(mapping = aes(x = height_in_feet,
                              fill = category),
                alpha = .5)</code></pre>
-<p><img src="ml02-eda_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="ml02-eda_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
-<div id="boxplot-chart-n-2000" class="section level4">
-<h4>Boxplot Chart (n &gt; 2,000)</h4>
+<div id="boxplot-chart-categories-n-2000" class="section level4">
+<h4>Boxplot Chart (categories, n &gt; 2,000)</h4>
 <p>At a certain point, you should shift to boxplots. Add both a x and y
 scale, and use facets as needed.</p>
 <pre class="r"><code>library(tidyverse)
@@ -649,7 +686,7 @@ t &lt;- t %&gt;%
 ggplot(data = t) +
   geom_boxplot(mapping = aes(x = height_in_feet,
                              y = category))</code></pre>
-<p><img src="ml02-eda_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="ml02-eda_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
 </div>
