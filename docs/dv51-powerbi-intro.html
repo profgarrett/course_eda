@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Nathan Garrett, PhD CPA" />
 
 
-<title>Data Visualization</title>
+<title>PowerBI - Introduction</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -270,54 +269,159 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data Visualization</h1>
-<h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-03-05</h4>
+<h1 class="title toc-ignore">PowerBI - Introduction</h1>
 
 </div>
 
 
-<p>Course study notes for ACCT 425 and BUDA 450 students for Spring
-2024</p>
-<div id="general-data-visualization" class="section level1">
-<h1>General Data Visualization</h1>
-<ul>
-<li><a href="dv10-effective-reports.html">Writing an effective
-report</a></li>
-<li><a href="dv21-data.html">Data</a></li>
-<li><a href="dv30-colors.html">Colors</a></li>
-<li><a href="dv90-examples.html">Good dv examples</a></li>
-<li><a href="dv05-excel.html">Excel Core Skills</a></li>
-</ul>
-</div>
-<div id="tableau" class="section level1">
-<h1>Tableau</h1>
-<ul>
-<li><a href="dv41-tableau-intro.html">Introduction</a></li>
-<li><a href="dv42-tableau-data.html">Analyzing Data</a></li>
-</ul>
-</div>
-<div id="good-resources" class="section level1">
-<h1>Good resources</h1>
+<div id="powerbi-software" class="section level1">
+<h1>PowerBI Software</h1>
+<p>This covers material from the following Microsoft Learn modules:</p>
 <ul>
 <li><a
-href="https://www.reddit.com/r/tableau/comments/1724zdf/six_years_as_a_tableau_freelancer_ama/">What
-is life like as a Tableau Freelancer?</a></li>
+href="https://learn.microsoft.com/en-us/training/modules/data-analytics-microsoft/">Data
+Analytics</a></li>
+<li><a
+href="https://learn.microsoft.com/en-us/training/modules/get-started-with-power-bi/">Get
+Started with Power BI</a></li>
+<li><a
+href="https://learn.microsoft.com/en-us/training/modules/get-data/">Get
+data in PowerBI</a></li>
+<li><a
+href="https://learn.microsoft.com/en-us/training/modules/clean-data-power-bi/">Clean,
+transform, and load data</a></li>
 </ul>
-</div>
-<div id="powerbi" class="section level1">
-<h1>PowerBI</h1>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>Install the <em>desktop</em> version PowerBI on your pc:</p>
 <ul>
-<li><a href="dv51-powerbi-intro.html">PowerBI Introduction</a></li>
+<li>Download the <a href="https://app.powerbi.com/home">latest version
+of PowerBI</a></li>
+<li>Log in with your <em>mail.wvu.edu</em> account, and not your
+<em>mix.wvu.edu</em> email. The former is a Microsoft Account, and the
+latter is a Google account.</li>
+<li>Click on the down arrow on the top-right corner of the screen.
+Choose <em>Power BI Desktop</em>. You should be taken to the Microsoft
+Store.</li>
 </ul>
 </div>
-<div id="eda-process" class="section level1">
-<h1>EDA Process</h1>
-<div class="float">
-<img src="dv01-index-eda-lego.jpeg"
-alt="EDA Process illustrated with Legos" />
-<div class="figcaption">EDA Process illustrated with Legos</div>
 </div>
+<div id="data-analytics" class="section level1">
+<h1>Data Analytics</h1>
+<p>Identify levels:</p>
+<ul>
+<li>Descriptive: what happened?</li>
+<li>Diagnostics: why did it happen?</li>
+<li>Predictive: What will happen?</li>
+<li>Prescriptive: What should happen?</li>
+<li>Cognitive: (newish) Machine learning algorithsm</li>
+</ul>
+<p>Identify roles:</p>
+<ul>
+<li>Business analyst: closer to business</li>
+<li>Data analyst: closer to data</li>
+<li>Data Engineer: Manage data pipeline</li>
+<li>Data Scientist: Statistics / data mining</li>
+<li>Database administrator: Tech person in charge of storing data</li>
+</ul>
+<p>Tasks of a Business analyst:</p>
+<ul>
+<li>Prepare data: majority of time</li>
+<li>Model: create relationships</li>
+<li>Visualize: create charts</li>
+<li>Analyze: statistics, charts, etc…</li>
+<li>Manage: security, distribution, updates, etc…</li>
+</ul>
+</div>
+<div id="get-start-with-power-bi" class="section level1">
+<h1>Get Start with Power BI</h1>
+<p>Software:</p>
+<ul>
+<li>PowerBI Desktop: desktop app, Windows-only</li>
+<li>PowerBI Service: online platform used with a browser
+<ul>
+<li>Workspace is a shared online space
+<ul>
+<li>Contains an app, a simplified interface to access reports and
+dashboards</li>
+<li>Contains data and rules for controlling access</li>
+</ul></li>
+</ul></li>
+<li>PowerBI Mobile: app for iPhone/Android</li>
+</ul>
+<p>Building blocks:</p>
+<ul>
+<li>Semantic model is a model of data sources, data tables, and
+transformations</li>
+<li>Visualization / Report</li>
+<li>Dashboard
+<ul>
+<li>Made of tiles</li>
+</ul></li>
+</ul>
+</div>
+<div id="get-data-in-power-bi" class="section level1">
+<h1>Get Data in Power BI</h1>
+<p>Load data:</p>
+<ul>
+<li>Database
+<ul>
+<li>Choose authentication mode</li>
+<li>Select tables to import</li>
+<li>Write SQL query
+<ul>
+<li>Use a custom parameter in a query</li>
+</ul></li>
+</ul></li>
+<li>File
+<ul>
+<li>Locations: Local file, OneDrive, SharePoint</li>
+<li>Know how to refresh or change a datasource by clicking on <em>Data
+source settings</em></li>
+</ul></li>
+<li>Non-relational database
+<ul>
+<li>Describe how you you can pick a non-relational database as a
+source.</li>
+</ul></li>
+<li>Storage mode
+<ul>
+<li>Import: load all data into a local copy</li>
+<li>DirectQuery: keep data in database, ideal for large datasets</li>
+<li>Dual: Some data is imported, others kept in database</li>
+</ul></li>
+<li>Errors
+<ul>
+<li>Understand how to relink a file to import</li>
+</ul></li>
+</ul>
+</div>
+<div id="clean-transform-and-load-data" class="section level1">
+<h1>Clean, transform, and load data</h1>
+<p>Understand the role of PowerQuery Editor, and how it is different
+from PowerBI</p>
+<p>Features:</p>
+<ul>
+<li>Use First Row as Headers</li>
+<li>Rename columns</li>
+<li>Remove top/bottom/null rows and columns</li>
+<li>Pivot / Unpivot data</li>
+<li>Rename table</li>
+<li>Replace values (or null values)</li>
+<li>Remove duplicates</li>
+<li>Datatypes
+<ul>
+<li>Change datatype</li>
+<li>Understand purpose for decimal, fixed decimal, whole, percentage,
+date/time, text, and boolean (TRUE/FALSE)</li>
+</ul></li>
+<li>Tables
+<ul>
+<li>Append queries: used for identical columns</li>
+<li>Merge (or join): use to do a left/right outer or inner join</li>
+</ul></li>
+<li>View table statistics to profile your data</li>
+</ul>
 </div>
 
 
