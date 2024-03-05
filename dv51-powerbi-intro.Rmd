@@ -49,7 +49,7 @@ Tasks of a Business analyst:
 - Analyze: statistics, charts, etc...
 - Manage: security, distribution, updates, etc...
 
-# Get Start with Power BI
+# Get Started with Power BI
 
 Software:
 
@@ -70,13 +70,12 @@ Building blocks:
 
 # Get Data in Power BI
 
-Load data:
 
 - Database
   - Choose authentication mode
   - Select tables to import
   - Write SQL query
-    - Use a custom parameter in a query
+    - Know that you can use a custom parameter in a query
 - File
   - Locations: Local file, OneDrive, SharePoint
   - Know how to refresh or change a datasource by clicking on *Data source settings*

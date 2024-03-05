@@ -11,7 +11,7 @@
 
 
 
-<title>Supervised Learning</title>
+<title>Regression</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -269,75 +269,145 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Supervised Learning</h1>
+<h1 class="title toc-ignore">Regression</h1>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<li><a href="#linear-regression" id="toc-linear-regression">Linear
+Regression</a>
 <ul>
-<li><a href="#test-v.-training-data" id="toc-test-v.-training-data">Test
-v. Training Data</a></li>
+<li><a href="#minimal-example" id="toc-minimal-example">Minimal
+Example</a></li>
+<li><a href="#full-example" id="toc-full-example">Full example</a></li>
 </ul></li>
+<li><a href="#logistic-refression" id="toc-logistic-refression">Logistic
+Refression</a></li>
 </ul>
 </div>
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>Reference: <a
-href="https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html"
-class="uri">https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html</a></p>
-<p>See topics:</p>
+<div id="linear-regression" class="section level1">
+<h1>Linear Regression</h1>
+<p>Linear Regression is an incredibly important tool. It uses multiple
+numerical independent variables to predict a single output/dependent
+variable.</p>
+<p>Outcomes:</p>
 <ul>
-<li>Introduction</li>
-<li>Preview</li>
-<li>Model performance</li>
-<li>Cross-validation</li>
-<li>Classification performance
-<ul>
-<li>Confusion matrix</li>
-</ul></li>
-<li>Random forest
-<ul>
-<li>Decision tree</li>
-</ul></li>
-<li>Data preprocessing
-<ul>
-<li>Missing values</li>
-<li>RSME</li>
-<li>Median imputation</li>
-</ul></li>
+<li>Define the goal of linear regression</li>
+<li>Describe when using a linear regression model is useful</li>
+<li>Describe dependent and independent variables</li>
+<li>Describe linear and non-linear relationships</li>
+<li>Transform inputs to meet various requirements</li>
 </ul>
-<div id="test-v.-training-data" class="section level2">
-<h2>Test v. Training Data</h2>
-<p>A key concept we will start using in this section is splitting data
-into 2 separate tibbles. One will be used to training our data, and the
-other to test the resulting model. This helps us keep from over-training
-our data.</p>
-<p>We will normally use the function <code>createDataPartition</code>
-from the <code>caret</code> library.</p>
-<pre class="r"><code>library(caret)
-library(tidyverse)
+<p>Terms:</p>
+<ul>
+<li>Coefficients, p-values</li>
+<li>Residuals, sse (sum of squares error, or a loss function)</li>
+<li>Bias / intercept</li>
+<li>R^2</li>
+</ul>
+<p>Help:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=3dhcmeOTZ_Q">Linear
+Regression in 3 minutes</a></li>
+<li><a href="https://www.youtube.com/watch?v=hokALdIst8k">Multiple
+regression in R</a></li>
+<li><a href="https://www.youtube.com/watch?v=zITIFTsivN8">Multiple
+regression in theory</a></li>
+<li><a
+href="https://bradleyboehmke.github.io/HOML/linear-regression.html">Multiple
+linear regression tutorial</a></li>
+</ul>
+<div id="minimal-example" class="section level2">
+<h2>Minimal Example</h2>
+<pre class="r"><code>library(tidyverse)
 
-full_tibble &lt;- tibble(
-  from = seq(1, 100),
-  to = seq(100, 1)
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
 )
 
-# Get a vector of integers, referring to the rows that will be in our training data.
-index_of_training_rows &lt;- createDataPartition( 
-    full_tibble$from,  # a vector from our data
-    p = 0.3,           # percentage of data for the training set
-    list = FALSE,      # don&#39;t return a list of the 0 or 1 values
-    times = 1          # how many splits?
-    )
+# Quick viz of data showing the relationship.
+pairs( t_data )
 
-# Make our two new tibbles. One for training, one or testing.
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model = lm(to ~ from, data = t_data)
 
-t_train = full_tibble[  index_of_training_rows, ] # Note the comma!
-t_test  = full_tibble[ -index_of_training_rows, ] # Note the - and the comma!</code></pre>
+# Show a summary of the linear model. Pay attention to these key items:
+#   Residuals = errors in each row between actual &amp; predicted
+#   Std Error = the squared difference between
+#      the predicted and actual values. 
+#   Coefficients: 
+#     Estimate: value of the change in input to output
+#     Std. Error: averages squared diff between prediction / actual
+#     p Value: probability of the estimate being a result of random chance
+#   Residual standard error: the overall avg difference between actual
+#     and predicted for the entire model. 
+#   Adj R^2,  the % of variation explained by the model
+summary(model)</code></pre>
 </div>
+<div id="full-example" class="section level2">
+<h2>Full example</h2>
+<pre class="r"><code>library(tidyverse)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Quick viz of data showing the relationship. Look for any obvious correlation values.
+# We cant to avoid any perfectly correlated data, as that will cause problems in our regression.
+pairs( t_data )
+
+# Show above, but in numbers.
+cor( t_data, use = &#39;pairwise.complete.obs&#39; )
+
+
+# Create a linear regression model predicting `to` with `from` and using the train dataset.
+model = lm(to ~ from, data = t_data)
+
+# Show a summary of the linear model. Pay attention to these key items:
+#   Residuals = errors in each row between actual &amp; predicted
+#   Std Error = the squared difference between
+#      the predicted and actual values. 
+#   Coefficients: 
+#     Estimate: value of the change in input to output
+#     Std. Error: averages squared diff between prediction / actual
+#     p Value: probability of the estimate being a result of random chance
+#   Residual standard error: the overall avg difference between actual
+#     and predicted for the entire model. 
+#   Adj R^2,  the % of variation explained by the model
+summary(model)
+
+# Show a plot of residuals / errors
+hist(model$residuals)
+
+# If we plug in a 95% confidence interval, how accurate are we?
+confint(model, level = 0.95)
+
+
+# Now look at how the data performs on the data.
+# This function will take in a tibble and a model, test it,
+#   and calculate the resulting average error per item.
+rmse &lt;- function( m, tibble, dependent_variable ) {
+  results &lt;- predict(m, tibble)
+  errors &lt;- results - dependent_variable
+  return( sqrt(mean(errors^2, na.rm = TRUE)))
+}
+
+rmse(model, t_data, t_data$to)</code></pre>
+</div>
+</div>
+<div id="logistic-refression" class="section level1">
+<h1>Logistic Refression</h1>
+<p>Outcomes:</p>
+<ul>
+<li>When do we use logistic regression?</li>
+<li>Interpret a confusion matrix</li>
+</ul>
+<p>Help: <a href="https://www.youtube.com/watch?v=EKm0spFxFG4"
+class="uri">https://www.youtube.com/watch?v=EKm0spFxFG4</a></p>
 </div>
 
 

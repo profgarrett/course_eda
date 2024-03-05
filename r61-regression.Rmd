@@ -1,32 +1,123 @@
 ---
-title: Statistics Refresher
+title: Regression
 output: 
   html_document:
     toc: true
     theme: united
 ---
 
-## Linear Regression
+# Linear Regression
+
+Linear Regression is an incredibly important tool. It uses multiple numerical independent variables to predict a single output/dependent variable.
 
 Outcomes:
 
+- Define the goal of linear regression
 - Describe when using a linear regression model is useful
 - Describe dependent and independent variables
 - Describe linear and non-linear relationships
 - Transform inputs to meet various requirements
 
-
 Terms:
 
-- Coefficients 
-- Residuals, sse (sum of squares error / loss function)
+- Coefficients, p-values
+- Residuals, sse (sum of squares error, or a loss function)
 - Bias / intercept
 - R^2
 
-Help: https://www.youtube.com/watch?v=3dhcmeOTZ_Q
+Help: 
 
 
-## Logistic Refression
+- [Linear Regression in 3 minutes](https://www.youtube.com/watch?v=3dhcmeOTZ_Q)
+- [Multiple regression in R](https://www.youtube.com/watch?v=hokALdIst8k)
+- [Multiple regression in theory](https://www.youtube.com/watch?v=zITIFTsivN8)
+- [Multiple linear regression tutorial](https://bradleyboehmke.github.io/HOML/linear-regression.html)
+
+
+## Minimal Example
+
+```{r, eval=FALSE, echo=TRUE}
+library(tidyverse)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Quick viz of data showing the relationship.
+pairs( t_data )
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model = lm(to ~ from, data = t_data)
+
+# Show a summary of the linear model. Pay attention to these key items:
+#   Residuals = errors in each row between actual & predicted
+#   Std Error = the squared difference between
+#      the predicted and actual values. 
+#   Coefficients: 
+#     Estimate: value of the change in input to output
+#     Std. Error: averages squared diff between prediction / actual
+#     p Value: probability of the estimate being a result of random chance
+#   Residual standard error: the overall avg difference between actual
+#     and predicted for the entire model. 
+#   Adj R^2,  the % of variation explained by the model
+summary(model)
+```
+
+## Full example
+
+```{r, eval=FALSE, echo=TRUE}
+library(tidyverse)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Quick viz of data showing the relationship. Look for any obvious correlation values.
+# We cant to avoid any perfectly correlated data, as that will cause problems in our regression.
+pairs( t_data )
+
+# Show above, but in numbers.
+cor( t_data, use = 'pairwise.complete.obs' )
+
+
+# Create a linear regression model predicting `to` with `from` and using the train dataset.
+model = lm(to ~ from, data = t_data)
+
+# Show a summary of the linear model. Pay attention to these key items:
+#   Residuals = errors in each row between actual & predicted
+#   Std Error = the squared difference between
+#      the predicted and actual values. 
+#   Coefficients: 
+#     Estimate: value of the change in input to output
+#     Std. Error: averages squared diff between prediction / actual
+#     p Value: probability of the estimate being a result of random chance
+#   Residual standard error: the overall avg difference between actual
+#     and predicted for the entire model. 
+#   Adj R^2,  the % of variation explained by the model
+summary(model)
+
+# Show a plot of residuals / errors
+hist(model$residuals)
+
+# If we plug in a 95% confidence interval, how accurate are we?
+confint(model, level = 0.95)
+
+
+# Now look at how the data performs on the data.
+# This function will take in a tibble and a model, test it,
+#   and calculate the resulting average error per item.
+rmse <- function( m, tibble, dependent_variable ) {
+  results <- predict(m, tibble)
+  errors <- results - dependent_variable
+  return( sqrt(mean(errors^2, na.rm = TRUE)))
+}
+
+rmse(model, t_data, t_data$to)
+```
+
+# Logistic Refression
 
 Outcomes:
 
@@ -34,6 +125,3 @@ Outcomes:
 - Interpret a confusion matrix
 
 Help: https://www.youtube.com/watch?v=EKm0spFxFG4
-
-
-# Other Key concepts
