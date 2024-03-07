@@ -6,7 +6,7 @@ output:
     theme: united
 ---
 
-# Linear Regression
+# Linear Regression {.tabset}
 
 Linear Regression is an incredibly important tool. It uses multiple numerical independent variables to predict a single output/dependent variable.
 
@@ -36,12 +36,13 @@ Help:
 
 ## Minimal Example
 
-```{r, eval=FALSE, echo=TRUE}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
 
 t_data <- tibble(
   from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1),
+  extra = c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1)
 )
 
 # Quick viz of data showing the relationship.
@@ -66,7 +67,7 @@ summary(model)
 
 ## Full example
 
-```{r, eval=FALSE, echo=TRUE}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
 
 t_data <- tibble(
@@ -115,6 +116,155 @@ rmse <- function( m, tibble, dependent_variable ) {
 }
 
 rmse(model, t_data, t_data$to)
+```
+
+# Preprocessing  {.tabset}
+
+We have some clean-up to do with variables used in regression.
+
+## Low-variance variables
+
+Look for values that have low variation and remove them from the dataset.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(caret)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1),
+  group_a = c(1, 1, 1, 1, 1, 1, 2, 1, 1, 1),
+  group_b = c(3, 3, 1, 1, 1, 1, 2, 1, 2, 5),
+)
+
+# saveMetrics give us output description. 
+#   freqRatio: top most frequent item / 2nd top most freq item. Goal is to be close to 1
+#   percentUnique: unique(items) / total items
+#
+# Output
+#   freqRatio: 
+#     from and to are 1.0, meaning that the most frequent value is just as likely
+#       as the next-most likely value. 
+#     However, group_a is 9.0, meaning that the most likely value  (1) is 9 times as common 
+#       as the next most likely (2). Remove from our model!
+#     Group_b is better, with the most likely value (1) being 2.5 times as likely as the 
+#       next most (2 or 3)
+#   
+nearZeroVar(t_data, saveMetrics = TRUE)
+
+
+```
+
+
+## Remove perfect correlations
+
+Look for values that are perfectly-correlated with each other, and remove all but *one*.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggcorrplot)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, NA, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1),
+  is_major = c(1, 1, 1, 1, 1, 1, 0, 0, 0, NA),
+  is_not_major = c(0, 0, 0, 0, 0, 0, 1, 1, 1, NA),
+  from_x_10 = from * 10
+)
+
+# Pairs shows a visual of the relationship in our model
+# Look for numerical values in a straight line
+pairs( t_data)
+
+# Cor returns the correlation. Look for values near 1.0 or -1.0
+# use allows us to use more data, ignoring pairs with a NA 
+cor( t_data, use = 'pairwise.complete.obs' )
+
+# Visual of above 
+ggcorrplot::ggcorrplot(cor( t_data, use = 'pairwise.complete.obs' ))
+```
+
+
+## Remove outliers
+
+Look for values with outlier information
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggcorrplot)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, NA, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1),
+  absences = c(0, 0, 0, 23, 0, 0, 2, 3, 1, 1)
+)
+
+# Hist is a quick function to display outlier values.
+# As a general rule, we may want to remove values that are >1.5 the 
+# interquartile range (difference between 50% and 75% values). However, this is a
+# judgement call.
+hist( t_data$absences)
+summary( t_data$absences)
+
+# To cleanup, you can take 3 approaches:
+clean_t_data <- t_data %>% 
+  # option a: remove rows
+  filter(absences < 50) %>%
+  # option b: turn into a yes/no 1/0 variable
+  mutate(absences_excessive = ifelse(absences > 5, 1, 0)) %>% 
+  # option c: cap the field
+  mutate(absences_capped = ifelse(absences > 5, 5, absences))
+
+print(clean_t_data)
+```
+
+
+
+## Add dummy variables
+
+Change text fields into 1/0 values.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggcorrplot)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, NA, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1),
+  major = c("Y", "Y", "Y", "Y", "Y", "Y", "N", "N", "N", NA)
+)
+
+table( t_data$major)
+
+# To cleanup, use ifelse
+clean_t_data <- t_data %>% 
+  mutate(major01 = ifelse(major == 'Y', 1, 0))
+
+print(clean_t_data)
+```
+
+
+## Collapse fields
+
+You may also want to join text categories into smaller groups
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggcorrplot)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, NA, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1),
+  major = c("Act", "Act", "Fin", "Act", "Marketing", "Act", "Act", "Act", "Act", "Act")
+)
+
+table( t_data$major)
+
+# To cleanup, use ifelse
+clean_t_data <- t_data %>% 
+  mutate(major_not_accounting01 = ifelse(major == 'Fin' | major == "Marketing", 1, 0))
+
+print(clean_t_data)
 ```
 
 # Logistic Refression

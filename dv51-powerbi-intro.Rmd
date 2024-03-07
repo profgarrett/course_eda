@@ -31,7 +31,7 @@ Identify levels:
 - Diagnostics: why did it happen?
 - Predictive: What will happen?
 - Prescriptive: What should happen?
-- Cognitive: (newish) Machine learning algorithsm
+- Cognitive: (newish) Machine learning algorithms
 
 Identify roles:
 
