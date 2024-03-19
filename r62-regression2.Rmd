@@ -1,0 +1,441 @@
+---
+title: Regression 2
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Linear Regression 2 {.tabset}
+
+Linear Regression's output variable is generally a *continuous* numerical variable.
+
+Be careful of *collinearity*! This is when two input variables are highly correlated, which can lead to unexpected results. 
+
+Note: we will not typically use:
+
+- GainCurvePlot approach (and Gini coefficient)
+- Interaction effects
+
+# Predicting on new data
+
+We often will use separate training and test data. The training data is used to generate the model, and the model is measured with test data.
+
+## Minimal Example
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from, data = t_data)
+
+# Show a summary of the linear model. Pay attention to the  R^2,  the % of variation explained by the model.
+summary(model)
+
+# new data
+t_new_data <- tibble(
+  from = c(3, 5, 10, 100),
+  to = c(7, 4, 2, 0)
+)
+
+
+# Predict the results with new data, storing as a vector
+predicted_results <- predict(model, newdata = t_new_data)
+
+# Place this back into the original tibble to measure accuracy.
+t_new_data <- t_new_data %>% 
+  mutate(prediction = predicted_results)
+
+ggplot(data = t_new_data) +
+  geom_point(mapping = aes(x = prediction, y = to))
+```
+
+
+# Measuring accuracy
+
+## Residual Values
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data <- t_data %>% 
+  mutate(prediction = predict(model, newdata = t_data))
+
+# Place this back into the original tibble to visualize the actual error. Note that we should have x = y
+ggplot(data = t_data) +
+  geom_point(mapping = aes(x = prediction, y = to))
+
+
+
+```
+
+## Residual Error
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data <- t_data %>% 
+  mutate(predict = predict(model, newdata = t_data),
+         error = to - predict)
+
+# Place this back into the original tibble to visualize the actual error. Note that we should have x = y
+ggplot(data = t_data) +
+  geom_pointrange(mapping = aes(x = predict,
+                                y = error,
+                                ymin = 0, 
+                                ymax = error))
+
+```
+
+
+## RMSE
+
+The RMSE works by taking the prediction less actual, squaring it, taking the mean, and then taking the sqrt of the mean. It should be read as the typical prediction error. Note that it will never be a negative number!
+
+One useful measure to compare it against is the standard deviation of the data.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data <- t_data %>% 
+  mutate(predict = predict(model, newdata = t_data),
+         residuals = to - predict)
+
+# Take the mean error squared, and then take the sqrt.
+error <- sqrt(mean(t_data$residuals ^2 ))
+
+print(error)
+```
+
+## R-squared
+
+R^2 is a measure of how well the model fits the data. It will be a number between 0-1. It is the percentage of the total variance accounted for by the model.
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data <- t_data %>% 
+  mutate(predict = predict(model, newdata = t_data),
+         error = to - predict,
+         error2 = error ^ 2)
+
+# Take the `sum` of the squared error
+residual_sum_of_squares <- sum(t_data$error2)
+
+# Find the difference between the mean and every row,
+# i.e., the total variation.
+total_variation_in_model <- t_data$to - mean(t_data$to)
+
+# Take the sum of the squared variation
+total_sum_of_squares <- sum(total_variation_in_model ^ 2)
+
+# Calculate R^2
+r2 <- 1 - (residual_sum_of_squares / total_sum_of_squares)
+
+
+print(r2)
+
+summary(model)
+```
+
+
+# Training / Test Split
+
+We generally will split our test/training data to make sure that we are not over-learning from our data.
+
+
+## Split data
+
+We split data by generating a new column, filled with 0 or 1 values.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Our dataset.
+t_data <- tibble(
+  id = 1:1000,
+  values = rep( c('A', 'B'), 500)
+)
+
+# Create a vector of 1 and 0s
+#   x is a vector of values you want to get.
+#   size is the number of rows (match your tibble)
+#   replace says to not remove each value from X
+#   prob sets how likely each of the values should be.
+select <- sample( x = c('test', 'train'),
+        size = 1000,
+        replace = TRUE,
+        prob = c(0.1, 0.9))
+
+# Add to your tibble
+t_data <- mutate(t_data, select = select)
+
+# Create test  and train datasets
+t_test <- filter(t_data, select == 'test')
+t_train <- filter(t_data, select == 'train')
+
+# Train your model on t_test
+# Use predict with t_train
+
+```
+
+## Cross-validation
+
+Cross validation is a standard technique to split our data. It will generate multiple small splits, and then see how we do on each split. 
+
+When we are done, we will generate a final model with all of the data. The cross-validation will only help us with the accuracy of the modeling process. It can not tell us the final model accuracy. We will only know that with new data that it hasn't been tested on yet.
+
+### Create splits
+
+Splits are created with vtreat, by selecting the row numbers for each split.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(vtreat)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+nRows = nrow(t_data)
+
+# Create 3 splits
+splits <- vtreat::kWayCrossValidation(nRows = nRows, nSplits = 3)
+
+# splits is now 3 lists, each with a train and an app.
+# Values are the indexes to select for train/test.
+str(splits)
+```
+
+### Apply splits
+
+To apply, the splits, we have to put lm instead of a loop. We will go into each split, create new test/train datasets, and then run lm.
+
+each split.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(vtreat)
+
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+nRows <-  nrow(t_data)
+nSplits <-  3
+
+# Create 3 splits
+# Pass NULL as the 3rd and 4th argument.
+splits <- vtreat::kWayCrossValidation(nRows = nRows, 
+                                      nSplits = nSplits,
+                                      NULL, NULL)
+
+# For each split,
+#   Save our current split in i,
+#   Start with index of 1, 
+#   Go until we hit the max number of splits
+for (i in 1:nSplits) {
+  # Make it easy to grab the current split
+  # Note that [[]] braces
+  #    splits[[1]] returns the value
+  #    splits[1] returns a list with one item.
+  split <- splits[[i]]
+  
+  # Build model
+  # Note that we use train.
+  # Note that we use [ c(1, 2, 4, 9), ]... to select
+  #   the indexes of the rows we want. 
+  #   We must have the trailing comma! Otherwise, returns 
+  #   the wrong selection.
+  model <- lm(to ~ from, data = t_data[split$train, ])
+  
+  # Make predictions!
+  predictions <- predict(model, newdata = t_data[split$app, ])
+  print(model)
+  
+  # Calculate residuals
+  residuals <- t_data[split$app, ]$to - predictions
+  print(residuals)
+  
+  #  We will probably want to calculate RSME.
+  rsme <- sqrt( mean(residuals ^ 2) )
+  
+  print(rsme)
+}
+
+```
+
+
+# Transforming variables
+
+## Categorical variables
+
+We deal with categorical variables by converting them into 0/1 *hot one* variables. The key is that we convert all *but one* value into a new column. If we included all of the values, then we would end up with multicollinearity.
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Our dataset.
+t_data <- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 0, 0, 0, 7, 6, 5, 4, 2, 1),
+  group = c('light', 'heavy', 'heavy', 'light', 'light', 'light', 'light', 'heavy', 'light', 'light')
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from + group, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data <- mutate(t_data, prediction = predict(model, newdata = t_data))
+
+
+# Place this back into the original tibble to visualize the actual error. Note that we should have x = y
+ggplot(data = t_data) +
+  geom_point(mapping = aes(x = prediction, y = to, color = group))
+
+summary(model)
+```
+
+
+## Log transform (dependent variable)
+
+A log transform will convert highly-right-disorted data into more of a normal distribution.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Our dataset.
+t_data <- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(1, 2, 1, 10, 11, 9, 100, 110, 90, 1000, 900, 1100) 
+)
+
+hist(log(t_data$to))
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from, data = t_data)
+
+summary(model)
+
+# Use a log transform on the non-normal data
+model2 <- lm(log(to) ~ from, data = t_data)
+summary(model2)
+
+# Predicted values, converted back into normal form.
+exp( predict(model2, newdata = t_data))
+
+```
+
+
+
+## Log transform error
+
+Tracking the error of a log variable is a little different. We generally want error as a ratio to be minimized, rather than error as an absolute number.
+
+As a result, we want to calculate the *relative RMSE*.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Our dataset.
+t_data <- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(2, 3, 4, 10, 11, 9, 100, 110, 90, 1000, 900, 1100) 
+)
+t_data <- mutate(t_data, to_log = log(to))
+
+# Use a log transform on the non-normal data
+model <- lm(to_log ~ from, data = t_data)
+
+t_data <- t_data %>% 
+  mutate(prediction = predict(model, t_data),
+         residual = prediction - to_log,
+         prediction_non_log = exp(prediction))
+
+rmse <- sqrt(mean(t_data$residual ^ 2))
+rmse_relative <- sqrt(mean((t_data$residual / t_data$to_log)^2))
+
+print(t_data)
+print(exp(rmse))
+print(exp(rmse_relative))
+```
+
+## Exponent transform (independent variable)
+
+We can also transform an input variable. You can use the `I()` function to do math, but it is often easier to modify the base tibble.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Our dataset.
+t_data <- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(1, 2, 1, 4, 5, 4, 9, 10, 11, 16, 14, 15) 
+)
+
+# Create a squared input
+t_data <- t_data %>% 
+  mutate(from_squared = from * from)
+
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model <- lm(to ~ from_squared, data = t_data)
+
+summary(model)
+```
+
+
+# Logistic Refression
+
+Outcomes:
+
+- When do we use logistic regression?
+- Interpret a confusion matrix
+
+Help: https://www.youtube.com/watch?v=EKm0spFxFG4

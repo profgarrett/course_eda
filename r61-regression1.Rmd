@@ -1,14 +1,18 @@
 ---
-title: Regression
+title: Regression 1
 output: 
   html_document:
     toc: true
     theme: united
 ---
 
+This tutorial aligns with DataCamp's *Introduction to Regression in R* tutorial.
+
 # Linear Regression {.tabset}
 
 Linear Regression is an incredibly important tool. It uses multiple numerical independent variables to predict a single output/dependent variable.
+
+The output variable is generally a *continuous* numerical variable.
 
 Outcomes:
 
@@ -266,12 +270,3 @@ clean_t_data <- t_data %>%
 
 print(clean_t_data)
 ```
-
-# Logistic Refression
-
-Outcomes:
-
-- When do we use logistic regression?
-- Interpret a confusion matrix
-
-Help: https://www.youtube.com/watch?v=EKm0spFxFG4
