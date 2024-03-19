@@ -31,7 +31,8 @@ This section is for ACCT 426 and BUDA 451 students in Spring 2023.
   - [ggplot 3: Making maps](r22-ggplot-maps-osm.html)
 * Machine Learning
   - [Statistics Refresher](r60-statistics.html)
-  - [Regression](r61-regression.html)
+  - [Regression 1](r61-regression1.html) (DataCamp *Introduction to Regression in R*)
+  - [Regression 2](r62-regression2.html) (DataCamp *Supervised Learning in R: Regression*)
   - [Unsupervised Learning](r40-ml-unsupervised.html)
   - [Supervised Learning](r50-ml-supervised.html)
 * Other topics
