@@ -320,7 +320,13 @@ id="toc-exponent-transform-independent-variable">Exponent transform
 (independent variable)</a></li>
 </ul></li>
 <li><a href="#logistic-refression" id="toc-logistic-refression">Logistic
-Refression</a></li>
+Refression</a>
+<ul>
+<li><a href="#basic-model" id="toc-basic-model">Basic Model</a></li>
+<li><a href="#measuring-error" id="toc-measuring-error">Measuring
+error</a></li>
+<li><a href="#predicting" id="toc-predicting">Predicting</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -334,6 +340,8 @@ are highly correlated, which can lead to unexpected results.</p>
 <ul>
 <li>GainCurvePlot approach (and Gini coefficient)</li>
 <li>Interaction effects</li>
+<li>Poisson / Quasipoisson regression</li>
+<li>GAM</li>
 </ul>
 </div>
 <div id="predicting-on-new-data" class="section level1">
@@ -594,14 +602,14 @@ splits &lt;- vtreat::kWayCrossValidation(nRows = nRows, nSplits = 3)
 str(splits)</code></pre>
 <pre><code>## List of 3
 ##  $ :List of 2
-##   ..$ train: int [1:7] 3 4 5 7 8 9 10
-##   ..$ app  : int [1:3] 1 2 6
+##   ..$ train: int [1:7] 2 3 4 6 8 9 10
+##   ..$ app  : int [1:3] 1 7 5
 ##  $ :List of 2
-##   ..$ train: int [1:6] 1 2 4 5 6 10
-##   ..$ app  : int [1:4] 9 3 8 7
+##   ..$ train: int [1:6] 1 5 7 8 9 10
+##   ..$ app  : int [1:4] 3 2 4 6
 ##  $ :List of 2
-##   ..$ train: int [1:7] 1 2 3 6 7 8 9
-##   ..$ app  : int [1:3] 4 5 10
+##   ..$ train: int [1:7] 1 2 3 4 5 6 7
+##   ..$ app  : int [1:3] 10 8 9
 ##  - attr(*, &quot;splitmethod&quot;)= chr &quot;kwaycross&quot;</code></pre>
 </div>
 <div id="apply-splits" class="section level3">
@@ -664,33 +672,33 @@ for (i in 1:nSplits) {
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##     11.5263      -0.9671  
+##     11.4258      -0.9725  
 ## 
 ##          1          2          3 
-## -0.8552632 -0.6250000  0.4078947 
-## [1] 0.6553569
+## -0.6737288  0.4639831  0.4364407 
+## [1] 0.5353103
 ## 
 ## Call:
 ## lm(formula = to ~ from, data = t_data[split$train, ])
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##      11.833       -1.028  
+##      11.775       -1.024  
 ## 
 ##          1          2          3          4 
-## -0.5765125  0.3380783 -0.8042705  0.2811388 
-## [1] 0.5414226
+##  0.4176707 -0.7028112  0.3935743 -0.5341365 
+## [1] 0.5264492
 ## 
 ## Call:
 ## lm(formula = to ~ from, data = t_data[split$train, ])
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##      11.637       -1.042  
+##      11.932       -1.055  
 ## 
-##         1         2         3 
-## 0.6547619 0.5714286 0.6964286 
-## [1] 0.6429765</code></pre>
+##          1          2          3 
+## -0.8767123  0.3972603  0.1780822 
+## [1] 0.5651411</code></pre>
 </div>
 </div>
 </div>
@@ -904,6 +912,93 @@ summary(model)</code></pre>
 </ul>
 <p>Help: <a href="https://www.youtube.com/watch?v=EKm0spFxFG4"
 class="uri">https://www.youtube.com/watch?v=EKm0spFxFG4</a></p>
+<p>Logistic regression is used when we want to predict a yes/no event,
+rather than a continuous variable.</p>
+<div id="basic-model" class="section level2">
+<h2>Basic Model</h2>
+<pre class="r"><code>library(tidyverse)
+
+# Our dataset.
+t_data &lt;- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(&quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;)
+)
+
+# If the to isn&#39;t a number, do a conversion.
+t_data &lt;- mutate(t_data, to = ifelse(to == &quot;Y&quot;, 1, 0))
+
+
+model &lt;- glm(to ~ from, data = t_data, family = binomial)
+summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = to ~ from, family = binomial, data = t_data)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept)   -4.034      2.369  -1.703   0.0886 .
+## from           1.875      1.007   1.861   0.0627 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 16.3006  on 11  degrees of freedom
+## Residual deviance:  9.6378  on 10  degrees of freedom
+## AIC: 13.638
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<div id="measuring-error" class="section level2">
+<h2>Measuring error</h2>
+<p>R^2 is not a good measure for logistic regression. Instead, we use
+pseudo R-squared. A good result gives us an answer near to 1.</p>
+<pre class="r"><code>library(tidyverse)
+library(broom)
+
+# Our dataset.
+t_data &lt;- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(&quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;)
+)
+
+# If the to isn&#39;t a number, do a conversion.
+t_data &lt;- mutate(t_data, to = ifelse(to == &quot;Y&quot;, 1, 0))
+
+# Note that we add the family argument!
+model &lt;- glm(to ~ from, data = t_data, family = binomial)
+t_model &lt;- glance(model)
+
+pseudo_r_squared &lt;- 1 - t_model$deviance / t_model$null.deviance
+
+print(pseudo_r_squared)</code></pre>
+<pre><code>## [1] 0.4087495</code></pre>
+</div>
+<div id="predicting" class="section level2">
+<h2>Predicting</h2>
+<p>We can use a similar approach to predict the model accuracy on new
+data.</p>
+<pre class="r"><code>library(tidyverse)
+library(broom)
+
+# Our dataset.
+t_train &lt;- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0)
+)
+t_test &lt;- tibble(
+  from = c(1, 3, 4, 5),
+  to = c(0, 0, 1, 1)
+)
+
+model &lt;- glm(to ~ from, data = t_train, family = binomial)
+
+# Predict syntax is a bit different, as we have to add a type.
+vector_of_predictions &lt;- predict(model, newdata = t_test, type = &#39;response&#39;)
+print(vector_of_predictions)</code></pre>
+<pre><code>##         1         2         3         4 
+## 0.2159735 0.7426825 0.9033122 0.9679909</code></pre>
+</div>
 </div>
 
 
