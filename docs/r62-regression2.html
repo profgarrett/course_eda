@@ -602,14 +602,14 @@ splits &lt;- vtreat::kWayCrossValidation(nRows = nRows, nSplits = 3)
 str(splits)</code></pre>
 <pre><code>## List of 3
 ##  $ :List of 2
-##   ..$ train: int [1:7] 2 3 4 6 8 9 10
-##   ..$ app  : int [1:3] 1 7 5
+##   ..$ train: int [1:7] 1 2 3 5 6 8 9
+##   ..$ app  : int [1:3] 4 7 10
 ##  $ :List of 2
-##   ..$ train: int [1:6] 1 5 7 8 9 10
-##   ..$ app  : int [1:4] 3 2 4 6
+##   ..$ train: int [1:6] 4 6 7 8 9 10
+##   ..$ app  : int [1:4] 5 2 3 1
 ##  $ :List of 2
-##   ..$ train: int [1:7] 1 2 3 4 5 6 7
-##   ..$ app  : int [1:3] 10 8 9
+##   ..$ train: int [1:7] 1 2 3 4 5 7 10
+##   ..$ app  : int [1:3] 9 8 6
 ##  - attr(*, &quot;splitmethod&quot;)= chr &quot;kwaycross&quot;</code></pre>
 </div>
 <div id="apply-splits" class="section level3">
@@ -672,33 +672,33 @@ for (i in 1:nSplits) {
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##     11.4258      -0.9725  
+##      11.852       -1.041  
 ## 
 ##          1          2          3 
-## -0.6737288  0.4639831  0.4364407 
-## [1] 0.5353103
+##  0.3114754  0.2295082 -0.8114754 
+## [1] 0.5190322
 ## 
 ## Call:
 ## lm(formula = to ~ from, data = t_data[split$train, ])
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##      11.775       -1.024  
+##      11.723       -1.011  
 ## 
 ##          1          2          3          4 
-##  0.4176707 -0.7028112  0.3935743 -0.5341365 
-## [1] 0.5264492
+## -0.6246575  0.3534247 -0.6904110  0.3315068 
+## [1] 0.5248024
 ## 
 ## Call:
 ## lm(formula = to ~ from, data = t_data[split$train, ])
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##      11.932       -1.055  
+##      11.545       -0.994  
 ## 
 ##          1          2          3 
-## -0.8767123  0.3972603  0.1780822 
-## [1] 0.5651411</code></pre>
+## -0.6047904  0.4071856  0.4191617 
+## [1] 0.4855471</code></pre>
 </div>
 </div>
 </div>

@@ -30,6 +30,7 @@ Course study notes for ACCT 425 and BUDA 450 students for Spring 2024
 # PowerBI
 
 - [PowerBI Introduction](dv51-powerbi-intro.html)
+- [PowerBI Modeling](dv52-powerbi-model.html)
 
 # EDA Process
 
