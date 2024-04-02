@@ -252,6 +252,9 @@ $(document).ready(function () {
   <a href="sql00-index.html">SQL</a>
 </li>
 <li>
+  <a href="dv00-index.html">Tableau/PowerBI</a>
+</li>
+<li>
   <a href="http://ecampus.wvu.edu">eCampus</a>
 </li>
       </ul>
@@ -272,18 +275,19 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
-<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
 <li><a href="#k-means" id="toc-k-means">k-means</a>
 <ul>
-<li><a href="#concept" id="toc-concept">Concept</a></li>
+<li><a href="#iris-data" id="toc-iris-data">Iris Data</a></li>
+<li><a href="#k-means-algorithm-result"
+id="toc-k-means-algorithm-result">k-means algorithm result</a></li>
 <li><a href="#minimal-example" id="toc-minimal-example">Minimal
 example</a></li>
 <li><a href="#full-example" id="toc-full-example">Full example</a></li>
 </ul></li>
 <li><a href="#decision-trees" id="toc-decision-trees">Decision Trees</a>
 <ul>
-<li><a href="#concept-1" id="toc-concept-1">Concept</a></li>
+<li><a href="#concept" id="toc-concept">Concept</a></li>
 <li><a href="#minimal-example-1" id="toc-minimal-example-1">Minimal
 Example</a></li>
 <li><a href="#full-example-1" id="toc-full-example-1">Full
@@ -300,14 +304,20 @@ id="toc-concept-walk-through">Concept Walk-through</a></li>
 <li><a href="#concept-illustration"
 id="toc-concept-illustration">Concept Illustration</a></li>
 </ul></li>
-</ul></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<div id="k-means" class="section level2">
-<h2>k-means</h2>
+<p>Cluster dataset: - Board Game Geek Data - <a
+href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-03-12"
+class="uri">https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-03-12</a></p>
+<p>Error in weather predictions <a
+href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-12-20"
+class="uri">https://github.com/rfordatascience/tidytuesday/tree/master/data/2022/2022-12-20</a></p>
+</div>
+<div id="k-means" class="section level1 tabset">
+<h1 class="tabset">k-means</h1>
 <p>k-means clustering is an technique that automatically assigns
 individual data points to groups. It’s useful for finding natural groups
 in your data.</p>
@@ -330,20 +340,35 @@ src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jp
 alt="Wikipedia Picture of an Iris" />
 <div class="figcaption">Wikipedia Picture of an Iris</div>
 </div>
-<div id="concept" class="section level3">
-<h3>Concept</h3>
+<div id="iris-data" class="section level2">
+<h2>Iris Data</h2>
 <p>We are going to try and use the sepal/petal lengths/widths to
 automatically identify the 3 different types of iris flowers.</p>
 <p>Below shows one sample plot, which compares the Sepal Length against
 the Petal Length. But, we have a lot of possible combinations.</p>
-<pre class="r"><code># Plot petals
+<pre class="r"><code>library(tidyverse)
+
+# Load iris data into a tibble
+data(&quot;iris&quot;)
+t_iris &lt;- tibble(iris)
+
+# Plot petals
 ggplot( data=t_iris, mapping = aes( x=Sepal.Length, y=Petal.Length, color=Species)) +
   geom_point() + 
   labs( title = &#39;Iris dataset: species variable&#39;)</code></pre>
 <p><img src="r40-ml-unsupervised_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="k-means-algorithm-result" class="section level2">
+<h2>k-means algorithm result</h2>
 <p>We can use k-means to see which combination of attributes lets us
 have the highest accuracy.</p>
-<pre class="r"><code># Run the kmeans algorithm:
+<pre class="r"><code>library(tidyverse)
+
+# Load iris data into a tibble
+data(&quot;iris&quot;)
+t_iris &lt;- tibble(iris)
+
+# Run the kmeans algorithm:
 #   x is a tibble, which should only have numeric data
 #   centers is the number of clusters we want
 #   nstart says how many random starting points we should try out (default to 10)
@@ -354,27 +379,29 @@ kresult &lt;- kmeans(
 )
 
 print(kresult)</code></pre>
-<pre><code>## K-means clustering with 3 clusters of sizes 58, 41, 51
+<pre><code>## K-means clustering with 3 clusters of sizes 41, 58, 51
 ## 
 ## Cluster means:
 ##   Sepal.Length Petal.Length
-## 1     5.874138     4.393103
-## 2     6.839024     5.678049
+## 1     6.839024     5.678049
+## 2     5.874138     4.393103
 ## 3     5.007843     1.492157
 ## 
 ## Clustering vector:
-##   [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 1
-##  [53] 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 1 2 1 2 2
-## [105] 2 2 1 2 2 2 2 2 2 1 1 2 2 2 2 1 2 1 2 1 2 2 1 1 2 2 2 2 2 2 2 2 2 2 1 2 2 2 1 2 2 2 1 2 2 1
+##   [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+##  [38] 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [75] 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 1 2 1 1 1 1 2 1 1 1 1
+## [112] 1 1 2 2 1 1 1 1 2 1 2 1 2 1 1 2 2 1 1 1 1 1 1 1 1 1 1 2 1 1 1 2 1 1 1 2 1
+## [149] 1 2
 ## 
 ## Within cluster sum of squares by cluster:
-## [1] 23.508448 20.407805  9.893725
+## [1] 20.407805 23.508448  9.893725
 ##  (between_SS / total_SS =  90.5 %)
 ## 
 ## Available components:
 ## 
-## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot; &quot;betweenss&quot;    &quot;size&quot;        
-## [8] &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
 <p>Look at the results of k-means to see how well the algorithm
 worked.</p>
 <p>There are several useful outputs:</p>
@@ -398,11 +425,17 @@ stopping</li>
 href="https://shiny.rit.albany.edu/stat/visualizess/"
 class="uri">https://shiny.rit.albany.edu/stat/visualizess/</a></p>
 </div>
-<div id="minimal-example" class="section level3">
-<h3>Minimal example</h3>
+<div id="minimal-example" class="section level2">
+<h2>Minimal example</h2>
 <p>This is a minimal example, but can be significantly improved in the
 full template.</p>
-<pre class="r"><code># Run the kmeans algorithm:
+<pre class="r"><code>library(tidyverse)
+
+# Load iris data into a tibble
+data(&quot;iris&quot;)
+t_iris &lt;- tibble(iris)
+
+# Run the kmeans algorithm:
 kresult &lt;- kmeans(
   x = select(t_iris, Sepal.Length, Petal.Length),
   centers = 3,
@@ -417,9 +450,15 @@ ggplot(data = t_iris) +
   )</code></pre>
 <p><img src="r40-ml-unsupervised_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="full-example" class="section level3">
-<h3>Full example</h3>
-<pre class="r"><code># Give a seed value so that we get the same results each time
+<div id="full-example" class="section level2">
+<h2>Full example</h2>
+<pre class="r"><code>library(tidyverse)
+
+# Load iris data into a tibble
+data(&quot;iris&quot;)
+t_iris &lt;- tibble(iris)
+
+# Give a seed value so that we get the same results each time
 set.seed(1)
 
 # Run the kmeans algorithm:
@@ -456,8 +495,8 @@ ggplot() +
 <p><img src="r40-ml-unsupervised_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 </div>
-<div id="decision-trees" class="section level2">
-<h2>Decision Trees</h2>
+<div id="decision-trees" class="section level1 tabset">
+<h1 class="tabset">Decision Trees</h1>
 <p>Decision-trees automatically create questions to split our data into
 groups. They are very useful for creating human-understandable models of
 a problem space.</p>
@@ -472,8 +511,8 @@ Learning</a></li>
 <li><a
 href="https://bradleyboehmke.github.io/HOML/DT.html">HOML</a></li>
 </ul>
-<div id="concept-1" class="section level3">
-<h3>Concept</h3>
+<div id="concept" class="section level2">
+<h2>Concept</h2>
 <p>We follow this process:</p>
 <ul>
 <li>Select an output variable</li>
@@ -483,8 +522,8 @@ output</li>
 <li>For each split, repeat until we reach a good ending condition</li>
 </ul>
 </div>
-<div id="minimal-example-1" class="section level3">
-<h3>Minimal Example</h3>
+<div id="minimal-example-1" class="section level2">
+<h2>Minimal Example</h2>
 <p>Below creates a visualization of a decision tree.</p>
 <p>Note the output for each node gives the 0.3 (proportion) of items in
 each class, as well as the % of rows that find their way to this
@@ -529,8 +568,8 @@ table(t.iris$predicted, t.iris$Species)</code></pre>
 ##   Predicted versicolor      0         49         5
 ##   Predicted virginica       0          1        45</code></pre>
 </div>
-<div id="full-example-1" class="section level3">
-<h3>Full example</h3>
+<div id="full-example-1" class="section level2">
+<h2>Full example</h2>
 <p>Several other features are very helpful in pruning our decision
 tree.</p>
 <pre class="r"><code>library(tidyverse, rpart, rpart.plot)
@@ -589,8 +628,9 @@ table(str_to_upper(predicted), t.iris.test$Species)</code></pre>
 ##   VIRGINICA       0          3        21</code></pre>
 </div>
 </div>
-<div id="principal-component-analysis-pca" class="section level2">
-<h2>Principal Component Analysis (pca)</h2>
+<div id="principal-component-analysis-pca"
+class="section level1 tabset">
+<h1 class="tabset">Principal Component Analysis (pca)</h1>
 <p>We use principal component analysis to reduce the number of
 dimensions in our data. In simpler terms, we can reduce the number of
 values in our data.</p>
@@ -605,8 +645,8 @@ of Unsupervised Learning</a></li>
 <li><a href="https://bradleyboehmke.github.io/HOML/pca.html">More
 detailed analysis of PCA</a></li>
 </ul>
-<div id="prior-concept" class="section level3">
-<h3>Prior Concept</h3>
+<div id="prior-concept" class="section level2">
+<h2>Prior Concept</h2>
 <p>Before getting into PCA, make sure you’re familiar with the concept
 of correlations. The code below walks you through an example. The
 <code>pairs</code> command will show a plot of various fields against
@@ -626,11 +666,10 @@ pairs(
 # Positive correlations shown in blue, negative in red.
 # Items not meeting statistical significance are hidden.
 corrplot2(select( iris, -Species))</code></pre>
-<pre><code>## corrplot 0.92 loaded</code></pre>
 <p><img src="r40-ml-unsupervised_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 </div>
-<div id="concept-walk-through" class="section level3">
-<h3>Concept Walk-through</h3>
+<div id="concept-walk-through" class="section level2">
+<h2>Concept Walk-through</h2>
 <p>We will run pca on the iris dataset.</p>
 <pre class="r"><code># Give prcomp numeric values in the iris tibble.
 iris_pca_results &lt;- prcomp(select(tibble(iris), -Species))
@@ -674,8 +713,8 @@ proportion of variance (meaning it capture most of our data). Then, look
 at the weights for that PC. What variables drive a PC? That helps you
 name it.</p>
 </div>
-<div id="concept-illustration" class="section level3">
-<h3>Concept Illustration</h3>
+<div id="concept-illustration" class="section level2">
+<h2>Concept Illustration</h2>
 <p>Now that we have a set of PC, let’s visualize the new dimension on
 our data. The chart below visualizes our first primary component.</p>
 <pre class="r"><code># Run PCA analysis
@@ -726,7 +765,6 @@ ggplot( data = pca_tibble_long ) +
   facet_wrap( ~ PCItem, nrow = 1)  +
   scale_color_gradient(low = &#39;red&#39;, high = &#39;green&#39;)</code></pre>
 <p><img src="r40-ml-unsupervised_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-</div>
 </div>
 </div>
 

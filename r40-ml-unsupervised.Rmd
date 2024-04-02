@@ -80,7 +80,7 @@ corrplot2 <- function(data,
 
 
   
-## k-means
+# k-means {.tabset}
 
 k-means clustering is an technique that automatically assigns individual data points to groups. It's useful for finding natural groups in your data.
 
@@ -96,22 +96,35 @@ We will be using the iris dataset extensively.
 ![Wikipedia Picture of an Iris](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Iris_virginica.jpg/1280px-Iris_virginica.jpg)
 
 
-### Concept
+## Iris Data
 
 We are going to try and use the sepal/petal lengths/widths to automatically identify the 3 different types of iris flowers.
 
 Below shows one sample plot, which compares the Sepal Length against the Petal Length. But, we have a lot of possible combinations.
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Load iris data into a tibble
+data("iris")
+t_iris <- tibble(iris)
+
 # Plot petals
 ggplot( data=t_iris, mapping = aes( x=Sepal.Length, y=Petal.Length, color=Species)) +
   geom_point() + 
   labs( title = 'Iris dataset: species variable')
 ```
 
+## k-means algorithm result
+
 We can use k-means to see which combination of attributes lets us have the highest accuracy.
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Load iris data into a tibble
+data("iris")
+t_iris <- tibble(iris)
 
 # Run the kmeans algorithm:
 #   x is a tibble, which should only have numeric data
@@ -140,11 +153,16 @@ There are several useful outputs:
 To see a visualization of sum of square, see https://shiny.rit.albany.edu/stat/visualizess/
 
 
-### Minimal example
+## Minimal example
 
 This is a minimal example, but can be significantly improved in the full template.
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Load iris data into a tibble
+data("iris")
+t_iris <- tibble(iris)
 
 # Run the kmeans algorithm:
 kresult <- kmeans(
@@ -162,9 +180,14 @@ ggplot(data = t_iris) +
 
 ```
 
-### Full example
+## Full example
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Load iris data into a tibble
+data("iris")
+t_iris <- tibble(iris)
 
 # Give a seed value so that we get the same results each time
 set.seed(1)
@@ -205,7 +228,7 @@ ggplot() +
 
 
 
-## Decision Trees
+# Decision Trees {.tabset}
 
 Decision-trees automatically create questions to split our data into groups. They are very useful for creating human-understandable models of a problem space.
 
@@ -215,7 +238,7 @@ Help resources:
 - [Supervised Learning](https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html)
 - [HOML](https://bradleyboehmke.github.io/HOML/DT.html)
 
-### Concept
+## Concept
 
 We follow this process:
 
@@ -224,13 +247,13 @@ We follow this process:
 - Split the dataset
 - For each split, repeat until we reach a good ending condition
 
-### Minimal Example
+## Minimal Example
 
 Below creates a visualization of a decision tree. 
 
 Note the output for each node gives the 0.3 (proportion) of items in each class, as well as the % of rows that find their way to this node.
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(rpart)
 library(rpart.plot)
@@ -256,7 +279,7 @@ rpart.plot(m)
 
 What if we want the output of the plot as a number showing its accuracy? Add the following lines
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 
 # Give the tibble to the model, and generate a vector of predicted
 # output class
@@ -272,11 +295,11 @@ table(t.iris$predicted, t.iris$Species)
 ```
 
 
-### Full example
+## Full example
 
 Several other features are very helpful in pruning our decision tree.
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse, rpart, rpart.plot)
 
 # Load data into a tibble
@@ -332,7 +355,7 @@ table(str_to_upper(predicted), t.iris.test$Species)
 
 
 
-## Principal Component Analysis (pca)
+# Principal Component Analysis (pca) {.tabset}
 
 We use principal component analysis to reduce the number of dimensions in our data. In simpler terms, we can reduce the number of values in our data.
 
@@ -343,11 +366,11 @@ Some good resources are:
 - [Walkthrough of Unsupervised Learning](https://lgatto.github.io/IntroMachineLearningWithR/unsupervised-learning.html#introduction)
 - [More detailed analysis of PCA](https://bradleyboehmke.github.io/HOML/pca.html)
 
-### Prior Concept
+## Prior Concept
 
 Before getting into PCA, make sure you're familiar with the concept of correlations. The code below walks you through an example. The `pairs` command will show a plot of various fields against each other. You can also use the custom function `corrplot2`.
 
-```{r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 # Create a set of pairs of scatterplots showing the relationship
 # between all variables.
 #   argument1 is a tibble with all numeric columns to show in the plot.
@@ -366,11 +389,11 @@ corrplot2(select( iris, -Species))
 ```
 
 
-### Concept Walk-through
+## Concept Walk-through
 
 We will run pca on the iris dataset.
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 
 # Give prcomp numeric values in the iris tibble.
 iris_pca_results <- prcomp(select(tibble(iris), -Species))
@@ -394,11 +417,11 @@ The second PC then does the same process again. However, now that the first has 
  
 For interpreting the data, we want each PC to have the highest proportion of variance (meaning it capture most of our data).  Then, look at the weights for that PC. What variables drive a PC? That helps you name it.
 
-### Concept Illustration
+## Concept Illustration
 
 Now that we have a set of PC, let's visualize the new dimension on our data. The chart below visualizes our first primary component.
 
-```{r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 
 # Run PCA analysis
 iris_pca_results <- prcomp(select(tibble(iris), -Species))
@@ -423,7 +446,7 @@ ggplot(data = plot_data) +
 
 What about plotting 2 components?
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 ggplot(data = plot_data) +
   geom_point(mapping = aes( x = pc1, y = pc2, color = Species),
              alpha = .3,
@@ -433,7 +456,7 @@ ggplot(data = plot_data) +
 
 We can also more closely examine how the new PCs are formed. Examine the rotation variable. It gives us the degree to which each variable drives the PCs
 
-``` {r}
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 
 # Turn into a usable tibble and add the items name
 pca_tibble <- as_tibble(iris_pca_results$rotation) %>% 
