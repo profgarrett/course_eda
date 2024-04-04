@@ -478,3 +478,31 @@ ggplot( data = pca_tibble_long ) +
   scale_color_gradient(low = 'red', high = 'green')
 ```
 
+## Full example
+
+In the full example, we generally want to scale the data. This is needed, as if we have radically different numerical ranges, the biggest numbers will have more influence on the model. Scaling all of our inputs according to mean/sd will give them equal impact on the outcome.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Load data into a tibble
+data(iris)
+t_iris <- iris
+t_iris_numbers <- select(iris, -Species)
+
+# Give prcomp numeric values in the iris tibble.
+# scale: adjust the data so that sd = 1?
+# center: should we center data around 0?
+iris_pca_results <- prcomp(t_iris_numbers,
+                           scale = TRUE,
+                           center = TRUE)
+
+# Plot our results
+biplot(iris_pca_results)
+
+# Show new components
+summary(iris_pca_results)
+# Show how they are generated from our original data
+print(iris_pca_results)
+
+```
