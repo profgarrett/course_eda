@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Nathan Garrett, PhD CPA" />
 
 
-<title>Data Visualization</title>
+<title>PowerBI - Model</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -270,56 +269,151 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data Visualization</h1>
-<h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-04-04</h4>
+<h1 class="title toc-ignore">PowerBI - Model</h1>
 
 </div>
 
 
-<p>Course study notes for ACCT 425 and BUDA 450 students for Spring
-2024</p>
-<div id="general-data-visualization" class="section level1">
-<h1>General Data Visualization</h1>
-<ul>
-<li><a href="dv10-effective-reports.html">Writing an effective
-report</a></li>
-<li><a href="dv21-data.html">Data</a></li>
-<li><a href="dv30-colors.html">Colors</a></li>
-<li><a href="dv90-examples.html">Good dv examples</a></li>
-<li><a href="dv05-excel.html">Excel Core Skills</a></li>
-</ul>
-</div>
-<div id="tableau" class="section level1">
-<h1>Tableau</h1>
-<ul>
-<li><a href="dv41-tableau-intro.html">Introduction</a></li>
-<li><a href="dv42-tableau-data.html">Analyzing Data</a></li>
-</ul>
-</div>
-<div id="good-resources" class="section level1">
-<h1>Good resources</h1>
+<div id="powerbi-visual-designs" class="section level1">
+<h1>PowerBI Visual Designs</h1>
+<p>This covers material from the following Microsoft Learn modules:</p>
 <ul>
 <li><a
-href="https://www.reddit.com/r/tableau/comments/1724zdf/six_years_as_a_tableau_freelancer_ama/">What
-is life like as a Tableau Freelancer?</a></li>
+href="https://learn.microsoft.com/en-us/training/modules/power-bi-effective-reports/">Design
+PowerBI Reports</a></li>
+<li><a
+href="https://learn.microsoft.com/en-us/training/modules/power-bi-effective-user-experience/">Enhance
+Power BI report designs for the user experience</a></li>
 </ul>
+<p>Note that we do not cover all of these features in detail. Focus on
+the items shown below.</p>
 </div>
-<div id="powerbi" class="section level1">
-<h1>PowerBI</h1>
+<div id="vis-designs" class="section level1">
+<h1>Vis designs</h1>
+<p>Create the following charts</p>
 <ul>
-<li><a href="dv51-powerbi-intro.html">PowerBI Introduction</a></li>
-<li><a href="dv52-powerbi-model.html">PowerBI Modeling</a></li>
-<li><a href="dv53-powerbi-vis.html">PowerBI Vis</a></li>
+<li>Clustered/Stacked column/row (and 100%)</li>
+<li>Line</li>
+<li>Scatter</li>
+<li>Pie</li>
+<li>Area</li>
+<li>Combo</li>
+</ul>
+<p>Create the following non-chart data displays:</p>
+<ul>
+<li>Table</li>
+<li>Matrix</li>
+<li>Card</li>
+<li>Slicer</li>
+<li>Tooltip</li>
+</ul>
+<p>For each, be able to set the title and axis label.</p>
+<div id="report-design-suggestions" class="section level2">
+<h2>Report design suggestions</h2>
+<p>Tips:</p>
+<ul>
+<li>Design from top/down and left/right</li>
+<li>Add space around report elements
+<ul>
+<li>Set report size (page size custom)</li>
+</ul></li>
+<li>Theme to use consistent colors</li>
+<li>Time series
+<ul>
+<li>Show from left/right</li>
+</ul></li>
+</ul>
+<p>Elements:</p>
+<ul>
+<li>Text box (apply font, hyperlinks)</li>
+<li>Buttons (back, open URL, bookmark)
+<ul>
+<li>Back</li>
+<li>Bookmark</li>
+<li>Drill through action</li>
+<li>Page navigation</li>
+<li>Format (hover, tool-tip)</li>
+</ul></li>
+<li>Shapes (arrows, hearts, etc…)</li>
+<li>Images (add)</li>
+</ul>
+<p>Conditional formatting</p>
+<p>See <a
+href="https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-conditional-table-formatting">Microsoft
+tutorial</a></p>
+<ul>
+<li>Right-click on a field in a table or matrix</li>
+<li>Select conditional formatting
+<ul>
+<li>Pick style, such as background or font</li>
+<li>Pick a scale</li>
+</ul></li>
+</ul>
+<p>Spark-line</p>
+<ul>
+<li>Right-click on a field</li>
+<li>Pick ‘add a spark-line’</li>
 </ul>
 </div>
-<div id="eda-process" class="section level1">
-<h1>EDA Process</h1>
-<div class="float">
-<img src="dv01-index-eda-lego.jpeg"
-alt="EDA Process illustrated with Legos" />
-<div class="figcaption">EDA Process illustrated with Legos</div>
 </div>
+<div id="bookmark" class="section level1">
+<h1>Bookmark</h1>
+<p>A bookmark is used to save the state of a page. Define a bookmark,
+and then assign buttons to switch between different bookmarks.</p>
+<div id="process-for-switching-between-page-states"
+class="section level2">
+<h2>Process for switching between page states:</h2>
+<ul>
+<li>Create your data displays</li>
+<li>Go to view and turn on both “Bookmarks” and “Selection”</li>
+<li>Repeat for each view of your data:
+<ul>
+<li>Hide/show charts</li>
+<li>Create a bookmark</li>
+</ul></li>
+<li>Create a button and assign it to activate the correct bookmark
+<ul>
+<li>Note that the text of the button is under Format / Style / Text</li>
+<li>Control-click to activate the button</li>
+</ul></li>
+</ul>
+</div>
+<div id="process-for-going-to-another-page" class="section level2">
+<h2>Process for going to another page</h2>
+<p>You can also use bookmarks to navigate between pages.</p>
+<ul>
+<li>Create your pages</li>
+<li>Add a blank button</li>
+<li>Go to the button action, pick Page Navigation, and select the
+correct destination page.</li>
+</ul>
+</div>
+</div>
+<div id="custom-tooltip" class="section level1">
+<h1>Custom Tooltip</h1>
+<p>You can create a custom tooltip page.</p>
+<p><a
+href="https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-tooltips?tabs=powerbi-desktop">Microsoft
+Tutorial</a></p>
+<p>Process:</p>
+<ul>
+<li>Create a new report page</li>
+<li>Format page
+<ul>
+<li>Change size (Canvas settings card, Tooltip size)</li>
+<li>Allow use as tooltip (Page information)</li>
+</ul></li>
+<li>Manually register the page as a tooltip for your visual
+<ul>
+<li>Go to the report page and pick the chart</li>
+<li>Go to Format Visual, and expand General</li>
+<li>Scroll to tooltip and pick the page you created</li>
+</ul></li>
+</ul>
+</div>
+<div id="mobile-report" class="section level1">
+<h1>Mobile report</h1>
+<p>Create a custom view for mobile devices</p>
 </div>
 
 
