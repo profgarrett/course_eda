@@ -232,7 +232,10 @@ ggplot() +
 
 Decision-trees automatically create questions to split our data into groups. They are very useful for creating human-understandable models of a problem space.
 
-Help resources:
+*[The r2d3 website](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/) is a great resources for visualizing how a tree is built.*
+
+
+Other helpful resources:
 
 - [Visualizations of DT](https://explained.ai/decision-tree-viz/index.html)
 - [Supervised Learning](https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html)

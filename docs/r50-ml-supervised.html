@@ -275,20 +275,24 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a>
+<li><a href="#more-information" id="toc-more-information">More
+information</a></li>
+<li><a href="#decision-trees" id="toc-decision-trees">Decision Trees</a>
 <ul>
-<li><a href="#test-v.-training-data" id="toc-test-v.-training-data">Test
-v. Training Data</a></li>
+<li><a href="#class-example" id="toc-class-example">Class
+Example</a></li>
+<li><a href="#regression-example" id="toc-regression-example">Regression
+Example</a></li>
 </ul></li>
 </ul>
 </div>
 
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>Reference: <a
+<div id="more-information" class="section level1">
+<h1>More information</h1>
+<p>Below is a great tutorial Reference: <a
 href="https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html"
 class="uri">https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html</a></p>
-<p>See topics:</p>
+<p>This covers these topics:</p>
 <ul>
 <li>Introduction</li>
 <li>Preview</li>
@@ -309,34 +313,100 @@ class="uri">https://lgatto.github.io/IntroMachineLearningWithR/supervised-learni
 <li>Median imputation</li>
 </ul></li>
 </ul>
-<div id="test-v.-training-data" class="section level2">
-<h2>Test v. Training Data</h2>
-<p>A key concept we will start using in this section is splitting data
-into 2 separate tibbles. One will be used to training our data, and the
-other to test the resulting model. This helps us keep from over-training
-our data.</p>
-<p>We will normally use the function <code>createDataPartition</code>
-from the <code>caret</code> library.</p>
-<pre class="r"><code>library(caret)
-library(tidyverse)
+</div>
+<div id="decision-trees" class="section level1 tabset">
+<h1 class="tabset">Decision Trees</h1>
+<p>Decision trees are a method for predicting an outcome from a set of
+variables. They are great for creating easily-understandable trees.</p>
+<div id="class-example" class="section level2">
+<h2>Class Example</h2>
+<p>This creates a decision tree to predict a textual (class) output.</p>
+<pre class="r"><code>library(tidyverse)
+library(rpart)
+library(rpart.plot)
 
-full_tibble &lt;- tibble(
-  from = seq(1, 100),
-  to = seq(100, 1)
+# Load data into a tibble
+t &lt;- tibble(
+  temp = c(67, 68, 70, 70, 76, 80, 85, 84, 89, 90, 91, 95, 100),
+  raining = c(&#39;n&#39;, &#39;n&#39;, &#39;n&#39;, &#39;n&#39;, &#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;y&#39;, &#39;n&#39;, &#39;n&#39;),
+  camped = c(&#39;Camped&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;Camped&#39;, &#39;Camped&#39;, &#39;Camped&#39;, &#39;Camped&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;)
 )
 
-# Get a vector of integers, referring to the rows that will be in our training data.
-index_of_training_rows &lt;- createDataPartition( 
-    full_tibble$from,  # a vector from our data
-    p = 0.3,           # percentage of data for the training set
-    list = FALSE,      # don&#39;t return a list of the 0 or 1 values
-    times = 1          # how many splits?
-    )
+# Create the model
+# https://stat.ethz.ch/R-manual/R-devel/library/rpart/html/rpart.control.html
+#   formula: set output to the Species, and choose input fields
+#   data: set to our tibble
+#   minsplit: the minimum number of observations that must exist in a node in order for a split to be attempted. 
+#   minbucket: the minimum number of observations in any terminal
+#   method: class, meaning we are predicting a discrete variable
+#   
+m &lt;- rpart(formula = camped ~ temp + raining,
+           data = t,
+           minsplit = 8,
+           minbucket = 5,
+           method = &quot;class&quot;)
 
-# Make our two new tibbles. One for training, one or testing.
+# Show results of model
+rpart.plot(m)</code></pre>
+<p><img src="r50-ml-supervised_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code># Create the predicted value and add it to our tibble
+predicted &lt;- predict(m, t, type = &#39;class&#39;)
+t &lt;- mutate( t, 
+             predicted = predicted,
+             is_correct = predicted == camped)
 
-t_train = full_tibble[  index_of_training_rows, ] # Note the comma!
-t_test  = full_tibble[ -index_of_training_rows, ] # Note the - and the comma!</code></pre>
+# Percentage correct
+print(mean(t$is_correct))</code></pre>
+<pre><code>## [1] 0.6923077</code></pre>
+<pre class="r"><code># Show a confusion matrix
+# Predicted values are in upper case.
+table(str_to_upper(t$predicted), t$camped)</code></pre>
+<pre><code>##         
+##          Camped No
+##   CAMPED      4  3
+##   NO          1  5</code></pre>
+</div>
+<div id="regression-example" class="section level2">
+<h2>Regression Example</h2>
+<p>This creates a decision tree to predict a numeric output with
+regression.</p>
+<pre class="r"><code>library(tidyverse)
+library(rpart)
+library(rpart.plot)
+
+# Load data into a tibble
+t &lt;- tibble(
+  temp = c(67, 68, 70, 70, 76, 80, 85, 84, 89, 90, 91, 95, 100),
+  raining = c(&#39;n&#39;, &#39;n&#39;, &#39;n&#39;, &#39;n&#39;, &#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;n&#39;,&#39;y&#39;, &#39;n&#39;, &#39;n&#39;),
+  camped = c(&#39;Camped&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;, &#39;Camped&#39;, &#39;Camped&#39;, &#39;Camped&#39;, &#39;Camped&#39;, &#39;No&#39;, &#39;No&#39;, &#39;No&#39;)
+)
+
+# Create the model
+# https://stat.ethz.ch/R-manual/R-devel/library/rpart/html/rpart.control.html
+#   formula: set output to the Species, and choose input fields
+#   data: set to our tibble
+#   minsplit: the minimum number of observations that must exist in a node in order for a split to be attempted. 
+#   minbucket: the minimum number of observations in any terminal
+#   method: class, meaning we are predicting a discrete variable
+#   
+m &lt;- rpart(formula = temp ~ camped + raining,
+           data = t,
+           minsplit = 1,
+           minbucket = 1,
+           method = &#39;anova&#39;)
+
+# Show results of model
+rpart.plot(m)</code></pre>
+<p><img src="r50-ml-supervised_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code># Create the predicted value and add it to our tibble
+predicted &lt;- predict(m, t)
+t &lt;- mutate( t, 
+             predicted = predicted,
+             residual = predicted - temp)
+
+# Residual value
+hist(t$residual)</code></pre>
+<p><img src="r50-ml-supervised_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 </div>
 </div>
 
