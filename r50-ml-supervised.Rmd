@@ -8,8 +8,7 @@ output:
 
 # More information
 
-Below is a great tutorial 
-Reference: 
+Here is great tutorial for approaches in machine learning: 
 https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html
 
 This covers these topics:
@@ -102,7 +101,6 @@ t <- tibble(
 #   minsplit: the minimum number of observations that must exist in a node in order for a split to be attempted. 
 #   minbucket: the minimum number of observations in any terminal
 #   method: class, meaning we are predicting a discrete variable
-#   
 m <- rpart(formula = temp ~ camped + raining,
            data = t,
            minsplit = 1,
@@ -120,4 +118,250 @@ t <- mutate( t,
 
 # Residual value
 hist(t$residual)
+```
+
+# Neural Network - simple numeric  {.tabset}
+
+Good reference videos: 
+
+- [Neural Network in 5 minutes](https://www.youtube.com/watch?v=bfmFfD2RIcg)
+- [Stat Question: Math in the ANN](https://www.youtube.com/watch?v=CqOfi41LfDw)
+
+We will use the [NeuralNet library](https://www.rdocumentation.org/packages/neuralnet/).
+
+## Build model
+
+Below is a simple model created from some sample fraud data.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(neuralnet)
+library(tidyverse)
+
+t_train <- tribble( 
+  ~fraud, ~jail01, ~age01, ~grump01,
+  1, 1, .5, .5,
+  1, 1, 1, 0, 
+  1, 1, 0, 1,
+  1, 0, .75, .8,
+  1, 0, .6, 1,
+  1, 1, .5, .9,
+  0, 0, 0, 1, 
+  0, 0, 0, 0,
+  0, 0, 1, 1, 
+  0, 0, 1, .8,
+  )
+
+t_test <- tribble( 
+  ~fraud, ~jail01, ~age01, ~grump01,
+  1, 1, 0, 0,
+  1, 1, .5, .25, 
+  0, 0, 0, 1, 
+  0, 0, 0, 0,
+  0, 0, .9, .9, 
+  0, 0, 7, .5,
+)
+
+
+# Set the random number generator's starting value. This makes our outputs repeatable, so we 
+# don't get different results each time we run our software.
+set.seed(1)
+
+# The neuralnet function creates our model.
+# Arguments:
+#   formula: dependent variable ~ indepedent variables + ...
+#   data: our tibble
+#   hidden: how many hidden nodes should we use? Use an integer
+#   linear_output: generally T for regression or F for classification
+n <- neuralnet( fraud ~ jail01 + age01,
+                data = t_train,
+                hidden = 1)
+
+# View output
+# Input notes are on the left, intermediate in the center, and output on the right.
+# Steps tells us how many times the algorithm iterated through before stopping
+# Error is the sse, but other options are also available.
+plot(n)
+```
+
+
+## Measure accuracy on training data
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Continue the previous code block, ...
+
+
+# Measure accuracy on training set
+# This code makes a new tibble showing the results in a easy to grasp form.
+#   actual: this is the correct output from our original tibble
+#   prediction: this is the output of our model. Use net.result[[1]] to
+#   prediction01: the prediction outputs a decimal number. Since this problem has a 0/1, round.
+prediction = n$net.result[[1]]
+prediction01 = round(prediction, digits = 0)
+
+# Create a confusion table
+# Prediction is on the left, and actual on the top.
+#
+#             0                1       <===  Actual outcome
+# 0    Negative was True    Negative was False
+# 1    Positive was False   Positive was True
+# ^
+#  \  
+#    prediction
+# 
+train_table <- table(prediction01, t_train$fraud )
+print(train_table)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Use coordinates to access our truth table
+# We start at the top-left corner with [1,1], with [line, column]
+# 
+#       0        1
+# 0   [1, 1]   [1, 2]
+# 1   [2, 1]   [2, 2]
+
+# Accuracy: true / total
+# What is the total number of cases properly classified?
+train_accuracy <- (train_table[1, 1] + train_table[2, 2]) /  sum(train_table)
+
+# Recall: true positives / (true positives + false negative)
+# How many of the target cases did we find?
+train_recall <- train_table[2, 2] / (train_table[1, 2] + train_table[2, 2])
+
+# Precision: true positives / (false positive + true positive)
+train_precision <- train_table[2, 2] / (train_table[2, 1] + train_table[2, 2])
+
+print(paste('Accuracy', train_accuracy))
+print(paste('Recall', train_recall))
+print(paste('Precision', train_precision))
+```
+
+## Evaluate on test data
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Continue the previous code block, ...
+
+# Now try test data.
+#   n is our model
+#   t_test is our data
+p <- predict(n, t_test)
+
+# Evaluate the success by looking at the returned vector
+# Note that we get a matrix back. We just want a vector, so access
+# by using [ , 1] <--- return all rows, but only first column.
+prediction = p[,1]
+prediction01 = round(prediction, digits = 0)
+
+confusion <- table(prediction01, t_test$fraud)
+
+print(confusion)
+```
+
+
+# Neural Network - textual {.tabset}
+
+## Build a model
+
+We can use textual data. It will be encoded with each value set to a 0 or 1 field.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(neuralnet)
+library(tidyverse)
+
+data(iris)
+
+# Create a sample vector, and use it to split our data into train and testing tibbles
+set.seed(1)
+index <- sample( c(TRUE, FALSE), nrow(iris), replace = TRUE, prob = c(.7, .3) )
+t_train <- filter( iris, index == 1 ) 
+t_test <- filter( iris, index == 0)
+
+# Train algorithm
+# Note that we are using a textual output, so instead of a single output node
+# we now have one per label.
+#   linear.output: generally T for regression or F for classification
+n <- neuralnet(Species  ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+               data = t_train,
+               hidden = 2,
+               linear.output = FALSE)
+
+plot(n)
+```
+
+## Measure accuracy on training data
+
+Below is some sample code to measure the accuracy of the training / test data.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# continue previous...
+
+# Grab the matrix of results and round to the 0
+matrix = round(n$net.result[[1]], digits = 0)
+
+# Add column names
+colnames(matrix) <- list('setosa_node', 'versicolor_node', 'virginica_node')
+
+# Convert to tibble
+t_results <- as.tibble(matrix)  %>%
+  mutate(predicted = ifelse(setosa_node == 1, 'setosa', 
+                            ifelse(versicolor_node == 1, 'versicolor', 'virginica'))) 
+
+
+# Test accuracy with original data
+accuracy = mean(t_results$predicted == t_train$Species)
+print(accuracy)
+
+# See confusion table
+table(t_results$predicted, t_train$Species)
+```
+  
+## Measure accuracy on test data
+
+Below is some sample code to measure the accuracy of the training / test data.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# continue previous...
+
+predictions <- predict(n, t_test)
+
+# Grab the matrix of results and round to the 0
+matrix = round(predictions, digits = 0)
+
+# Add column names
+colnames(matrix) <- list('setosa_node', 'versicolor_node', 'virginica_node')
+
+# Convert to tibble
+t_results <- as.tibble(matrix)  %>%
+  mutate(predicted = ifelse(setosa_node == 1, 'setosa', 
+                            ifelse(versicolor_node == 1, 'versicolor', 'virginica'))) 
+
+
+# Test accuracy with original data
+accuracy = mean(t_results$predicted == t_test$Species)
+print(accuracy)
+
+# See confusion table
+table(t_results$predicted, t_test$Species)
+```
+
+# Scaling data
+
+Scale is a useful function for rescaling a set of input data.
+
+``` {r}
+
+# Rescale data
+#   x: vector of data input
+#   center: boolean, do we subtract column mean from each value (so mean = 0)?
+#   scale: boolean, do we divide data by the sd after centering?
+x2 <- scale(x = c(1, 2, 3, 4, 4, 5,3),
+      center = TRUE,
+      scale = TRUE)
+
+summary(x2)
+
+# We can also use the short form of this, relying on the defaults to get the 
+# same result as above.
+summary(scale(c(1, 2, 3, 4, 4, 5,3)))
+
 ```

@@ -284,12 +284,36 @@ Example</a></li>
 <li><a href="#regression-example" id="toc-regression-example">Regression
 Example</a></li>
 </ul></li>
+<li><a href="#neural-network---simple-numeric"
+id="toc-neural-network---simple-numeric">Neural Network - simple
+numeric</a>
+<ul>
+<li><a href="#build-model" id="toc-build-model">Build model</a></li>
+<li><a href="#measure-accuracy-on-training-data"
+id="toc-measure-accuracy-on-training-data">Measure accuracy on training
+data</a></li>
+<li><a href="#evaluate-on-test-data"
+id="toc-evaluate-on-test-data">Evaluate on test data</a></li>
+</ul></li>
+<li><a href="#neural-network---textual"
+id="toc-neural-network---textual">Neural Network - textual</a>
+<ul>
+<li><a href="#build-a-model" id="toc-build-a-model">Build a
+model</a></li>
+<li><a href="#measure-accuracy-on-training-data-1"
+id="toc-measure-accuracy-on-training-data-1">Measure accuracy on
+training data</a></li>
+<li><a href="#measure-accuracy-on-test-data"
+id="toc-measure-accuracy-on-test-data">Measure accuracy on test
+data</a></li>
+</ul></li>
+<li><a href="#scaling-data" id="toc-scaling-data">Scaling data</a></li>
 </ul>
 </div>
 
 <div id="more-information" class="section level1">
 <h1>More information</h1>
-<p>Below is a great tutorial Reference: <a
+<p>Here is great tutorial for approaches in machine learning: <a
 href="https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html"
 class="uri">https://lgatto.github.io/IntroMachineLearningWithR/supervised-learning.html</a></p>
 <p>This covers these topics:</p>
@@ -388,7 +412,6 @@ t &lt;- tibble(
 #   minsplit: the minimum number of observations that must exist in a node in order for a split to be attempted. 
 #   minbucket: the minimum number of observations in any terminal
 #   method: class, meaning we are predicting a discrete variable
-#   
 m &lt;- rpart(formula = temp ~ camped + raining,
            data = t,
            minsplit = 1,
@@ -408,6 +431,268 @@ t &lt;- mutate( t,
 hist(t$residual)</code></pre>
 <p><img src="r50-ml-supervised_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 </div>
+</div>
+<div id="neural-network---simple-numeric" class="section level1 tabset">
+<h1 class="tabset">Neural Network - simple numeric</h1>
+<p>Good reference videos:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=bfmFfD2RIcg">Neural Network
+in 5 minutes</a></li>
+<li><a href="https://www.youtube.com/watch?v=CqOfi41LfDw">Stat Question:
+Math in the ANN</a></li>
+</ul>
+<p>We will use the <a
+href="https://www.rdocumentation.org/packages/neuralnet/">NeuralNet
+library</a>.</p>
+<div id="build-model" class="section level2">
+<h2>Build model</h2>
+<p>Below is a simple model created from some sample fraud data.</p>
+<pre class="r"><code>library(neuralnet)
+library(tidyverse)
+
+t_train &lt;- tribble( 
+  ~fraud, ~jail01, ~age01, ~grump01,
+  1, 1, .5, .5,
+  1, 1, 1, 0, 
+  1, 1, 0, 1,
+  1, 0, .75, .8,
+  1, 0, .6, 1,
+  1, 1, .5, .9,
+  0, 0, 0, 1, 
+  0, 0, 0, 0,
+  0, 0, 1, 1, 
+  0, 0, 1, .8,
+  )
+
+t_test &lt;- tribble( 
+  ~fraud, ~jail01, ~age01, ~grump01,
+  1, 1, 0, 0,
+  1, 1, .5, .25, 
+  0, 0, 0, 1, 
+  0, 0, 0, 0,
+  0, 0, .9, .9, 
+  0, 0, 7, .5,
+)
+
+
+# Set the random number generator&#39;s starting value. This makes our outputs repeatable, so we 
+# don&#39;t get different results each time we run our software.
+set.seed(1)
+
+# The neuralnet function creates our model.
+# Arguments:
+#   formula: dependent variable ~ indepedent variables + ...
+#   data: our tibble
+#   hidden: how many hidden nodes should we use? Use an integer
+#   linear_output: generally T for regression or F for classification
+n &lt;- neuralnet( fraud ~ jail01 + age01,
+                data = t_train,
+                hidden = 1)
+
+# View output
+# Input notes are on the left, intermediate in the center, and output on the right.
+# Steps tells us how many times the algorithm iterated through before stopping
+# Error is the sse, but other options are also available.
+plot(n)</code></pre>
+</div>
+<div id="measure-accuracy-on-training-data" class="section level2">
+<h2>Measure accuracy on training data</h2>
+<pre class="r"><code># Continue the previous code block, ...
+
+
+# Measure accuracy on training set
+# This code makes a new tibble showing the results in a easy to grasp form.
+#   actual: this is the correct output from our original tibble
+#   prediction: this is the output of our model. Use net.result[[1]] to
+#   prediction01: the prediction outputs a decimal number. Since this problem has a 0/1, round.
+prediction = n$net.result[[1]]
+prediction01 = round(prediction, digits = 0)
+
+# Create a confusion table
+# Prediction is on the left, and actual on the top.
+#
+#             0                1       &lt;===  Actual outcome
+# 0    Negative was True    Negative was False
+# 1    Positive was False   Positive was True
+# ^
+#  \  
+#    prediction
+# 
+train_table &lt;- table(prediction01, t_train$fraud )
+print(train_table)</code></pre>
+<pre><code>##             
+## prediction01 0 1
+##            0 4 2
+##            1 0 4</code></pre>
+<pre class="r"><code># Use coordinates to access our truth table
+# We start at the top-left corner with [1,1], with [line, column]
+# 
+#       0        1
+# 0   [1, 1]   [1, 2]
+# 1   [2, 1]   [2, 2]
+
+# Accuracy: true / total
+# What is the total number of cases properly classified?
+train_accuracy &lt;- (train_table[1, 1] + train_table[2, 2]) /  sum(train_table)
+
+# Recall: true positives / (true positives + false negative)
+# How many of the target cases did we find?
+train_recall &lt;- train_table[2, 2] / (train_table[1, 2] + train_table[2, 2])
+
+# Precision: true positives / (false positive + true positive)
+train_precision &lt;- train_table[2, 2] / (train_table[2, 1] + train_table[2, 2])
+
+print(paste(&#39;Accuracy&#39;, train_accuracy))</code></pre>
+<pre><code>## [1] &quot;Accuracy 0.8&quot;</code></pre>
+<pre class="r"><code>print(paste(&#39;Recall&#39;, train_recall))</code></pre>
+<pre><code>## [1] &quot;Recall 0.666666666666667&quot;</code></pre>
+<pre class="r"><code>print(paste(&#39;Precision&#39;, train_precision))</code></pre>
+<pre><code>## [1] &quot;Precision 1&quot;</code></pre>
+</div>
+<div id="evaluate-on-test-data" class="section level2">
+<h2>Evaluate on test data</h2>
+<pre class="r"><code># Continue the previous code block, ...
+
+# Now try test data.
+#   n is our model
+#   t_test is our data
+p &lt;- predict(n, t_test)
+
+# Evaluate the success by looking at the returned vector
+# Note that we get a matrix back. We just want a vector, so access
+# by using [ , 1] &lt;--- return all rows, but only first column.
+prediction = p[,1]
+prediction01 = round(prediction, digits = 0)
+
+confusion &lt;- table(prediction01, t_test$fraud)
+
+print(confusion)</code></pre>
+<pre><code>##             
+## prediction01 0 1
+##            0 3 0
+##            1 1 2</code></pre>
+</div>
+</div>
+<div id="neural-network---textual" class="section level1 tabset">
+<h1 class="tabset">Neural Network - textual</h1>
+<div id="build-a-model" class="section level2">
+<h2>Build a model</h2>
+<p>We can use textual data. It will be encoded with each value set to a
+0 or 1 field.</p>
+<pre class="r"><code>library(neuralnet)
+library(tidyverse)
+
+data(iris)
+
+# Create a sample vector, and use it to split our data into train and testing tibbles
+set.seed(1)
+index &lt;- sample( c(TRUE, FALSE), nrow(iris), replace = TRUE, prob = c(.7, .3) )
+t_train &lt;- filter( iris, index == 1 ) 
+t_test &lt;- filter( iris, index == 0)
+
+# Train algorithm
+# Note that we are using a textual output, so instead of a single output node
+# we now have one per label.
+#   linear.output: generally T for regression or F for classification
+n &lt;- neuralnet(Species  ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+               data = t_train,
+               hidden = 2,
+               linear.output = FALSE)
+
+plot(n)</code></pre>
+</div>
+<div id="measure-accuracy-on-training-data-1" class="section level2">
+<h2>Measure accuracy on training data</h2>
+<p>Below is some sample code to measure the accuracy of the training /
+test data.</p>
+<pre class="r"><code># continue previous...
+
+# Grab the matrix of results and round to the 0
+matrix = round(n$net.result[[1]], digits = 0)
+
+# Add column names
+colnames(matrix) &lt;- list(&#39;setosa_node&#39;, &#39;versicolor_node&#39;, &#39;virginica_node&#39;)
+
+# Convert to tibble
+t_results &lt;- as.tibble(matrix)  %&gt;%
+  mutate(predicted = ifelse(setosa_node == 1, &#39;setosa&#39;, 
+                            ifelse(versicolor_node == 1, &#39;versicolor&#39;, &#39;virginica&#39;))) 
+
+
+# Test accuracy with original data
+accuracy = mean(t_results$predicted == t_train$Species)
+print(accuracy)</code></pre>
+<pre><code>## [1] 0.990566</code></pre>
+<pre class="r"><code># See confusion table
+table(t_results$predicted, t_train$Species)</code></pre>
+<pre><code>##             
+##              setosa versicolor virginica
+##   setosa         34          0         0
+##   versicolor      0         34         1
+##   virginica       0          0        37</code></pre>
+</div>
+<div id="measure-accuracy-on-test-data" class="section level2">
+<h2>Measure accuracy on test data</h2>
+<p>Below is some sample code to measure the accuracy of the training /
+test data.</p>
+<pre class="r"><code># continue previous...
+
+predictions &lt;- predict(n, t_test)
+
+# Grab the matrix of results and round to the 0
+matrix = round(predictions, digits = 0)
+
+# Add column names
+colnames(matrix) &lt;- list(&#39;setosa_node&#39;, &#39;versicolor_node&#39;, &#39;virginica_node&#39;)
+
+# Convert to tibble
+t_results &lt;- as.tibble(matrix)  %&gt;%
+  mutate(predicted = ifelse(setosa_node == 1, &#39;setosa&#39;, 
+                            ifelse(versicolor_node == 1, &#39;versicolor&#39;, &#39;virginica&#39;))) 
+
+
+# Test accuracy with original data
+accuracy = mean(t_results$predicted == t_test$Species)
+print(accuracy)</code></pre>
+<pre><code>## [1] 0.9318182</code></pre>
+<pre class="r"><code># See confusion table
+table(t_results$predicted, t_test$Species)</code></pre>
+<pre><code>##             
+##              setosa versicolor virginica
+##   setosa         16          1         0
+##   versicolor      0         15         2
+##   virginica       0          0        10</code></pre>
+</div>
+</div>
+<div id="scaling-data" class="section level1">
+<h1>Scaling data</h1>
+<p>Scale is a useful function for rescaling a set of input data.</p>
+<pre class="r"><code># Rescale data
+#   x: vector of data input
+#   center: boolean, do we subtract column mean from each value (so mean = 0)?
+#   scale: boolean, do we divide data by the sd after centering?
+x2 &lt;- scale(x = c(1, 2, 3, 4, 4, 5,3),
+      center = TRUE,
+      scale = TRUE)
+
+summary(x2)</code></pre>
+<pre><code>##        V1         
+##  Min.   :-1.5930  
+##  1st Qu.:-0.4779  
+##  Median :-0.1062  
+##  Mean   : 0.0000  
+##  3rd Qu.: 0.6372  
+##  Max.   : 1.3806</code></pre>
+<pre class="r"><code># We can also use the short form of this, relying on the defaults to get the 
+# same result as above.
+summary(scale(c(1, 2, 3, 4, 4, 5,3)))</code></pre>
+<pre><code>##        V1         
+##  Min.   :-1.5930  
+##  1st Qu.:-0.4779  
+##  Median :-0.1062  
+##  Mean   : 0.0000  
+##  3rd Qu.: 0.6372  
+##  Max.   : 1.3806</code></pre>
 </div>
 
 
