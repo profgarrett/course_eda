@@ -37,8 +37,19 @@ This content relates to the Datacamp series called *Machine Learning for Busines
 - Unsupervised
   - Goal to find natural groupings in the data (clusters)
 
-# Metrics
+# Error
 
+All models have error. This can come from 3 sources:
+
+- *Sampling errors* when our data does not perfectly represent the largest population
+- *Measurement errors* when our methods for collecting data do not perfectly match the underlying construct
+- *Model error* when our model does not match reality.
+
+As an example, consider asking college students for their favorite artist. We grab 10 students at random, and ask them for a list of their top 3 artists. This has the following errors:
+
+- *Sampling* - the 10 do not perfectly represent all students
+- *Measurement* - asking students for a cold-recall and putting them on the spot leads to some not remembering certain artists, or changing their answers in response to peer pressure from other students around them
+- *Model* - asking for the top 3 by rank may not be an appropriate model for measuring artist popularity. A 1-5 scale may be more appropriate.
 
 ## Categorical Prediction
 

@@ -10,7 +10,7 @@ output:
 
 This section introduces you to getting your local computer setup.
 
-If you've taken an R class before, I highly recommend uninstally both R and RStudio before starting the below instructions.
+If you've taken an R class before, I highly recommend uninstalling both R and RStudio before starting the below instructions.
 
 ## Installing R
 

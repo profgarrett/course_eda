@@ -120,18 +120,18 @@ t <- mutate( t,
 hist(t$residual)
 ```
 
-# Neural Network - simple numeric  {.tabset}
+# Neural Network - simple class  {.tabset}
 
 Good reference videos: 
 
 - [Neural Network in 5 minutes](https://www.youtube.com/watch?v=bfmFfD2RIcg)
-- [Stat Question: Math in the ANN](https://www.youtube.com/watch?v=CqOfi41LfDw)
+- [Stat Quest: Math in the ANN](https://www.youtube.com/watch?v=CqOfi41LfDw)
 
 We will use the [NeuralNet library](https://www.rdocumentation.org/packages/neuralnet/).
 
-## Build model
+## Build a model
 
-Below is a simple model created from some sample fraud data.
+Below is a simple model created from some sample fraud data. It predicts a simple 0/1 outcome.
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(neuralnet)
@@ -171,10 +171,11 @@ set.seed(1)
 #   formula: dependent variable ~ indepedent variables + ...
 #   data: our tibble
 #   hidden: how many hidden nodes should we use? Use an integer
-#   linear_output: generally T for regression or F for classification
-n <- neuralnet( fraud ~ jail01 + age01,
-                data = t_train,
-                hidden = 1)
+#   linear.output: generally T for regression or F for classification
+n <- neuralnet(fraud ~ jail01 + age01,
+               data = t_train,
+               hidden = 1,
+               linear.output = FALSE)
 
 # View output
 # Input notes are on the left, intermediate in the center, and output on the right.
@@ -192,8 +193,7 @@ plot(n)
 
 # Measure accuracy on training set
 # This code makes a new tibble showing the results in a easy to grasp form.
-#   actual: this is the correct output from our original tibble
-#   prediction: this is the output of our model. Use net.result[[1]] to
+#   prediction: this is the output of our model. Use net.result[[1]] to grab the first item returned.
 #   prediction01: the prediction outputs a decimal number. Since this problem has a 0/1, round.
 prediction = n$net.result[[1]]
 prediction01 = round(prediction, digits = 0)
@@ -258,7 +258,7 @@ print(confusion)
 ```
 
 
-# Neural Network - textual {.tabset}
+# Neural Network - multiple classes {.tabset}
 
 ## Build a model
 
@@ -268,11 +268,18 @@ We can use textual data. It will be encoded with each value set to a 0 or 1 fiel
 library(neuralnet)
 library(tidyverse)
 
+# Load our iris dataset
 data(iris)
 
-# Create a sample vector, and use it to split our data into train and testing tibbles
 set.seed(1)
-index <- sample( c(TRUE, FALSE), nrow(iris), replace = TRUE, prob = c(.7, .3) )
+
+# Create a sample vector of 1 and 0s, with 70% 1st and 30% 0. 
+index <- sample( c(1, 0), 
+                 nrow(iris), 
+                 replace = TRUE, 
+                 prob = c(.7, .3) )
+
+# Split data into test/train
 t_train <- filter( iris, index == 1 ) 
 t_test <- filter( iris, index == 0)
 
@@ -301,7 +308,9 @@ matrix = round(n$net.result[[1]], digits = 0)
 # Add column names
 colnames(matrix) <- list('setosa_node', 'versicolor_node', 'virginica_node')
 
-# Convert to tibble
+# Convert matrix to a tibble
+#     Add a column called predicted that says if we are 
+#     predicting setota, versicolor, or virginica.
 t_results <- as.tibble(matrix)  %>%
   mutate(predicted = ifelse(setosa_node == 1, 'setosa', 
                             ifelse(versicolor_node == 1, 'versicolor', 'virginica'))) 
@@ -312,7 +321,7 @@ accuracy = mean(t_results$predicted == t_train$Species)
 print(accuracy)
 
 # See confusion table
-table(t_results$predicted, t_train$Species)
+table(str_to_upper(t_results$predicted), t_train$Species)
 ```
   
 ## Measure accuracy on test data
@@ -344,6 +353,126 @@ print(accuracy)
 table(t_results$predicted, t_test$Species)
 ```
 
+# Neural Network - numeric output {.tabset}
+
+## Build a model
+
+Below is a simple model predicting a numerical outcome. We use the mtcars dataset.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(neuralnet)
+library(tidyverse)
+
+t <- tribble( 
+  ~height, ~weight, ~is_sumo,
+  100, 100, 1, 
+  200, 190, 0,
+  150, 130, 1, 
+  80, 200, 0, 
+  175, 200, 1, 
+  100, 80, 1,
+  90, 70, 1,
+  210, 200, 1,
+  150, 160, 0,
+  110, 140, 0,
+  175, 200, 1, 
+  103, 80, 1
+)
+
+# Scale the data and add a 0/1 
+is_test = sample(x = c(0, 1),
+                 size = 12,
+                 replace = TRUE,
+                 prob = c(0.5, 0.5))
+
+# Setup the data to be scaled and have a 1/0 test/train variable
+t <- t %>% 
+  mutate(is_test = is_test, 
+         height = scale(height),
+         weight = scale(weight))
+
+
+# Setup train/test tibbles
+t_train <- filter(t, is_test == 0)
+t_test <- filter(t, is_test == 1)
+
+
+# Set the random number generator's starting value. This makes our outputs repeatable, so we 
+# don't get different results each time we run our software.
+set.seed(1)
+
+# The neuralnet function creates our model.
+# Arguments:
+#   formula: dependent variable ~ indepedent variables + ...
+#   data: our tibble
+#   hidden: how many hidden nodes should we use? Use an integer
+#   linear.output: generally T for regression or F for classification
+n <- neuralnet(formula = height ~ weight + is_sumo,
+               data = t_train,
+               hidden = 1,
+               linear.output = TRUE)
+
+# View output
+# Input notes are on the left, intermediate in the center, and output on the right.
+# Steps tells us how many times the algorithm iterated through before stopping
+# Error is the sse, but other options are also available.
+plot(n)
+```
+
+
+## Measure accuracy on training data
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Continue the previous code block, ...
+
+
+# Measure accuracy on training set
+# This code makes a new tibble showing the results in a easy to grasp form.
+#   prediction: this is the output of our model. Use net.result[[1]] to grab the first item returned.
+prediction = n$net.result[[1]]
+
+# Show error in a nice format
+t_train <- t_train %>% 
+  mutate(prediction = prediction,
+         residual = prediction - weight)
+
+# Show predicted v. actual
+print(t_train)
+
+# Find the sse
+print((sum(t_train$residual ^ 2)))
+```
+
+## Evaluate on test data
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Continue the previous code block, ...
+
+# Now try test data.
+#   n is our model
+#   t_test is our data
+p <- predict(n, t_test)
+
+# Evaluate the success by looking at the returned vector
+# Note that we get a matrix back. We just want a vector, so access
+# by using [ , 1] <--- return all rows, but only first column.
+prediction = p[,1]
+
+# Show error in a nice format
+t_test <- t_test %>% 
+  mutate(prediction = prediction,
+         residual = prediction - weight)
+
+# Show predicted v. actual
+print(t_test)
+
+# Find the the sse
+print((sum(t_test$residual ^ 2)))
+
+
+```
+
+
 # Scaling data
 
 Scale is a useful function for rescaling a set of input data.
@@ -364,4 +493,18 @@ summary(x2)
 # same result as above.
 summary(scale(c(1, 2, 3, 4, 4, 5,3)))
 
+
+# We will often need to rescale the output to get it back into the normal form.
+#   attributes:
+#     dim
+#     scaled:center
+#     scaled:scale
+attributes(x2)
+
+# Get only the new data
+scaled_data <- x2[,1]
+print(scaled_data)
+
+# Rescale by multiplying by the scale and adding the center.
+scaled_data * attr(x2, 'scaled:scale') + attr(x2, 'scaled:center')
 ```

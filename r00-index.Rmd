@@ -37,3 +37,9 @@ This section is for ACCT 426 and BUDA 451 students in Spring 2023.
   - [Supervised Learning](r50-ml-supervised.html)
 * Other topics
   - [Dates](r80-dates.html)
+
+Useful tutorials
+- [FastR](https://github.com/matloff/fasteR)
+- [R Ladies](https://rladiessydney.org/courses/ryouwithme/03-vizwhiz-1/)
+- [Swirl](https://swirlstats.com/)
+- [Hands-on with R](https://rstudio-education.github.io/hopr/)

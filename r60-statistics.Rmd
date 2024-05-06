@@ -10,10 +10,15 @@ output:
 
 This corresponds to the DataCamp *Introduction to Statistics in R* course.
 
+It also pulls concepts from [Regression and Other Stories](https://avehtari.github.io/ROS-Examples/), which is a fantastic statistical book.
+
 There are two main branches of statistics
 
 - *Descriptive* describe our data
-- *Inferential* uses a sample to predict a population
+- *Inferential* uses a sample to predict a population. This focuses on the following 3 generalization problems:
+  - from sample to population
+  - from treatment to control group
+  - from observed measurements to underlying constructs of interest
 
 # Data types:
 
@@ -55,12 +60,12 @@ All outcomes have an equal probability.
 
 Use `runif`
 
+
 ## Binomial
 
 An outcome with either true or false (1 or 0).
 
 Use `rbinom`
-
 
 
 # Probability
