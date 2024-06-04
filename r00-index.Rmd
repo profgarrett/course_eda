@@ -9,34 +9,39 @@ output:
 ---
 
 
-This section is for ACCT 426 and BUDA 451 students in Spring 2023.
+This section is for ACCT 426 and BUDA 451 students in Fall 2024.
 
-* Core R Language
-  - [1a. Introduction to rStudio](r01-intro.html)
-  - [1b. Introduction to R's core syntax and types](r02-syntax.html) (Datacamp *Introduction to R*)
-  - [1c. Conditionals](r03-syntax-conditionals.html) (Datacamp *Intermediate R - Conditionals and Control Flow*)
-  - [1d. Loops](r04-syntax-loops.html) (Datacamp *Intermediate R - Loops*)
-  - [1e. Functions1](r05-syntax-functions1.html) (Datacamp *Intermediate R - Functions* )
-  - [1f. Functions2](r06-syntax-functions2.html) (*List of useful functions* )
-* EDA Process
-  - [Machine Learning in Business](ml01-intro.html) (Datacamp *Machine Learning for Business*)
-  - [Exploratory Data Analysis in R](ml02-eda.html) (DataCamp *Exploratory Data Analysis in R*)
-  - [Folders and files](r07-folders.html)
-  - [Managing files in a project](r08-project-files.html)
-* Libraries
-  - [dplyr](r10-dplyr.html)
-  - [Loading data](r15-read.html)
-  - [ggplot 1: Introduction](r20-ggplot.html)
-  - [ggplot 2: Making plots pretty](r21-ggplot-pretty.html)
-  - [ggplot 3: Making maps](r22-ggplot-maps-osm.html)
-* Machine Learning
-  - [Statistics Refresher](r60-statistics.html)
-  - [Regression 1](r61-regression1.html) (DataCamp *Introduction to Regression in R*)
-  - [Regression 2](r62-regression2.html) (DataCamp *Supervised Learning in R: Regression*)
-  - [Unsupervised Learning](r40-ml-unsupervised.html)
-  - [Supervised Learning](r50-ml-supervised.html)
-* Other topics
-  - [Dates](r80-dates.html)
+## R - Core language and skills
+
+  - [r01. Introduction to rStudio](r01-intro.html)
+  - [r02. Introduction to R's core syntax and types](r02-syntax.html) (Datacamp *Introduction to R*)
+  - [r03. Folders and files](r03-folders.html)
+  - [r04. Managing files in a project](r04-project-files.html)
+  - [r10. dplyr: select, filter, mutate, arrange, and pipe](r10-dplyr.html)
+  - [r11. dplyr: group by, summarise, and pivot](r11-dplyr-shaping.html)
+  - [r15. Loading data](r15-read.html)
+  - [r20. ggplot 1: Introduction](r20-ggplot.html)
+  - [r21. ggplot 2: Making plots pretty](r21-ggplot-pretty.html)
+  - [r22. ggplot 3: Making maps](r22-ggplot-maps-osm.html)
+  - [r30. Conditionals](r30-syntax-conditionals.html) (Datacamp *Intermediate R - Conditionals and Control Flow*)
+  - [r31. Loops](r31-syntax-loops.html) (Datacamp *Intermediate R - Loops*)
+  - [r32. Functions1](r32-syntax-functions1.html) (Datacamp *Intermediate R - Functions* )
+  - [r33. Functions2](r33-syntax-functions2.html) (*List of useful functions* )
+  - [r80. Dates](r80-dates.html)
+
+# Statistics and Machine Learning
+
+  - [ml00. Statistics Refresher](ml00-statistics.html)
+  - [ml01. Machine Learning in Business](ml01-intro.html) (Datacamp *Machine Learning for Business*)
+  - [ml02. Exploratory Data Analysis in R](ml02-eda.html) (DataCamp *Exploratory Data Analysis in R*)
+  - [ml10. Regression 1](ml10-regression1.html) (DataCamp *Introduction to Regression in R*)
+  - [ml11. Regression 2](ml11-regression2.html) (DataCamp *Supervised Learning in R: Regression*)
+  - [ml40. Unsupervised Learning](ml40-unsupervised.html)
+  - [ml50. Supervised Learning](ml50-supervised.html)
+
+
+
+
 
 Useful tutorials
 - [FastR](https://github.com/matloff/fasteR)

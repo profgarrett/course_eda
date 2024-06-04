@@ -8,7 +8,9 @@ output:
 
 As we get further along in using R, we will want to share our work with others. This can be hard, as the installation of R on our laptops is not going to match another person's computer.
 
-Before you start this, you should be comfortable with managing files/folders on your computer. See [this link](r07-folders.html)
+Before you start this, you should be comfortable with managing files/folders on your computer. See [this link](r03-folders.html)
+
+
 # Creation and publishing walkthrough
 
 We will generally want to use a project for your submissions. 

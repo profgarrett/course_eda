@@ -237,7 +237,7 @@ cor(t_numbers)
 
 #### cor.test
 
-The cor.test function will show the statistical significane of any correlations you find.
+The cor.test function will show the statistical significance of any correlations you find.
 
 ```{r echo=TRUE, message=F, warning=F}
 library(tidyverse)

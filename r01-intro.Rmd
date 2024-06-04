@@ -12,9 +12,8 @@ This section introduces you to getting your local computer setup.
 
 If you've taken an R class before, I highly recommend uninstalling both R and RStudio before starting the below instructions.
 
-## Installing R
 
-
+# Installing R
 
 - Install R: https://cran.rstudio.com/
   - Install R Studio: https://www.rstudio.com/products/rstudio/download/
@@ -35,7 +34,7 @@ If you've taken an R class before, I highly recommend uninstalling both R and RS
 
 
 
-## Overall RStudio Layout
+# Overall RStudio Layout
 
 - RStudio features
   - Console for interactive input
@@ -46,14 +45,14 @@ If you've taken an R class before, I highly recommend uninstalling both R and RS
   - Create a folder for our class, and a new folder for *every* project. For now, you don't need a project file, but once we start using datafiles it'll be really important.
 
 
-## Style Guide
+# Style Guide
 
 - Save your main code file as MainYourname.R (for example, MainNathanGarrett.R).
 - Link with *Control Shift L* 
 - Do not depend on program state or .RData files! I must be able to run your code as it is submitted in the R file. I strongly suggest closing and re-opening R, and then running all of the code to make sure it works properly.
 
 
-## Shortcuts
+# Shortcuts
 
 There are several vital shortcuts:
 

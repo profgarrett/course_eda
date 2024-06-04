@@ -1,0 +1,61 @@
+--- 
+title: "Learning Philosophy"
+author: "Nathan Garrett, PhD CPA"
+date: "Refreshed `r Sys.Date()`"
+output: 
+  html_document:
+    theme: united
+
+---
+
+What works with learning?
+
+The traditional approach is:
+
+- Lecture in class
+- Complete homework
+- Test knowledge on exam
+
+
+However, this does not align well with what we've learned about how people learn. The following explains several key findings from cognitive psychology.
+
+## Mastery Learning
+
+My goal is for you to completely understand one section before continuing. This is important because your working memory is limited. Most people can hold around 4 *chunks* of information at a time. If you're learning new material, this means that you have to have resources free to focus on them.
+
+Our goal is to learn each set of skills well enough that they become automatic, making space for you to learn new skills. We want to push the new material into long-term learning, where you have essentially an infinite capacity. 
+
+Do not progress without mastering each section!
+
+## Spacing Effect
+
+You remember better when spacing your learning out. It is more efficient to study for an hour three times than studying in a single 3-hour block. 
+
+As one study found, students who studies for 30 minutes scored 55% on a test, while those who spread out 3 ten-minute study sessions over separate days scored 75%. [link](https://pdf.retrievalpractice.org/SpacingGuide.pdf)
+
+## Review
+
+A common learning technique is when students re-read a textbook. This *feels* like a good practice, as your brain learns to *recognize* the material.
+
+However, few tests measure your ability to recognize material. Instead, you have to retrieve the correct information. As a result, it's much better to practice doing problems that force you to retrieve the material. This creates a *desirable difficulty* to leads to better growth. See [deliberate practice](https://en.wikipedia.org/wiki/Practice_(learning_method)#Deliberate_practice).
+
+## Testing effect
+
+Preparing and taking tests are one of the best ways to learn! They give feedback on what you've learned, and force you to go back and review what you learned.
+
+# Active Learning
+
+All of these together can be called *active learning*. This approach encourages you to take responsiblity for your own learning, testing your knowledge against the course outcomes.
+
+This probably feels weird. *You will probably feel that you're learning less.* However, this is because students over-rate their learning in passive learning and under-rate it with active learning.
+
+
+If you want to learn more, see [this website on retrieval practice](https://www.retrievalpractice.org/library). Mastering these skills can improve your ability to learn, especially in skill-based disciplines.
+
+## Putting it together
+
+In this course, we will try to emphasize these approaches by:
+
+- Pre-class: before our class, complete the given assignments to prime you for class, giving you the initial exposure to content.
+- Class: application and problem-solving
+- Post-class: on your own practice. We will review these in the following week.

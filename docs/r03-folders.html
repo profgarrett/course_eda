@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Nathan Garrett, PhD CPA" />
 
 
-<title>R for Business Students</title>
+<title>Folder management</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -270,65 +269,131 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">R for Business Students</h1>
-<h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-06-03</h4>
+<h1 class="title toc-ignore">Folder management</h1>
 
 </div>
 
-
-<p>This section is for ACCT 426 and BUDA 451 students in Fall 2024.</p>
-<div id="r---core-language-and-skills" class="section level2">
-<h2>R - Core language and skills</h2>
+<div id="TOC">
 <ul>
-<li><a href="r01-intro.html">r01. Introduction to rStudio</a></li>
-<li><a href="r02-syntax.html">r02. Introduction to R’s core syntax and
-types</a> (Datacamp <em>Introduction to R</em>)</li>
-<li><a href="r03-folders.html">r03. Folders and files</a></li>
-<li><a href="r04-project-files.html">r04. Managing files in a
-project</a></li>
-<li><a href="r10-dplyr.html">r10. dplyr: select, filter, mutate,
-arrange, and pipe</a></li>
-<li><a href="r11-dplyr-shaping.html">r11. dplyr: group by, summarise,
-and pivot</a></li>
-<li><a href="r15-read.html">r15. Loading data</a></li>
-<li><a href="r20-ggplot.html">r20. ggplot 1: Introduction</a></li>
-<li><a href="r21-ggplot-pretty.html">r21. ggplot 2: Making plots
-pretty</a></li>
-<li><a href="r22-ggplot-maps-osm.html">r22. ggplot 3: Making
-maps</a></li>
-<li><a href="r30-syntax-conditionals.html">r30. Conditionals</a>
-(Datacamp <em>Intermediate R - Conditionals and Control Flow</em>)</li>
-<li><a href="r31-syntax-loops.html">r31. Loops</a> (Datacamp
-<em>Intermediate R - Loops</em>)</li>
-<li><a href="r32-syntax-functions1.html">r32. Functions1</a> (Datacamp
-<em>Intermediate R - Functions</em> )</li>
-<li><a href="r33-syntax-functions2.html">r33. Functions2</a> (<em>List
-of useful functions</em> )</li>
-<li><a href="r80-dates.html">r80. Dates</a></li>
+<li><a href="#computer-folders" id="toc-computer-folders">Computer
+Folders</a></li>
+<li><a href="#making-folders" id="toc-making-folders">Making folders</a>
+<ul>
+<li><a href="#make-a-folder-on-pc" id="toc-make-a-folder-on-pc">Make a
+folder on PC</a></li>
+<li><a href="#make-a-folder-on-mac" id="toc-make-a-folder-on-mac">Make a
+folder on Mac</a></li>
+</ul></li>
+<li><a href="#moving-files" id="toc-moving-files">Moving files</a>
+<ul>
+<li><a href="#move-files-on-a-pc" id="toc-move-files-on-a-pc">Move files
+on a PC</a></li>
+<li><a href="#move-files-on-a-mac" id="toc-move-files-on-a-mac">Move
+files on a Mac</a></li>
+</ul></li>
+<li><a href="#other-setup" id="toc-other-setup">Other setup</a></li>
 </ul>
 </div>
-<div id="statistics-and-machine-learning" class="section level1">
-<h1>Statistics and Machine Learning</h1>
+
+<p>Managing your folders and files is a key skill. This page walks you
+through the major things you should know.</p>
+<div id="computer-folders" class="section level1">
+<h1>Computer Folders</h1>
+<p>When you save a file, it goes into the hard drive on your computer.
+This hard drive (called the <code>C:\</code> on Windows) organizes files
+into certain locations, called folders.</p>
+<p>All modern systems store your files in several folders:</p>
 <ul>
-<li><a href="ml00-statistics.html">ml00. Statistics Refresher</a></li>
-<li><a href="ml01-intro.html">ml01. Machine Learning in Business</a>
-(Datacamp <em>Machine Learning for Business</em>)</li>
-<li><a href="ml02-eda.html">ml02. Exploratory Data Analysis in R</a>
-(DataCamp <em>Exploratory Data Analysis in R</em>)</li>
-<li><a href="ml10-regression1.html">ml10. Regression 1</a> (DataCamp
-<em>Introduction to Regression in R</em>)</li>
-<li><a href="ml11-regression2.html">ml11. Regression 2</a> (DataCamp
-<em>Supervised Learning in R: Regression</em>)</li>
-<li><a href="ml40-unsupervised.html">ml40. Unsupervised
-Learning</a></li>
-<li><a href="ml50-supervised.html">ml50. Supervised Learning</a></li>
+<li><code>Downloads</code>: this is supposed to be temporary spot for
+files downloaded by Safari or Chrome.</li>
+<li><code>Desktop</code>: files/folders visible on your desktop</li>
+<li><code>Documents</code>: where you should store your long-term
+files</li>
 </ul>
-<p>Useful tutorials - <a
-href="https://github.com/matloff/fasteR">FastR</a> - <a
-href="https://rladiessydney.org/courses/ryouwithme/03-vizwhiz-1/">R
-Ladies</a> - <a href="https://swirlstats.com/">Swirl</a> - <a
-href="https://rstudio-education.github.io/hopr/">Hands-on with R</a></p>
+<p>One wrinkle is that Windows often uses OneDrive. OneDrive is an
+online service that syncs your local files with servers in the Internet.
+Files are typically still stored on your computer, but are regularly
+uploaded. So, if you have OneDrive turned on, typically the OneDrive
+Downloads/Desktop/Documents is the same as the location on your hard
+drive (usually C:).</p>
+<p>Organize your files: <a
+href="https://www.youtube.com/watch?v=gfPujXtQqwc">link to video on
+YouTube</a></p>
+<p>Here is a quick guide for organizing your files, slightly more
+focused on the Mac. <a
+href="https://www.youtube.com/watch?v=gfx7G4NQQMg">link to video on
+YouTube</a></p>
+</div>
+<div id="making-folders" class="section level1 tabset">
+<h1 class="tabset">Making folders</h1>
+<p>You should have a folder for our class. Then, create a folder for
+each week or major project. Store your files inside of this folder.</p>
+<div id="make-a-folder-on-pc" class="section level2">
+<h2>Make a folder on PC</h2>
+<p>Right-click in a folder, and choose <code>New folder</code> (or press
+<code>Control+Shift+N</code>)</p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/Amd6V-ERLO8" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=Amd6V-ERLO8">link to video
+on YouTube</a></p>
+</div>
+<div id="make-a-folder-on-mac" class="section level2">
+<h2>Make a folder on Mac</h2>
+<p>Right-click in a folder, and choose <code>New Folder</code></p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/xPVOaFmQ7_s" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=xPVOaFmQ7_s">link to video
+on YouTube</a></p>
+</div>
+</div>
+<div id="moving-files" class="section level1">
+<h1>Moving files</h1>
+<p>Avoid modifying any files in your download folder. Instead, download
+them, and then copy them to the appropriate folder.</p>
+<div id="move-files-on-a-pc" class="section level2">
+<h2>Move files on a PC</h2>
+<p>Guide to using Files Explorer on Windows.</p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/hXLpEG3IX-A" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=hXLpEG3IX-A">link to video
+on YouTube</a></p>
+</div>
+<div id="move-files-on-a-mac" class="section level2">
+<h2>Move files on a Mac</h2>
+<p>I suggest disabling the Force touch feature:</p>
+<ul>
+<li>Use the Apple menu to open <code>System Preferences</code></li>
+<li>Click <code>Trackpad</code>, the <code>Point &amp; Click</code>
+tab</li>
+<li>Turn off <code>Force click and haptic feedback</code></li>
+</ul>
+<p>Right-click on a file, right-click copy, go to the new place, and
+click paste. Or, move a file by opening a separate <code>Finder</code>
+window, and dragging/dropping your files.</p>
+<iframe width="640" height="572" src="https://www.youtube.com/embed/gFKJpkpDcwo" data-external="1" allowfullscreen>
+</iframe>
+<p><a href="https://www.youtube.com/watch?v=gFKJpkpDcwo">link to video
+on YouTube</a></p>
+</div>
+</div>
+<div id="other-setup" class="section level1">
+<h1>Other setup</h1>
+<p>One more thing that would be helpful in our class is to turn on file
+extensions. This will tell you the hidden information that lives in ever
+file’s name. So, when you save a Word document as <code>my stuff</code>,
+it actually is saved as <code>my stuff.docx</code>. The
+<code>.docx</code> tells the computer to open the file in Word.</p>
+<p>As we work with more complex files, you will find that you can not
+just click on a file to open it in the right program. Instead, get in
+the habit of opening a program first. Then, inside of the program, open
+the file (usually by going to the file menu and choosing open).</p>
+<p>To turn on:</p>
+<ul>
+<li>Open Windows Explorer</li>
+<li>Open View menu</li>
+<li>Show submenu</li>
+<li>File Name Extensions</li>
+</ul>
 </div>
 
 

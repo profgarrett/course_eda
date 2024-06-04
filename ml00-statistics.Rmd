@@ -54,6 +54,7 @@ There are two main branches of statistics
 *3-minute data science* "Normal distribution": https://www.youtube.com/watch?v=3VYupIsbLlY
 
 ![Normal Distribution](r60-statistics-normaldist-weightrack.jpeg)
+
 ## Uniform
 
 All outcomes have an equal probability.
@@ -85,7 +86,7 @@ Outcomes:
 - Know the difference between the statistical significant of a correlation, versus its strength.
 - Magnitude
   - Strong > 50, moderate >25, weak around 20%.
-  - Understand - versus positive sign
+  - Understand negative versus positive sign
 - Problems
   - Non-linear relationships.
     - Can have log applied
@@ -95,6 +96,7 @@ Outcomes:
 Help: https://www.youtube.com/watch?v=rijqfllOq6g
 
 [Good discussion and examples of correlation](https://www.reddit.com/r/dataisbeautiful/comments/18p85yp/correlating_four_other_variables_with_a_states/?share_id=IsERBPtlNN-F0Bw9s0kSn)
+
 
 # Experiment
 

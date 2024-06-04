@@ -105,7 +105,7 @@ So, the RSME is the square root of the variance. This is the average distance be
 
 The coefficient of determination tells us the *proportion* of variance in our dependent variable that can be explained by our independent variables. 
 
-It ranges from 0 to 1. Generally, the higher the number the better the prediction.
+It ranges from 0 to 1. Generally, the higher the number the better the prediction. This will be more fully explained in the regression sections.
 
 # Jobs
 

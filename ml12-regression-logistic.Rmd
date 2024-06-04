@@ -1,0 +1,90 @@
+---
+title: Logistic Regression 
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Logistic Refression {.tabset}
+
+Outcomes:
+
+- When do we use logistic regression?
+- Interpret a confusion matrix
+
+Help: https://www.youtube.com/watch?v=EKm0spFxFG4
+
+Logistic regression is used when we want to predict a yes/no event, rather than a continuous variable. 
+
+## Basic Model
+
+``` {r}
+library(tidyverse)
+
+# Our dataset.
+t_data <- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c("N", "N", "N", "N", "Y", "Y", "N", "Y", "Y", "Y", "Y", "Y")
+)
+
+# If the to isn't a number, do a conversion.
+t_data <- mutate(t_data, to = ifelse(to == "Y", 1, 0))
+
+
+model <- glm(to ~ from, data = t_data, family = binomial)
+summary(model)
+```
+
+## Measuring error
+
+R^2 is not a good measure for logistic regression. Instead, we use pseudo R-squared. A good result gives us an answer near to 1.
+
+```{r}
+library(tidyverse)
+library(broom)
+
+# Our dataset.
+t_data <- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c("N", "N", "N", "N", "Y", "Y", "N", "Y", "Y", "Y", "Y", "Y")
+)
+
+# If the to isn't a number, do a conversion.
+t_data <- mutate(t_data, to = ifelse(to == "Y", 1, 0))
+
+# Note that we add the family argument!
+model <- glm(to ~ from, data = t_data, family = binomial)
+t_model <- glance(model)
+
+pseudo_r_squared <- 1 - t_model$deviance / t_model$null.deviance
+
+print(pseudo_r_squared)
+```
+
+
+
+## Predicting
+
+We can use a similar approach to predict the model accuracy on new data.
+
+```{r}
+library(tidyverse)
+library(broom)
+
+# Our dataset.
+t_train <- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0)
+)
+t_test <- tibble(
+  from = c(1, 3, 4, 5),
+  to = c(0, 0, 1, 1)
+)
+
+model <- glm(to ~ from, data = t_train, family = binomial)
+
+# Predict syntax is a bit different, as we have to add a type.
+vector_of_predictions <- predict(model, newdata = t_test, type = 'response')
+print(vector_of_predictions)
+```
