@@ -31,9 +31,10 @@ This section is for ACCT 426 and BUDA 451 students in Fall 2024.
 
 # Statistics and Machine Learning
 
-  - [ml00. Statistics Refresher](ml00-statistics.html)
-  - [ml01. Machine Learning in Business](ml01-intro.html) (Datacamp *Machine Learning for Business*)
-  - [ml02. Exploratory Data Analysis in R](ml02-eda.html) (DataCamp *Exploratory Data Analysis in R*)
+  - [ml00. Modeling the world](ml00-intro.html)
+  - [ml01. Statistics Refresher](ml01-statistics.html)
+  - [ml02. Machine Learning in Business](ml02-business.html) (Datacamp *Machine Learning for Business*)
+  - [ml03. Exploratory Data Analysis in R](ml03-eda.html) (DataCamp *Exploratory Data Analysis in R*)
   - [ml10. Regression 1](ml10-regression1.html) (DataCamp *Introduction to Regression in R*)
   - [ml11. Regression 2](ml11-regression2.html) (DataCamp *Supervised Learning in R: Regression*)
   - [ml40. Unsupervised Learning](ml40-unsupervised.html)

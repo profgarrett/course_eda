@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>dplyr</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="dv00-index.html">Tableau/PowerBI</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">dplyr</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#group_by-and-summarize"
+id="toc-group_by-and-summarize">group_by and summarize</a>
+<ul>
+<li><a href="#summarize-without-group_by"
+id="toc-summarize-without-group_by">Summarize without group_by</a></li>
+<li><a href="#summarize-with-group_by"
+id="toc-summarize-with-group_by">Summarize with group_by</a></li>
+<li><a href="#two-or-more-groups" id="toc-two-or-more-groups">Two or
+more groups</a></li>
+<li><a href="#functions" id="toc-functions">Functions</a></li>
+<li><a href="#ungroup" id="toc-ungroup">ungroup</a></li>
+</ul></li>
+<li><a href="#pivot" id="toc-pivot">pivot</a>
+<ul>
+<li><a href="#wider" id="toc-wider">wider</a></li>
+<li><a href="#longer" id="toc-longer">longer</a></li>
+</ul></li>
+<li><a href="#joins" id="toc-joins">Joins</a></li>
+<li><a href="#less-commonly-used-dplyr-commands"
+id="toc-less-commonly-used-dplyr-commands">Less commonly used dplyr
+commands</a>
+<ul>
+<li><a href="#slice_minmax" id="toc-slice_minmax">slice_min/max</a>
+<ul>
+<li><a href="#slice_min-when-n-1" id="toc-slice_min-when-n-1">slice_min
+when n = 1</a></li>
+<li><a href="#slice_min-when-n-1-1"
+id="toc-slice_min-when-n-1-1">slice_min when n &gt; 1</a></li>
+</ul></li>
+<li><a href="#rename" id="toc-rename">rename</a></li>
+<li><a href="#relocate" id="toc-relocate">relocate</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul></li>
+</ul>
+</div>
+
+<p>This functions in dplyr allow us to reshape data. Instead of changing
+individual columns, we can instead compress data down or move from wide
+to tall format.</p>
+<p>See <a href="https://dplyr.tidyverse.org/articles/dplyr.html">dplyr
+tutorial</a> for more help.</p>
+<div id="group_by-and-summarize" class="section level2 tabset">
+<h2 class="tabset">group_by and summarize</h2>
+<p>These two command are similar to SQL’s <code>GROUP BY</code> or
+Excel’s <em>Pivot Table</em>.</p>
+<p>The <code>group_by</code> command is used first. It doesn’t change
+the data, but instead creates a note on the tibble.</p>
+<p>The <code>summarize</code> command is used second. It reads the note
+on the tibble set by <code>group_by</code> to find which fields to
+include in the results. It then performs some type of aggregation (such
+as sum or count). The results are a new tibble.</p>
+<div id="summarize-without-group_by" class="section level3">
+<h3>Summarize without group_by</h3>
+<p><code>summarize()</code> is similar to mutate, in that both create a
+new column. But, each new field must have an aggregation function on it,
+such as <code>sum()</code>.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_sum &lt;- t %&gt;% 
+  summarise(sum_of_sales = sum(sales))
+
+print(t_sum)</code></pre>
+</div>
+<div id="summarize-with-group_by" class="section level3">
+<h3>Summarize with group_by</h3>
+<p>While <code>summarize</code> is helpful, we normally want to break
+the results down by some of the fields.</p>
+<p>Start by using <code>group_by</code>, which includes region in our
+results. Then use <code>summarize()</code> to show which field we want
+to aggregate.</p>
+<p><code>summarize()</code> is similar to mutate, in that both create a
+new column.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_region_sum &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  summarise(sum_of_sales = sum(sales))
+
+print(t_region_sum)</code></pre>
+</div>
+<div id="two-or-more-groups" class="section level3">
+<h3>Two or more groups</h3>
+<p>We can group by more than 1 field.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  country = c(&#39;USA&#39;, &#39;USA&#39;, &#39;DEN&#39;, &#39;USA&#39;, &#39;USA&#39;, &#39;USA&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_region_sum &lt;- t %&gt;% 
+  group_by(country, region) %&gt;% 
+  summarise(sum_of_sales = sum(sales))
+
+print(t_region_sum)</code></pre>
+</div>
+<div id="functions" class="section level3">
+<h3>Functions</h3>
+<p>There are a number of useful functions that can be used in the
+<code>summarize</code> function.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Show the sum of dales by region
+t_region_stats &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  summarise(n_of_rows = n(),
+            sum_of_sales = sum(sales),
+            median_sales = median(sales),
+            max_sales = max(sales),
+            min_sales = min(sales),
+            sd_sales = sd(sales),
+            n_of_distinct_sales = n_distinct(sales))
+
+print(t_region_stats)</code></pre>
+</div>
+<div id="ungroup" class="section level3">
+<h3>ungroup</h3>
+<p>Sometimes we want to remove a group from a tibble. You can call
+<code>ungroup()</code>. In this course, we generally create a new tibble
+for each summary. But, in the real world, you sometimes want to avoid
+duplicating tibbles when working with large datasets.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then ungroup
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  ungroup()
+
+print(t)</code></pre>
+</div>
+</div>
+<div id="pivot" class="section level2">
+<h2>pivot</h2>
+<p>We often want to transition data from a wide format to tall, and vice
+versa.</p>
+<div id="wider" class="section level3">
+<h3>wider</h3>
+<p>Going wide means we take multiple rows and turn them into a single
+row with multiple columns.</p>
+<p>The two key arguments are:</p>
+<ul>
+<li><code>names_from</code> is a field, each value will turn into a new
+column</li>
+<li><code>values_from</code> is a field, each value will turn into the
+data for a new column</li>
+</ul>
+<pre class="r"><code>library(tidyverse)
+
+t_long &lt;- tibble(
+  state = c(&#39;CA&#39;, &#39;CA&#39;, &#39;CA&#39;, &#39;TX&#39;, &#39;TX&#39;, &#39;TX&#39;),
+  year = c(2000, 2001, 2002, 2000, 2001, 2002),
+  sales = c(1, 2, 3, 11, 12, 13)
+)
+
+t_wide &lt;- t_long %&gt;% 
+  pivot_wider(names_from = year, values_from = sales )
+
+print(t_wide)</code></pre>
+</div>
+<div id="longer" class="section level3">
+<h3>longer</h3>
+<p>Going long/tall means we go from a single row with multiple columns
+and into multiple rows with a single column.</p>
+<p>The three key arguments are:</p>
+<ul>
+<li><code>cols</code> are the fields/columns we should remove
+<ul>
+<li>Name individual items in a vector,
+i.e. <code>c(field1, field2)</code></li>
+<li>Use anything that works in <code>dplyr::select</code>
+<ul>
+<li><code>field1:field10</code> selects all of the columns from one
+field to another. Very good for year columns</li>
+<li><code>starts_with('value')</code> picks all fields with the
+beginning value.</li>
+</ul></li>
+</ul></li>
+<li><code>names_from</code> is a “string” to call the new column for the
+names</li>
+<li><code>values_from</code> is a “string” to call the new column for
+the values</li>
+</ul>
+<pre class="r"><code>library(tidyverse)
+
+t_wide &lt;- tibble(
+  year = c(2000, 2001, 2002),
+  ca = c(1, 2, 3),
+  tx = c(11, 12, 13)
+)
+
+t_long &lt;- t_wide %&gt;% 
+  pivot_longer(cols = c(ca, tx), names_to = &#39;state&#39;, values_to = &#39;sales&#39; )
+
+print(t_long)</code></pre>
+</div>
+</div>
+<div id="joins" class="section level2">
+<h2>Joins</h2>
+<p>Similar to SQL, we will use joins in dplyr. Note that this uses very
+weird syntax. There are multiple ways to specify the join, but try to
+always use the <code>by = c("field_1" = "field_2")</code> version. This
+is the most consistently useful approach.</p>
+<p>Here is a more thorough guide: (Let’s talk about joins)[<a
+href="https://cghlewis.com/blog/joins/"
+class="uri">https://cghlewis.com/blog/joins/</a>]</p>
+<pre class="r"><code># Create sample tibbles.
+checks &lt;- tibble(
+  check_id = c(1, 2, 3, 4, 5),
+  desc = c(&quot;Cheese&quot;, &quot;Bread&quot;, &quot;Milk&quot;, &quot;Mustard&quot;, &quot;Milk&quot;),
+  vendor_fk = c(2, 2, 2, 3, 5),
+  amount = c(10, NA, 30, 40, 50)
+)
+
+vendors &lt;- tibble(
+  vendor_pk = c(2, 3, 4, 9),
+  desc = c(&quot;Bob&quot;, &quot;Sarah&quot;, &quot;Tim&quot;, &quot;Andrew&quot;),
+)
+
+# Create a left, right, and inner join for checks and vendors.
+# Note the different results
+left_join(checks, vendors, by = c(&quot;vendor_fk&quot; = &quot;vendor_pk&quot;))
+right_join(checks, vendors, by = c(&quot;vendor_fk&quot; = &quot;vendor_pk&quot;))
+inner_join(checks, vendors, by = c(&quot;vendor_fk&quot; = &quot;vendor_pk&quot;))
+
+# Note that we can have issues with NA values.
+sum(checks$amount)
+
+# use na.rm = TRUE to remove.
+sum(checks$amount, na.rm = TRUE)</code></pre>
+</div>
+<div id="less-commonly-used-dplyr-commands" class="section level1">
+<h1>Less commonly used dplyr commands</h1>
+<div id="slice_minmax" class="section level2 tabset">
+<h2 class="tabset">slice_min/max</h2>
+<p>We can use slice_max and slice_min to find the rows with the highest
+and lowest values in a field.</p>
+<div id="slice_min-when-n-1" class="section level3">
+<h3>slice_min when n = 1</h3>
+<p><code>slice_min</code> pulls the rows with the lowest value in the
+given field. It respects the current grouping level. When pulling a
+single value, it is basically identical to <code>min(field_name)</code>.
+<code>slice_max</code> is the same, but pulls the largest item instead
+of the smallest.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find smallest value
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 1) # same as summarize(sales = min(sales))
+
+print(t)</code></pre>
+</div>
+<div id="slice_min-when-n-1-1" class="section level3">
+<h3>slice_min when n &gt; 1</h3>
+<p>When given <code>n &gt; 1</code>, slice will pull multiple rows.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find the 2 smallest items from each group
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 2) 
+
+print(t)</code></pre>
+</div>
+</div>
+<div id="rename" class="section level2">
+<h2>rename</h2>
+<p>Rename allows you to change the name of a field. This is really handy
+when dealing with badly-named fields containing spaces.</p>
+<p>Note that we use the <code>backtick</code> for naming fields with
+spaces. These are different from <code>'single quotes'</code> or
+<code>"double quotes"</code>.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Create sample tibbles.
+checks &lt;- tibble(
+  `Item Name` = c(&quot;Cheese&quot;, &quot;Bread&quot;, &quot;Milk&quot;, &quot;Mustard&quot;, &quot;Milk&quot;))
+
+checks &lt;- checks %&gt;% 
+  rename(item_name = `Item Name`)
+
+print(checks)</code></pre>
+</div>
+<div id="relocate" class="section level2">
+<h2>relocate</h2>
+<p>The relocate verb moves columns in a table. It is handy when you are
+looking for a table to be in a certain order.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>The book “R for Data Science” is very good. Below are several key
+chapters:</p>
+<ul>
+<li><a href="https://r4ds.had.co.nz/tibbles.html">tibble</a></li>
+<li><a href="https://r4ds.had.co.nz/data-import.html">Data
+import</a></li>
+<li><a href="https://r4ds.had.co.nz/tidy-data.html">Tidy Data</a></li>
+<li><a href="https://r4ds.had.co.nz/relational-data.html">Relational
+data</a></li>
+</ul>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

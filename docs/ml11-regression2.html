@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Regression 2</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">EDA Textbook</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="r00-index.html">R</a>
+</li>
+<li>
+  <a href="sql00-index.html">SQL</a>
+</li>
+<li>
+  <a href="dv00-index.html">Tableau/PowerBI</a>
+</li>
+<li>
+  <a href="http://ecampus.wvu.edu">eCampus</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Regression 2</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#linear-regression-2" id="toc-linear-regression-2">Linear
+Regression 2</a></li>
+<li><a href="#predicting-on-new-data"
+id="toc-predicting-on-new-data">Predicting on new data</a>
+<ul>
+<li><a href="#minimal-example" id="toc-minimal-example">Minimal
+Example</a></li>
+</ul></li>
+<li><a href="#measuring-accuracy" id="toc-measuring-accuracy">Measuring
+accuracy</a>
+<ul>
+<li><a href="#residual-values" id="toc-residual-values">Residual
+Values</a></li>
+<li><a href="#residual-error" id="toc-residual-error">Residual
+Error</a></li>
+<li><a href="#rmse" id="toc-rmse">RMSE</a></li>
+<li><a href="#r-squared" id="toc-r-squared">R-squared</a></li>
+</ul></li>
+<li><a href="#training-test-split" id="toc-training-test-split">Training
+/ Test Split</a>
+<ul>
+<li><a href="#split-data" id="toc-split-data">Split data</a></li>
+<li><a href="#cross-validation"
+id="toc-cross-validation">Cross-validation</a>
+<ul>
+<li><a href="#create-splits" id="toc-create-splits">Create
+splits</a></li>
+<li><a href="#apply-splits" id="toc-apply-splits">Apply splits</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#transforming-variables"
+id="toc-transforming-variables">Transforming variables</a>
+<ul>
+<li><a href="#categorical-variables"
+id="toc-categorical-variables">Categorical variables</a></li>
+<li><a href="#log-transform-dependent-variable"
+id="toc-log-transform-dependent-variable">Log transform (dependent
+variable)</a></li>
+<li><a href="#log-transform-error" id="toc-log-transform-error">Log
+transform error</a></li>
+<li><a href="#exponent-transform-independent-variable"
+id="toc-exponent-transform-independent-variable">Exponent transform
+(independent variable)</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="linear-regression-2" class="section level1 tabset">
+<h1 class="tabset">Linear Regression 2</h1>
+<p>Linear Regression’s output variable is generally a
+<em>continuous</em> numerical variable.</p>
+<p>Be careful of <em>collinearity</em>! This is when two input variables
+are highly correlated, which can lead to unexpected results.</p>
+<p>Note: we will not typically use:</p>
+<ul>
+<li>GainCurvePlot approach (and Gini coefficient)</li>
+<li>Interaction effects</li>
+<li>Poisson / Quasipoisson regression</li>
+<li>GAM</li>
+</ul>
+</div>
+<div id="predicting-on-new-data" class="section level1">
+<h1>Predicting on new data</h1>
+<p>We often will use separate training and test data. The training data
+is used to generate the model, and the model is measured with test
+data.</p>
+<div id="minimal-example" class="section level2">
+<h2>Minimal Example</h2>
+<pre class="r"><code>library(tidyverse)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from, data = t_data)
+
+# Show a summary of the linear model. Pay attention to the  R^2,  the % of variation explained by the model.
+summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = to ~ from, data = t_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.654 -0.554  0.370  0.403  0.430 
+## 
+## Coefficients:
+##             Estimate Std. Error t value     Pr(&gt;|t|)    
+## (Intercept)  11.6667     0.3732    31.3 0.0000000012 ***
+## from         -1.0121     0.0601   -16.8 0.0000001576 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.546 on 8 degrees of freedom
+## Multiple R-squared:  0.973,  Adjusted R-squared:  0.969 
+## F-statistic:  283 on 1 and 8 DF,  p-value: 0.000000158</code></pre>
+<pre class="r"><code># new data
+t_new_data &lt;- tibble(
+  from = c(3, 5, 10, 100),
+  to = c(7, 4, 2, 0)
+)
+
+
+# Predict the results with new data, storing as a vector
+predicted_results &lt;- predict(model, newdata = t_new_data)
+
+# Place this back into the original tibble to measure accuracy.
+t_new_data &lt;- t_new_data %&gt;% 
+  mutate(prediction = predicted_results)
+
+ggplot(data = t_new_data) +
+  geom_point(mapping = aes(x = prediction, y = to))</code></pre>
+<p><img src="ml11-regression2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+</div>
+<div id="measuring-accuracy" class="section level1">
+<h1>Measuring accuracy</h1>
+<div id="residual-values" class="section level2">
+<h2>Residual Values</h2>
+<pre class="r"><code>library(tidyverse)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data &lt;- t_data %&gt;% 
+  mutate(prediction = predict(model, newdata = t_data))
+
+# Place this back into the original tibble to visualize the actual error. Note that we should have x = y
+ggplot(data = t_data) +
+  geom_point(mapping = aes(x = prediction, y = to))</code></pre>
+<p><img src="ml11-regression2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="residual-error" class="section level2">
+<h2>Residual Error</h2>
+<pre class="r"><code>library(tidyverse)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data &lt;- t_data %&gt;% 
+  mutate(predict = predict(model, newdata = t_data),
+         error = to - predict)
+
+# Place this back into the original tibble to visualize the actual error. Note that we should have x = y
+ggplot(data = t_data) +
+  geom_pointrange(mapping = aes(x = predict,
+                                y = error,
+                                ymin = 0, 
+                                ymax = error))</code></pre>
+<p><img src="ml11-regression2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="rmse" class="section level2">
+<h2>RMSE</h2>
+<p>The RMSE works by taking the prediction less actual, squaring it,
+taking the mean, and then taking the sqrt of the mean. It should be read
+as the typical prediction error. Note that it will never be a negative
+number!</p>
+<p>One useful measure to compare it against is the standard deviation of
+the data.</p>
+<pre class="r"><code>library(tidyverse)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data &lt;- t_data %&gt;% 
+  mutate(predict = predict(model, newdata = t_data),
+         residuals = to - predict)
+
+# Take the mean error squared, and then take the sqrt.
+error &lt;- sqrt(mean(t_data$residuals ^2 ))
+
+print(error)</code></pre>
+<pre><code>## [1] 0.489</code></pre>
+</div>
+<div id="r-squared" class="section level2">
+<h2>R-squared</h2>
+<p>R^2 is a measure of how well the model fits the data. It will be a
+number between 0-1. It is the percentage of the total variance accounted
+for by the model.</p>
+<pre class="r"><code>library(tidyverse)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data &lt;- t_data %&gt;% 
+  mutate(predict = predict(model, newdata = t_data),
+         error = to - predict,
+         error2 = error ^ 2)
+
+# Take the `sum` of the squared error
+residual_sum_of_squares &lt;- sum(t_data$error2)
+
+# Find the difference between the mean and every row,
+# i.e., the total variation.
+total_variation_in_model &lt;- t_data$to - mean(t_data$to)
+
+# Take the sum of the squared variation
+total_sum_of_squares &lt;- sum(total_variation_in_model ^ 2)
+
+# Calculate R^2
+r2 &lt;- 1 - (residual_sum_of_squares / total_sum_of_squares)
+
+
+print(r2)</code></pre>
+<pre><code>## [1] 0.973</code></pre>
+<pre class="r"><code>summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = to ~ from, data = t_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -0.654 -0.554  0.370  0.403  0.430 
+## 
+## Coefficients:
+##             Estimate Std. Error t value     Pr(&gt;|t|)    
+## (Intercept)  11.6667     0.3732    31.3 0.0000000012 ***
+## from         -1.0121     0.0601   -16.8 0.0000001576 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.546 on 8 degrees of freedom
+## Multiple R-squared:  0.973,  Adjusted R-squared:  0.969 
+## F-statistic:  283 on 1 and 8 DF,  p-value: 0.000000158</code></pre>
+</div>
+</div>
+<div id="training-test-split" class="section level1">
+<h1>Training / Test Split</h1>
+<p>We generally will split our test/training data to make sure that we
+are not over-learning from our data.</p>
+<div id="split-data" class="section level2">
+<h2>Split data</h2>
+<p>We split data by generating a new column, filled with 0 or 1
+values.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Our dataset.
+t_data &lt;- tibble(
+  id = 1:1000,
+  values = rep( c(&#39;A&#39;, &#39;B&#39;), 500)
+)
+
+# Create a vector of 1 and 0s
+#   x is a vector of values you want to get.
+#   size is the number of rows (match your tibble)
+#   replace says to not remove each value from X
+#   prob sets how likely each of the values should be.
+select &lt;- sample( x = c(&#39;test&#39;, &#39;train&#39;),
+        size = 1000,
+        replace = TRUE,
+        prob = c(0.1, 0.9))
+
+# Add to your tibble
+t_data &lt;- mutate(t_data, select = select)
+
+# Create test  and train datasets
+t_test &lt;- filter(t_data, select == &#39;test&#39;)
+t_train &lt;- filter(t_data, select == &#39;train&#39;)
+
+# Train your model on t_test
+# Use predict with t_train</code></pre>
+</div>
+<div id="cross-validation" class="section level2">
+<h2>Cross-validation</h2>
+<p>Cross validation is a standard technique to split our data. It will
+generate multiple small splits, and then see how we do on each
+split.</p>
+<p>When we are done, we will generate a final model with all of the
+data. The cross-validation will only help us with the accuracy of the
+modeling process. It can not tell us the final model accuracy. We will
+only know that with new data that it hasn’t been tested on yet.</p>
+<div id="create-splits" class="section level3">
+<h3>Create splits</h3>
+<p>Splits are created with vtreat, by selecting the row numbers for each
+split.</p>
+<pre class="r"><code>library(tidyverse)
+library(vtreat)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+nRows = nrow(t_data)
+
+# Create 3 splits
+splits &lt;- vtreat::kWayCrossValidation(nRows = nRows, nSplits = 3)
+
+# splits is now 3 lists, each with a train and an app.
+# Values are the indexes to select for train/test.
+str(splits)</code></pre>
+<pre><code>## List of 3
+##  $ :List of 2
+##   ..$ train: int [1:7] 1 2 4 5 6 8 9
+##   ..$ app  : int [1:3] 10 7 3
+##  $ :List of 2
+##   ..$ train: int [1:6] 3 5 6 7 8 10
+##   ..$ app  : int [1:4] 9 2 1 4
+##  $ :List of 2
+##   ..$ train: int [1:7] 1 2 3 4 7 9 10
+##   ..$ app  : int [1:3] 8 5 6
+##  - attr(*, &quot;splitmethod&quot;)= chr &quot;kwaycross&quot;</code></pre>
+</div>
+<div id="apply-splits" class="section level3">
+<h3>Apply splits</h3>
+<p>To apply, the splits, we have to put lm instead of a loop. We will go
+into each split, create new test/train datasets, and then run lm.</p>
+<p>each split.</p>
+<pre class="r"><code>library(tidyverse)
+library(vtreat)
+
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 10, 8, 8, 7, 6, 5, 4, 2, 1)
+)
+
+nRows &lt;-  nrow(t_data)
+nSplits &lt;-  3
+
+# Create 3 splits
+# Pass NULL as the 3rd and 4th argument.
+splits &lt;- vtreat::kWayCrossValidation(nRows = nRows, 
+                                      nSplits = nSplits,
+                                      NULL, NULL)
+
+# For each split,
+#   Save our current split in i,
+#   Start with index of 1, 
+#   Go until we hit the max number of splits
+for (i in 1:nSplits) {
+  # Make it easy to grab the current split
+  # Note that [[]] braces
+  #    splits[[1]] returns the value
+  #    splits[1] returns a list with one item.
+  split &lt;- splits[[i]]
+  
+  # Build model
+  # Note that we use train.
+  # Note that we use [ c(1, 2, 4, 9), ]... to select
+  #   the indexes of the rows we want. 
+  #   We must have the trailing comma! Otherwise, returns 
+  #   the wrong selection.
+  model &lt;- lm(to ~ from, data = t_data[split$train, ])
+  
+  # Make predictions!
+  predictions &lt;- predict(model, newdata = t_data[split$app, ])
+  print(model)
+  
+  # Calculate residuals
+  residuals &lt;- t_data[split$app, ]$to - predictions
+  print(residuals)
+  
+  #  We will probably want to calculate RSME.
+  rsme &lt;- sqrt( mean(residuals ^ 2) )
+  
+  print(rsme)
+}</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = to ~ from, data = t_data[split$train, ])
+## 
+## Coefficients:
+## (Intercept)         from  
+##      11.216       -0.966  
+## 
+##     1     2     3 
+## 0.716 0.615 0.649 
+## [1] 0.661
+## 
+## Call:
+## lm(formula = to ~ from, data = t_data[split$train, ])
+## 
+## Coefficients:
+## (Intercept)         from  
+##       12.58        -1.15  
+## 
+##      1      2      3      4 
+## -1.428  0.486 -1.123  0.638 
+## [1] 0.993
+## 
+## Call:
+## lm(formula = to ~ from, data = t_data[split$train, ])
+## 
+## Coefficients:
+## (Intercept)         from  
+##      11.217       -0.884  
+## 
+##      1      2      3 
+## -1.377  0.087 -1.261 
+## [1] 1.08</code></pre>
+</div>
+</div>
+</div>
+<div id="transforming-variables" class="section level1">
+<h1>Transforming variables</h1>
+<div id="categorical-variables" class="section level2">
+<h2>Categorical variables</h2>
+<p>We deal with categorical variables by converting them into 0/1
+<em>hot one</em> variables. The key is that we convert all <em>but
+one</em> value into a new column. If we included all of the values, then
+we would end up with multicollinearity.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Our dataset.
+t_data &lt;- tibble(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+  to = c(10, 0, 0, 0, 7, 6, 5, 4, 2, 1),
+  group = c(&#39;light&#39;, &#39;heavy&#39;, &#39;heavy&#39;, &#39;light&#39;, &#39;light&#39;, &#39;light&#39;, &#39;light&#39;, &#39;heavy&#39;, &#39;light&#39;, &#39;light&#39;)
+)
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from + group, data = t_data)
+
+# Predict the results, storing on the tibble.
+t_data &lt;- mutate(t_data, prediction = predict(model, newdata = t_data))
+
+
+# Place this back into the original tibble to visualize the actual error. Note that we should have x = y
+ggplot(data = t_data) +
+  geom_point(mapping = aes(x = prediction, y = to, color = group))</code></pre>
+<p><img src="ml11-regression2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = to ~ from + group, data = t_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.142 -1.954 -0.216  2.054  3.974 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    2.878      2.549    1.13     0.30
+## from          -0.357      0.383   -0.93     0.38
+## grouplight     3.689      2.399    1.54     0.17
+## 
+## Residual standard error: 3.35 on 7 degrees of freedom
+## Multiple R-squared:  0.275,  Adjusted R-squared:  0.0682 
+## F-statistic: 1.33 on 2 and 7 DF,  p-value: 0.324</code></pre>
+</div>
+<div id="log-transform-dependent-variable" class="section level2">
+<h2>Log transform (dependent variable)</h2>
+<p>A log transform will convert highly-right-disorted data into more of
+a normal distribution.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Our dataset.
+t_data &lt;- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(1, 2, 1, 10, 11, 9, 100, 110, 90, 1000, 900, 1100) 
+)
+
+hist(log(t_data$to))</code></pre>
+<p><img src="ml11-regression2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code># Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from, data = t_data)
+
+summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = to ~ from, data = t_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -342.1 -166.4   23.4  186.3  359.3 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   -493.7      186.5   -2.65   0.0244 * 
+## from           308.6       68.1    4.53   0.0011 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 264 on 10 degrees of freedom
+## Multiple R-squared:  0.672,  Adjusted R-squared:  0.64 
+## F-statistic: 20.5 on 1 and 10 DF,  p-value: 0.00109</code></pre>
+<pre class="r"><code># Use a log transform on the non-normal data
+model2 &lt;- lm(log(to) ~ from, data = t_data)
+summary(model2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log(to) ~ from, data = t_data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.1958 -0.1343 -0.0376  0.0565  0.5324 
+## 
+## Coefficients:
+##             Estimate Std. Error t value        Pr(&gt;|t|)    
+## (Intercept)  -2.0715     0.1467   -14.1 0.0000000622322 ***
+## from          2.2323     0.0536    41.7 0.0000000000015 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.207 on 10 degrees of freedom
+## Multiple R-squared:  0.994,  Adjusted R-squared:  0.994 
+## F-statistic: 1.74e+03 on 1 and 10 DF,  p-value: 0.00000000000151</code></pre>
+<pre class="r"><code># Predicted values, converted back into normal form.
+exp( predict(model2, newdata = t_data))</code></pre>
+<pre><code>##      1      2      3      4      5      6      7      8      9     10     11     12 
+##   1.17   1.17   1.17  10.95  10.95  10.95 102.03 102.03 102.03 951.01 951.01 951.01</code></pre>
+</div>
+<div id="log-transform-error" class="section level2">
+<h2>Log transform error</h2>
+<p>Tracking the error of a log variable is a little different. We
+generally want error as a ratio to be minimized, rather than error as an
+absolute number.</p>
+<p>As a result, we want to calculate the <em>relative RMSE</em>.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Our dataset.
+t_data &lt;- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(2, 3, 4, 10, 11, 9, 100, 110, 90, 1000, 900, 1100) 
+)
+t_data &lt;- mutate(t_data, to_log = log(to))
+
+# Use a log transform on the non-normal data
+model &lt;- lm(to_log ~ from, data = t_data)
+
+t_data &lt;- t_data %&gt;% 
+  mutate(prediction = predict(model, t_data),
+         residual = prediction - to_log,
+         prediction_non_log = exp(prediction))
+
+rmse &lt;- sqrt(mean(t_data$residual ^ 2))
+rmse_relative &lt;- sqrt(mean((t_data$residual / t_data$to_log)^2))
+
+print(t_data)
+print(exp(rmse))</code></pre>
+<pre><code>## [1] 1.39</code></pre>
+<pre class="r"><code>print(exp(rmse_relative))</code></pre>
+<pre><code>## [1] 1.21</code></pre>
+</div>
+<div id="exponent-transform-independent-variable"
+class="section level2">
+<h2>Exponent transform (independent variable)</h2>
+<p>We can also transform an input variable. You can use the
+<code>I()</code> function to do math, but it is often easier to modify
+the base tibble.</p>
+<pre class="r"><code>library(tidyverse)
+
+# Our dataset.
+t_data &lt;- tibble(
+  from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
+  to = c(1, 2, 1, 4, 5, 4, 9, 10, 11, 16, 14, 15) 
+)
+
+# Create a squared input
+t_data &lt;- t_data %&gt;% 
+  mutate(from_squared = from * from)
+
+
+# Create a linear regression model predicting `to` with `from` and using the entire dataset.
+model &lt;- lm(to ~ from_squared, data = t_data)
+
+summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = to ~ from_squared, data = t_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -1.486 -0.536 -0.247  0.524  1.954 
+## 
+## Coefficients:
+##              Estimate Std. Error t value     Pr(&gt;|t|)    
+## (Intercept)    0.7674     0.4583    1.67         0.12    
+## from_squared   0.9199     0.0487   18.88 0.0000000038 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.958 on 10 degrees of freedom
+## Multiple R-squared:  0.973,  Adjusted R-squared:  0.97 
+## F-statistic:  357 on 1 and 10 DF,  p-value: 0.00000000376</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

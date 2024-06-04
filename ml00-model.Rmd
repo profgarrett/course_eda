@@ -1,0 +1,18 @@
+---
+title: Modeling to predict the future
+output: 
+  html_document:
+    toc: true
+    theme: united
+---
+
+# Modeling to predict the future
+
+Our prior course focused on visualizations as a means to understand. This course builds on that concept, but mainly focuses on creating models. A model is a simplified version of the real-world, expressed in mathematical terms.
+
+We have several key challenges:
+
+- Simplicity: we want models that are concise with the fewest possible fields
+- Measurement: all measurement is flawed, but we need to capture the right amount of detail
+- Error: all models are limited, so we need standard ways of capturing error.
+

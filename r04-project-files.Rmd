@@ -144,8 +144,8 @@ loaded_t <- read_csv('./test/../test.csv')
 # 
 # If you use a full path, be sure to use c:/folder/file.csv
 # Note that you use a slash from bottom-left to upper-right
-write_csv(test_t, 'C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv')
-loaded_t <- read_csv('C:/Users/ndg00008/Dropbox/Courses/course_r_eda/test.csv')
+write_csv(test_t, 'C:/Users/ndg00008/Dropbox/wvu/Courses/course_eda/test.csv')
+loaded_t <- read_csv('C:/Users/ndg00008/Dropbox/wvu/Courses/course_eda/test.csv')
 ```
 
 When you use a project, try to only use a relative file path (i.e., "data.csv")

@@ -252,6 +252,9 @@ $(document).ready(function () {
   <a href="sql00-index.html">SQL</a>
 </li>
 <li>
+  <a href="dv00-index.html">Tableau/PowerBI</a>
+</li>
+<li>
   <a href="http://ecampus.wvu.edu">eCampus</a>
 </li>
       </ul>
@@ -291,7 +294,10 @@ id="toc-geom_label_repel">geom_label_repel</a></li>
 Scale</a></li>
 <li><a href="#continuous-scale" id="toc-continuous-scale">Continuous
 Scale</a></li>
+<li><a href="#log-scale" id="toc-log-scale">Log Scale</a></li>
 <li><a href="#date-scale" id="toc-date-scale">Date Scale</a></li>
+<li><a href="#breaks" id="toc-breaks">Breaks</a></li>
+<li><a href="#expand" id="toc-expand">Expand</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -299,8 +305,10 @@ Scale</a></li>
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Below are a number of useful functions to improve the attractiveness
-of your plots.</p>
+<p>This tutorial also supports Datacamp’s <em>Introduction to Data
+Visualization with ggplot2</em>.</p>
+<p>It builds on the prior section by discussing ways to clean-up basic
+charts.</p>
 <div id="geoms-for-annotations" class="section level2">
 <h2>Geoms for annotations</h2>
 <div id="geom_vline-geom_hline" class="section level3">
@@ -313,7 +321,7 @@ of your plots.</p>
   geom_rect(xmin = 20, xmax = 25, ymin = 25, ymax = 30,
             alpha = 0.005,
             fill = &#39;green&#39;)</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 <div id="geom_label_repel" class="section level3">
 <h3>geom_label_repel</h3>
@@ -326,7 +334,7 @@ mpg_2seater &lt;- filter(mpg, class == &#39;2seater&#39;)
 ggplot(data = mpg_2seater) +
   geom_point(mapping = aes(x = cty, y = hwy)) +
   geom_label_repel(mapping = aes(x = cty, y = hwy, label = model))</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 </div>
 <div id="labels" class="section level2">
@@ -339,21 +347,24 @@ ggplot(data = mpg_2seater) +
        caption = &#39;Caption at bottom of chart&#39;) +
   xlab(&#39;Label for x axis&#39;) +
   ylab(&#39;Label for y axis&#39;)</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="theme" class="section level2">
 <h2>Theme</h2>
 <p>There are some nice options for themes. Some include:</p>
 <ul>
-<li>theme_bw</li>
-<li>theme_classic</li>
+<li>theme_gray (the default)</li>
+<li>theme_bw (good for transparency)</li>
+<li>theme_classic (traditional)</li>
 <li>theme_minimal</li>
-<li>theme_void</li>
+<li>theme_void (removes all but the data)</li>
 </ul>
+<p>You can also find more themes in the <code>ggthemes</code>
+package.</p>
 <pre class="r"><code>ggplot(data = mpg) +
   geom_point(mapping = aes(x = cty, y = hwy)) +
   theme_void()</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 <div id="limits" class="section level2">
 <h2>Limits</h2>
@@ -363,10 +374,10 @@ ggplot(data = mpg_2seater) +
   xlim(0, 20) +
   ylim(0, 20) </code></pre>
 <pre><code>## Warning: Removed 145 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div id="scales" class="section level2">
-<h2>Scales</h2>
+<div id="scales" class="section level2 tabset">
+<h2 class="tabset">Scales</h2>
 <p>We can customize the axis scales.</p>
 <p>You need to match the type of scale to your datatype. Is the data
 continuous (ie., a number) or discrete (generally text)?</p>
@@ -380,7 +391,7 @@ continuous (ie., a number) or discrete (generally text)?</p>
                   labels = c(&#39;2 Seater&#39;, &#39;Compact Car&#39;, &#39;Midsize&#39;, &#39;Minivan&#39;, 
                               &#39;Pickup&#39;, &#39;Sub-compact&#39;, &#39;SUV&#39;),
                   name = &#39;Car Classification&#39;)</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="continuous-scale" class="section level3">
 <h3>Continuous Scale</h3>
@@ -391,23 +402,15 @@ continuous (ie., a number) or discrete (generally text)?</p>
   scale_x_continuous(n.breaks = 5, limits = c(20, 30)) +
   scale_y_continuous(breaks = c(15, 20, 25))</code></pre>
 <pre><code>## Warning: Removed 100 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-8-1.png" width="672" />
-#### Label formatting</p>
-<p>Breaks also may need formatting to fix labels.</p>
-<ul>
-<li>label_percent(): show as 30%
-<ul>
-<li>Use <code>accuracy = 0.1</code> to round to 10%, or
-<code>0.01</code> to round to 1%.</li>
-</ul></li>
-<li>label_dollar(): show with a leading $</li>
-<li>label_comma(): insert a comma and avoid scientific notation</li>
-</ul>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="log-scale" class="section level3">
+<h3>Log Scale</h3>
+<p>A log scale helps us see data that grows at an exponential level.</p>
 <pre class="r"><code>ggplot(data = mpg) +
-  geom_point(mapping = aes(y = cty, x = hwy)) +
-  scale_x_continuous(labels = scales::label_dollar()) +
-  scale_y_continuous(labels = scales::label_percent(accuracy = 1))</code></pre>
-<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+  geom_point(mapping = aes(y = hwy, x = hwy)) +
+  scale_x_log10()</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="date-scale" class="section level3">
 <h3>Date Scale</h3>
@@ -478,7 +481,42 @@ ggplot(data = date_tibble) +
                    ) +
   scale_x_datetime(labels = scales::label_time(&quot;%H:%M:%S&quot;), 
                    date_breaks = &#39;100 hours&#39;)</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="breaks" class="section level3">
+<h3>Breaks</h3>
+<p>Breaks also may need formatting to fix labels.</p>
+<ul>
+<li>label_percent(): show as 30%
+<ul>
+<li>Use <code>accuracy = 0.1</code> to round to 10%, or
+<code>0.01</code> to round to 1%.</li>
+</ul></li>
+<li>label_dollar(): show with a leading $</li>
+<li>label_comma(): insert a comma and avoid scientific notation</li>
+</ul>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(y = cty, x = hwy)) +
+  scale_x_continuous(labels = scales::label_dollar()) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1))</code></pre>
 <p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="expand" class="section level3">
+<h3>Expand</h3>
+<p>Use expand to give some extra space around the start / end points on
+the axis.</p>
+<p><code>expand = c(*multiply*, *add*)</code> can be a little confusing.
+Use <em>multiply</em> to times the limits by a number to find the most
+extreme values. Use <em>add</em> to manually expand a little by adding /
+subtracting a number.</p>
+<p>The below gives some extra space. We multiply the y axis by 40 to
+find the upper limit of 80, and the lower of -40. We add 5 to the x to
+find the limits of -5 and 45.</p>
+<pre class="r"><code>ggplot(data = mpg) +
+  geom_point(mapping = aes(y = cty, x = hwy)) +
+  scale_x_continuous(limits = c(0, 50), expand = c(0, 5)) +
+  scale_y_continuous(limits = c(0, 40), expand = c(1, 0))</code></pre>
+<p><img src="r21-ggplot-pretty_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 </div>
 </div>
