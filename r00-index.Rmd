@@ -31,7 +31,7 @@ This section is for ACCT 426 and BUDA 451 students in Fall 2024.
 
 # Statistics and Machine Learning
 
-  - [ml00. Modeling the world](ml00-intro.html)
+  - [ml00. Modeling the world](ml00-model.html)
   - [ml01. Statistics Refresher](ml01-statistics.html)
   - [ml02. Machine Learning in Business](ml02-business.html) (Datacamp *Machine Learning for Business*)
   - [ml03. Exploratory Data Analysis in R](ml03-eda.html) (DataCamp *Exploratory Data Analysis in R*)
@@ -44,8 +44,11 @@ This section is for ACCT 426 and BUDA 451 students in Fall 2024.
 
 
 
-Useful tutorials
+Useful tutorials:
+
+- [Regression and other stories](https://www.cambridge.org/highereducation/books/regression-and-other-stories)
 - [FastR](https://github.com/matloff/fasteR)
 - [R Ladies](https://rladiessydney.org/courses/ryouwithme/03-vizwhiz-1/)
 - [Swirl](https://swirlstats.com/)
 - [Hands-on with R](https://rstudio-education.github.io/hopr/)
+- [Building reproducible analytical pipelines with R](https://raps-with-r.dev/preface.html)

@@ -109,6 +109,7 @@ R is case sensitive! So, `var3` isn't the same as `VAR3`
     - `ordered` can be used to indicate that they have < and > levels 
 
 ## Data Frames
+
 - A Data Frame is a named table
   - Older, we will use tupples instead
   - Useful functions include `rownames`, `colnames`, `names`, `nrow`, `ncol`

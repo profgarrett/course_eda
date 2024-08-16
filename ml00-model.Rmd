@@ -16,3 +16,14 @@ We have several key challenges:
 - Measurement: all measurement is flawed, but we need to capture the right amount of detail
 - Error: all models are limited, so we need standard ways of capturing error.
 
+# What is Machine Learning?
+
+See [a visual guide](http://www.r2d3.us/visual-intro-to-machine-learning-part-1/)
+
+Outcomes:
+
+- Definitions of a feature, split point, recursion, and overfitting
+- Describe a scatterplot, decision tree, histogram,
+- Measure accuracy
+- Differentiate between training and test data
+
