@@ -69,6 +69,8 @@ A database diagram shows multiple tables and how they are related to each other.
 
 ![Northwind SQL Diagram](sql01-northwind.png)
 
+
+
 ### Conventions
 
 - Lowercase names, no spaces, underscore_naming_is_best

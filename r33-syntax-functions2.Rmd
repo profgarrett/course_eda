@@ -13,15 +13,19 @@ There are a variety of useful functions in R. Below is a brief listing
 ## Math functions
 
 - `median()`/`mean()`/`max()`/`min()`/`sum()`
-- `parse_integer()`: turns "1" into 1
 - `abs()` - absolute value
 - `round()` - rounds 1.2 to 1
-- `seq()` - returns a sequence
-- `rep()` - repeat
+- `seq(from, to, increment)` - returns a sequence from -> to (skipping every increment)
+- `rep(x, times)` - return a new vector of x, repeated *times*. 
+
+In the readr library:
+
+- `readr::parse_integer()`: turns "1" into 1
 
 ## Text functions
 
-- `paste()`: combines text
+- `paste0(text1, text2, ...)`: combine text values
+- `paste(text1, text2, ..., sep = ',' )`: combines text, split with sep
 
 ## Tables
 
@@ -31,7 +35,7 @@ There are a variety of useful functions in R. Below is a brief listing
 ## Vectors/Lists
 
 - `sort()`/`rev()`: order items in a vector 
-- `append()`: add items
+- `vector_a <- append(vector_a, new_item_or_vector_of_items)`: create a new vector with the additional items
 - `unlist()`: turn a list into a vector
 
 ## Graphics
@@ -47,3 +51,9 @@ There are a variety of useful functions in R. Below is a brief listing
 
 - `is_*()`: test for types (convert * to integer, etc...)
 - `as_*()`: convert a type
+
+
+
+### Application problem
+
+See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/r33-syntax-functions2)

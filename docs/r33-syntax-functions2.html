@@ -285,7 +285,11 @@ functions</a></li>
 <li><a href="#vectorslists" id="toc-vectorslists">Vectors/Lists</a></li>
 <li><a href="#graphics" id="toc-graphics">Graphics</a></li>
 <li><a href="#statistics" id="toc-statistics">Statistics</a></li>
-<li><a href="#types" id="toc-types">Types</a></li>
+<li><a href="#types" id="toc-types">Types</a>
+<ul>
+<li><a href="#application-problem"
+id="toc-application-problem">Application problem</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </div>
@@ -298,17 +302,24 @@ listing</p>
 <h2>Math functions</h2>
 <ul>
 <li><code>median()</code>/<code>mean()</code>/<code>max()</code>/<code>min()</code>/<code>sum()</code></li>
-<li><code>parse_integer()</code>: turns “1” into 1</li>
 <li><code>abs()</code> - absolute value</li>
 <li><code>round()</code> - rounds 1.2 to 1</li>
-<li><code>seq()</code> - returns a sequence</li>
-<li><code>rep()</code> - repeat</li>
+<li><code>seq(from, to, increment)</code> - returns a sequence from
+-&gt; to (skipping every increment)</li>
+<li><code>rep(x, times)</code> - return a new vector of x, repeated
+<em>times</em>.</li>
+</ul>
+<p>In the readr library:</p>
+<ul>
+<li><code>readr::parse_integer()</code>: turns “1” into 1</li>
 </ul>
 </div>
 <div id="text-functions" class="section level2">
 <h2>Text functions</h2>
 <ul>
-<li><code>paste()</code>: combines text</li>
+<li><code>paste0(text1, text2, ...)</code>: combine text values</li>
+<li><code>paste(text1, text2, ..., sep = ',' )</code>: combines text,
+split with sep</li>
 </ul>
 </div>
 <div id="tables" class="section level2">
@@ -323,7 +334,8 @@ capitalized!</li>
 <h2>Vectors/Lists</h2>
 <ul>
 <li><code>sort()</code>/<code>rev()</code>: order items in a vector</li>
-<li><code>append()</code>: add items</li>
+<li><code>vector_a &lt;- append(vector_a, new_item_or_vector_of_items)</code>:
+create a new vector with the additional items</li>
 <li><code>unlist()</code>: turn a list into a vector</li>
 </ul>
 </div>
@@ -347,6 +359,12 @@ capitalized!</li>
 etc…)</li>
 <li><code>as_*()</code>: convert a type</li>
 </ul>
+<div id="application-problem" class="section level3">
+<h3>Application problem</h3>
+<p>See <a
+href="https://github.com/profgarrett/course_eda_problems/tree/main/r33-syntax-functions2">problems
+on GitHub</a></p>
+</div>
 </div>
 </div>
 
