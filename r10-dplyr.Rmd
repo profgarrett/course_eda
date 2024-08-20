@@ -526,3 +526,9 @@ The book "R for Data Science" is very good. Below are several key chapters:
 - [Data import](https://r4ds.had.co.nz/data-import.html)
 - [Tidy Data](https://r4ds.had.co.nz/tidy-data.html)
 - [Relational data](https://r4ds.had.co.nz/relational-data.html)
+
+
+### Application problem
+
+See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/r10-dplyr)
+

@@ -194,3 +194,7 @@ A block with '{r echo=TRUE}` shows both the code and its output.
 # Print our tibble, showing the code
 print(1)
 ```
+
+# Application problem
+
+See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/r04-project-files)

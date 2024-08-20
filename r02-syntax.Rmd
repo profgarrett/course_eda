@@ -143,3 +143,6 @@ W3 Schools has a nice reference for R code. This is really
 good for trying to lookup a specific feature.
 https://www.w3schools.com/r/default.asp
 
+# Application problem
+
+See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/r02-syntax)
