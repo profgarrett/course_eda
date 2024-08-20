@@ -36,7 +36,7 @@ There are two main branches of statistics
 - Measures of spread
   - Variance: difference between mean and each data point, squared.
   - Standard deviation: square root of variance
-  - Mean absolute deviation: similar to standard deviation ,but not square that causes longer distances to have more of a penalty.
+  - Mean absolute deviation: similar to standard deviation, but does not square the difference.
   - Quartiles: data split into 4 categories
   - Quantiles: data split into 10 categories
   - Interquartile range (IQR): difference between 25% and 75% percentile.

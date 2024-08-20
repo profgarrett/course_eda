@@ -41,3 +41,12 @@ Answer the following questions:
 * [The limits of personal experience](https://ourworldindata.org/limits-personal-experience)
 * [Is 200k a year good?](https://ofdollarsanddata.com/is-200k-a-year-good/)
 * [Generational Wealth](https://ofdollarsanddata.com/generational-wealth/)
+
+
+# Tips
+
+Make the title match the message in the graph
+
+![Elderly Deer](dv10-effective-reports-elderlydeer.png)
+
+

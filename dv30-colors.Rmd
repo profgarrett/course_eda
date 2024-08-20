@@ -33,3 +33,12 @@ output:
 ![Dot illusions](dv30-colors-illusion-dots.mp4)
 
 1[Space between lines / letters](https://www.youtube.com/watch?si=faN_Tz3MJ9m6I3Em&v=JTKwpqE9fsc)
+
+
+# How do colors work?
+
+The picture below looks yellow, but looking more closely at it reveals that it has alternating green and red lines. Your eye combines the two colors into yellow.
+
+![Filtered Yellow, 1968 by Julian Stanczak](dv30-colors-yellow1.jpg)
+
+![Filtered Yellow, 1968 by Julian Stanczak](dv30-colors-yellow2.jpg)
