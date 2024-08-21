@@ -28,9 +28,9 @@ Please install the [SQLite DB Browser](https://sqlitebrowser.org/dl/)
 ![Cute image of Database](sql01-databasemacot.png){width=20%}
 
 
-## Terms
+# Terms
 
-- *relational database* - a structured collection of data (held in formally-defined relations, i.e. tables)
+- *Relational database* - a structured collection of data (held in formally-defined relations, i.e. tables)
   - This design helps prevent anomaly / errors relating to update, insert, or delete
 - *Database Management System (DBMS)* software providing an interface for users to interact with the data. It manages the storage, retrieval, and modification of data, ensuring data integrity, security, and concurrency control.
 - *Advantages*
@@ -62,7 +62,7 @@ Please install the [SQLite DB Browser](https://sqlitebrowser.org/dl/)
 - CRUD access rights: create, read, update, delete
 - Data Dictionary: definition of the fields and tables in a database
 
-## Database Diagram
+# Database Diagram
 
 A database diagram shows multiple tables and how they are related to each other.
 
@@ -71,7 +71,7 @@ A database diagram shows multiple tables and how they are related to each other.
 
 
 
-### Conventions
+# Conventions
 
 - Lowercase names, no spaces, underscore_naming_is_best
 - Unfortunately, this is rarely the case. You should be able to handle columns with multiple spaces / words in them by wrapping them with "double quotes"
@@ -113,3 +113,12 @@ Goal: find five of the six errors.
 
 ```
 
+# Questions
+
+Answer the following questions:
+
+- What is the right term for SQLite, DB Browser, the entire set of Northwind data, Products, ProductID in Products, and SupplierID in Products
+- What fields connect Products and Suppliers?
+- Which fields connect Employees to Employees?
+- Which table is used to store the price for a product?
+- Which tables would need updates for a new order by a new customer?

@@ -8,6 +8,11 @@ output:
 
 ---
 
+```{r include=FALSE}
+knitr::opts_chunk$set(out.width = "400px")
+```
+
+
 Course study notes for ACCT 425 and BUDA 450 students for Spring 2024
 
 # General Data Visualization 

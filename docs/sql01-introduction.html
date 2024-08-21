@@ -13,7 +13,7 @@
 
 <title>What is a database?</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -275,15 +275,12 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#outcomes" id="toc-outcomes">Outcomes</a>
-<ul>
+<li><a href="#outcomes" id="toc-outcomes">Outcomes</a></li>
 <li><a href="#terms" id="toc-terms">Terms</a></li>
 <li><a href="#database-diagram" id="toc-database-diagram">Database
-Diagram</a>
-<ul>
+Diagram</a></li>
 <li><a href="#conventions" id="toc-conventions">Conventions</a></li>
-</ul></li>
-</ul></li>
+<li><a href="#questions" id="toc-questions">Questions</a></li>
 </ul>
 </div>
 
@@ -303,10 +300,11 @@ Browser</a></p>
 alt="Cute image of Database" />
 <div class="figcaption">Cute image of Database</div>
 </div>
-<div id="terms" class="section level2">
-<h2>Terms</h2>
+</div>
+<div id="terms" class="section level1">
+<h1>Terms</h1>
 <ul>
-<li><em>relational database</em> - a structured collection of data (held
+<li><em>Relational database</em> - a structured collection of data (held
 in formally-defined relations, i.e. tables)
 <ul>
 <li>This design helps prevent anomaly / errors relating to update,
@@ -377,16 +375,17 @@ transferred data from an operational database</li>
 database</li>
 </ul>
 </div>
-<div id="database-diagram" class="section level2">
-<h2>Database Diagram</h2>
+<div id="database-diagram" class="section level1">
+<h1>Database Diagram</h1>
 <p>A database diagram shows multiple tables and how they are related to
 each other.</p>
 <div class="float">
 <img src="sql01-northwind.png" alt="Northwind SQL Diagram" />
 <div class="figcaption">Northwind SQL Diagram</div>
 </div>
-<div id="conventions" class="section level3">
-<h3>Conventions</h3>
+</div>
+<div id="conventions" class="section level1">
+<h1>Conventions</h1>
 <ul>
 <li>Lowercase names, no spaces, underscore_naming_is_best</li>
 <li>Unfortunately, this is rarely the case. You should be able to handle
@@ -394,7 +393,19 @@ columns with multiple spaces / words in them by wrapping them with
 “double quotes”</li>
 </ul>
 </div>
-</div>
+<div id="questions" class="section level1">
+<h1>Questions</h1>
+<p>Answer the following questions:</p>
+<ul>
+<li>What is the right term for SQLite, DB Browser, the entire set of
+Northwind data, Products, ProductID in Products, and SupplierID in
+Products</li>
+<li>What fields connect Products and Suppliers?</li>
+<li>Which fields connect Employees to Employees?</li>
+<li>Which table is used to store the price for a product?</li>
+<li>Which tables would need updates for a new order by a new
+customer?</li>
+</ul>
 </div>
 
 

@@ -26,7 +26,7 @@ This module accompanies the *Introduction to SQL* Datacamp tutorial. Some conten
 
 - Use UPPER CASE for keywords (SELECT, FROM, ...)
 - Use lower-case for field names and tables
-- Add a ; (semi-colon) at the end of the statement
+- Optionally, add a ; (semi-colon) at the end of the statement
 
 # Code Samples  {.tabset}
 
@@ -131,7 +131,21 @@ Examples:
 Remember to use semicolons to terminate your SQL statements, as it is a common convention in SQL to signify the end of a command.
 
 
-# Further Resources: SQLZoo 
+# Further Resources {.tabset}
+
+There are many online resources that can help you learn SQL. 
+
+## Excel.fun
+
+Go to [Excel.fun](https://excel.fun)
+
+Complete the following tutorials:
+- SQL - SELECT and FROM
+- SQL - ORDER BY
+- SQL - WHERE
+
+
+## SQL Zoo
 
 Go to [SQLZoo](https://sqlzoo.net/wiki/SQL_Tutorial)
 
