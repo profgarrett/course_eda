@@ -528,7 +528,6 @@ The book "R for Data Science" is very good. Below are several key chapters:
 - [Relational data](https://r4ds.had.co.nz/relational-data.html)
 
 
-### Application problem
+# Application problem
 
 See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/r10-dplyr)
-

@@ -140,6 +140,7 @@ There are many online resources that can help you learn SQL.
 Go to [Excel.fun](https://excel.fun)
 
 Complete the following tutorials:
+
 - SQL - SELECT and FROM
 - SQL - ORDER BY
 - SQL - WHERE

@@ -8,31 +8,97 @@ output:
 
 ---
 
-# Class Exercise
+# Effective EDA Reports
 
-Read the article here: [Is $200k a year good?](https://ofdollarsanddata.com/is-200k-a-year-good/)
+We will have a standard format for our EDA reports in this class. Refer to the sections below.
 
-Answer the following questions:
 
-- What is the main point of the article?
-- What visual techniques make the article effective?
-- What rhetorical techniques make the article effective?
+## 1. Title and Introduction {.tabset}
 
-# Successful Elements
+The first section should have your title and introduction paragraph.
 
-- Author information (date, name, class, etc...)
-- Posting a good question
-- Dataset
-  - Limitations 
-  - Control variables
-- Dependent variable
-  - Summary stats (mean, median, etc...)
-  - Distribution charts
-  - By control variables
-- Summary
-  - One-sentence summary 
-  - Limitations
-  - Future work
+### Code
+
+```markdown
+# Title of Analysis
+*Created by Nathan Garrett. Updated 1/1/11*
+
+## 1. Introduction
+Purpose of analysis. Data being analyzed. Main question of the analysis. Major finding.
+
+```
+### Example
+
+#### Why Santa Claus Does Not Exist
+*Created by Nathan Garrett. Updated 1/1/11*
+
+This analysis uses holiday toy sales to test for the existence of Santa Claus. Its data includes holiday toy sales from Amazon.com and Target. If Santa exists, we would expect that most of holiday gifts would be from the North Pole.  However, we see a significant increase in parent gift purchases, which is consistent with the Grinch hypothesis.
+
+
+## 2. Data {.tabset}
+
+The second section should describe your data.
+
+### Code
+```markdown
+## 2. Data Description
+Describe the data and its source. Summarize the number of observations, time period covered, and key variables. 
+```
+
+### Example
+
+#### 2. Data Description
+
+Amazon and Target provided three million order records from the 2020-2021 holiday season. These included row-level details of each sale, purchaser, and item. Three-thousand rows related to Hanukkah were excluded.
+
+
+
+## 3. Methodology
+- Outline the analytical methods and techniques used (e.g., statistical tests, machine learning models, data visualization).
+- Mention any assumptions or preprocessing steps taken (e.g., data cleaning, handling missing values).
+
+*Example:*  
+"A linear regression model was employed to analyze the relationship between advertising spend and sales revenue. Data was cleaned to remove outliers and fill missing values using median imputation."
+
+---
+
+## 4. Key Findings
+- Present the main results of the analysis.
+- Use bullet points or numbered lists for clarity.
+- Include any relevant statistics, figures, or visualizations (e.g., “Sales increased by 15% in February”).
+
+*Example:*  
+- "Sales of Product X increased by 20% in February compared to January."
+- "There is a significant positive correlation (r = 0.85) between advertising spend and sales revenue."
+
+---
+
+## 5. Conclusion
+- Summarize the key insights derived from the analysis.
+- Discuss the implications of the findings for decision-making or further research.
+- Offer recommendations based on the results (if applicable).
+
+*Example:*  
+"The analysis suggests that increased advertising spend is strongly associated with higher sales revenue. It is recommended to maintain or increase the advertising budget in the upcoming quarter to sustain this growth trend."
+
+---
+
+## 6. Limitations and Future Work
+- Mention any limitations or constraints of the analysis.
+- Suggest areas for further investigation or analysis.
+
+*Example:*  
+"This analysis did not account for external factors such as market competition or economic conditions, which could influence sales performance. Future research could incorporate these factors to enhance the model’s accuracy."
+
+---
+
+## 7. References
+- List any sources, datasets, or tools used in the analysis.
+
+*Example:*  
+- "Company Sales Database, Q1 2024."
+- "R Programming Language for Statistical Computing."
+
 
 
 # Good Examples
@@ -43,10 +109,5 @@ Answer the following questions:
 * [Generational Wealth](https://ofdollarsanddata.com/generational-wealth/)
 
 
-# Tips
-
-Make the title match the message in the graph
-
-![Elderly Deer](dv10-effective-reports-elderlydeer.png)
 
 

@@ -57,3 +57,10 @@ https://www.reddit.com/r/dataisbeautiful/comments/1dy4usi/oc_how_a_pizza_place_m
 
 Poverty Rates
 https://www.visualcapitalist.com/mapped-poverty-rates-by-u-s-state/
+
+
+# Tips
+
+Make the title match the message in the graph
+
+![Elderly Deer](dv10-effective-reports-elderlydeer.png)

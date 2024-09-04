@@ -13,7 +13,7 @@
 
 <title>Useful Functions</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -277,6 +277,15 @@ $(document).ready(function () {
 <ul>
 <li><a href="#introduction" id="toc-introduction">Introduction</a>
 <ul>
+<li><a href="#using-a-function-in-a-library"
+id="toc-using-a-function-in-a-library">Using a function in a library</a>
+<ul>
+<li><a href="#method-1-single-line" id="toc-method-1-single-line">Method
+1: Single-line</a></li>
+<li><a href="#method-2-load-library-first"
+id="toc-method-2-load-library-first">Method 2: Load library
+first</a></li>
+</ul></li>
 <li><a href="#math-functions" id="toc-math-functions">Math
 functions</a></li>
 <li><a href="#text-functions" id="toc-text-functions">Text
@@ -297,7 +306,28 @@ id="toc-application-problem">Application problem</a></li>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>There are a variety of useful functions in R. Below is a brief
-listing</p>
+listing.</p>
+<div id="using-a-function-in-a-library" class="section level2">
+<h2>Using a function in a library</h2>
+<p>Some functions live in a different library. In this page, these are
+shown with the library name in front, such as
+<code>readr::parse_integer()</code>. You can run these using two
+different methods:</p>
+<div id="method-1-single-line" class="section level3">
+<h3>Method 1: Single-line</h3>
+<pre class="r"><code># Option 1: include the package name before the function name
+readr::parse_integer(c(&#39;1&#39;, &#39;2&#39;))</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+</div>
+<div id="method-2-load-library-first" class="section level3">
+<h3>Method 2: Load library first</h3>
+<pre class="r"><code># Option 2: load the library, and then use the function
+library(readr)
+
+parse_integer(c(&#39;1&#39;, &#39;2&#39;))</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+</div>
+</div>
 <div id="math-functions" class="section level2">
 <h2>Math functions</h2>
 <ul>
@@ -311,7 +341,12 @@ listing</p>
 </ul>
 <p>In the readr library:</p>
 <ul>
-<li><code>readr::parse_integer()</code>: turns “1” into 1</li>
+<li><code>readr::parse_integer()</code>: turns “1” into 1
+<ul>
+<li>You can also specify what values to interpret as
+<code>NA</code></li>
+<li><code>parse_integer( x = c('1', '2', 'X', '?'), na = c('?', 'X'))</code></li>
+</ul></li>
 </ul>
 </div>
 <div id="text-functions" class="section level2">

@@ -8,7 +8,29 @@ output:
 
 # Introduction
 
-There are a variety of useful functions in R. Below is a brief listing
+There are a variety of useful functions in R. Below is a brief listing. 
+
+## Using a function in a library
+
+Some functions live in a different library. In this page, these  are shown with the library name in front, such as `readr::parse_integer()`. 
+You can run these using two different methods:
+
+### Method 1: Single-line
+
+```{r echo=TRUE }
+
+# Option 1: include the package name before the function name
+readr::parse_integer(c('1', '2'))
+```
+
+### Method 2: Load library first
+
+``` {r echo=T}
+# Option 2: load the library, and then use the function
+library(readr)
+
+parse_integer(c('1', '2'))
+```
 
 ## Math functions
 
@@ -21,6 +43,9 @@ There are a variety of useful functions in R. Below is a brief listing
 In the readr library:
 
 - `readr::parse_integer()`: turns "1" into 1
+  - You can also specify what values to interpret as `NA`
+  - `parse_integer( x = c('1', '2', 'X', '?'), na = c('?', 'X'))`
+
 
 ## Text functions
 

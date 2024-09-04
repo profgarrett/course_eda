@@ -14,7 +14,7 @@
 
 <title>Effective EDA Reports</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -272,46 +272,126 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Effective EDA Reports</h1>
 <h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-08-16</h4>
+<h4 class="date">Refreshed 2024-08-26</h4>
 
 </div>
 
 
-<div id="class-exercise" class="section level1">
-<h1>Class Exercise</h1>
-<p>Read the article here: <a
-href="https://ofdollarsanddata.com/is-200k-a-year-good/">Is $200k a year
-good?</a></p>
-<p>Answer the following questions:</p>
-<ul>
-<li>What is the main point of the article?</li>
-<li>What visual techniques make the article effective?</li>
-<li>What rhetorical techniques make the article effective?</li>
-</ul>
+<div id="effective-eda-reports" class="section level1">
+<h1>Effective EDA Reports</h1>
+<p>We will have a standard format for our EDA reports in this class.
+Refer to the sections below.</p>
+<div id="title-and-introduction" class="section level2 tabset">
+<h2 class="tabset">1. Title and Introduction</h2>
+<p>The first section should have your title and introduction
+paragraph.</p>
+<div id="code" class="section level3">
+<h3>Code</h3>
+<pre class="markdown"><code># Title of Analysis
+*Created by Nathan Garrett. Updated 1/1/11*
+
+## 1. Introduction
+Purpose of analysis. Data being analyzed. Main question of the analysis. Major finding.
+</code></pre>
 </div>
-<div id="successful-elements" class="section level1">
-<h1>Successful Elements</h1>
+<div id="example" class="section level3">
+<h3>Example</h3>
+<div id="why-santa-claus-does-not-exist" class="section level4">
+<h4>Why Santa Claus Does Not Exist</h4>
+<p><em>Created by Nathan Garrett. Updated 1/1/11</em></p>
+<p>This analysis uses holiday toy sales to test for the existence of
+Santa Claus. Its data includes holiday toy sales from Amazon.com and
+Target. If Santa exists, we would expect that most of holiday gifts
+would be from the North Pole. However, we see a significant increase in
+parent gift purchases, which is consistent with the Grinch
+hypothesis.</p>
+</div>
+</div>
+</div>
+<div id="data" class="section level2 tabset">
+<h2 class="tabset">2. Data</h2>
+<p>The second section should describe your data.</p>
+<div id="code-1" class="section level3">
+<h3>Code</h3>
+<pre class="markdown"><code>## 2. Data Description
+Describe the data and its source. Summarize the number of observations, time period covered, and key variables. </code></pre>
+</div>
+<div id="example-1" class="section level3">
+<h3>Example</h3>
+<div id="data-description" class="section level4">
+<h4>2. Data Description</h4>
+<p>Amazon and Target provided three million order records from the
+2020-2021 holiday season. These included row-level details of each sale,
+purchaser, and item. Three-thousand rows related to Hanukkah were
+excluded.</p>
+</div>
+</div>
+</div>
+<div id="methodology" class="section level2">
+<h2>3. Methodology</h2>
 <ul>
-<li>Author information (date, name, class, etc…)</li>
-<li>Posting a good question</li>
-<li>Dataset
-<ul>
-<li>Limitations</li>
-<li>Control variables</li>
-</ul></li>
-<li>Dependent variable
-<ul>
-<li>Summary stats (mean, median, etc…)</li>
-<li>Distribution charts</li>
-<li>By control variables</li>
-</ul></li>
-<li>Summary
-<ul>
-<li>One-sentence summary</li>
-<li>Limitations</li>
-<li>Future work</li>
-</ul></li>
+<li>Outline the analytical methods and techniques used (e.g.,
+statistical tests, machine learning models, data visualization).</li>
+<li>Mention any assumptions or preprocessing steps taken (e.g., data
+cleaning, handling missing values).</li>
 </ul>
+<p><em>Example:</em><br />
+“A linear regression model was employed to analyze the relationship
+between advertising spend and sales revenue. Data was cleaned to remove
+outliers and fill missing values using median imputation.”</p>
+<hr />
+</div>
+<div id="key-findings" class="section level2">
+<h2>4. Key Findings</h2>
+<ul>
+<li>Present the main results of the analysis.</li>
+<li>Use bullet points or numbered lists for clarity.</li>
+<li>Include any relevant statistics, figures, or visualizations (e.g.,
+“Sales increased by 15% in February”).</li>
+</ul>
+<p><em>Example:</em><br />
+- “Sales of Product X increased by 20% in February compared to January.”
+- “There is a significant positive correlation (r = 0.85) between
+advertising spend and sales revenue.”</p>
+<hr />
+</div>
+<div id="conclusion" class="section level2">
+<h2>5. Conclusion</h2>
+<ul>
+<li>Summarize the key insights derived from the analysis.</li>
+<li>Discuss the implications of the findings for decision-making or
+further research.</li>
+<li>Offer recommendations based on the results (if applicable).</li>
+</ul>
+<p><em>Example:</em><br />
+“The analysis suggests that increased advertising spend is strongly
+associated with higher sales revenue. It is recommended to maintain or
+increase the advertising budget in the upcoming quarter to sustain this
+growth trend.”</p>
+<hr />
+</div>
+<div id="limitations-and-future-work" class="section level2">
+<h2>6. Limitations and Future Work</h2>
+<ul>
+<li>Mention any limitations or constraints of the analysis.</li>
+<li>Suggest areas for further investigation or analysis.</li>
+</ul>
+<p><em>Example:</em><br />
+“This analysis did not account for external factors such as market
+competition or economic conditions, which could influence sales
+performance. Future research could incorporate these factors to enhance
+the model’s accuracy.”</p>
+<hr />
+</div>
+<div id="references" class="section level2">
+<h2>7. References</h2>
+<ul>
+<li>List any sources, datasets, or tools used in the analysis.</li>
+</ul>
+<p><em>Example:</em><br />
+- “Company Sales Database, Q1 2024.” - “R Programming Language for
+Statistical Computing.”</p>
+</div>
 </div>
 <div id="good-examples" class="section level1">
 <h1>Good Examples</h1>
@@ -327,14 +407,6 @@ a year good?</a></li>
 href="https://ofdollarsanddata.com/generational-wealth/">Generational
 Wealth</a></li>
 </ul>
-</div>
-<div id="tips" class="section level1">
-<h1>Tips</h1>
-<p>Make the title match the message in the graph</p>
-<div class="float">
-<img src="dv10-effective-reports-elderlydeer.png" alt="Elderly Deer" />
-<div class="figcaption">Elderly Deer</div>
-</div>
 </div>
 
 
