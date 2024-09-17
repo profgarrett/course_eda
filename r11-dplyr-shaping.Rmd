@@ -1,30 +1,28 @@
 ---
-title: dplyr
+title: dplyr2 - shaping
 output: 
   html_document:
     toc: true
     theme: united
 ---
 
-This functions in dplyr allow us to reshape data. Instead of changing individual columns, we can instead compress data down or move from wide to tall format. 
-
-See [dplyr tutorial](https://dplyr.tidyverse.org/articles/dplyr.html) for more help.
+These functions in dplyr allow us to reshape data.  See [dplyr tutorial](https://dplyr.tidyverse.org/articles/dplyr.html) for more help.
 
 
 ## group_by and summarize {.tabset}
 
 These two command are similar to SQL's `GROUP BY` or Excel's *Pivot Table*.
 
-The `group_by` command is used first. It doesn't change the data, but instead creates a note on the tibble. 
+First, the `group_by` command adds a note on the tibble. It does not change any of the data.
 
-The `summarize` command is used second. It reads the note on the tibble set by `group_by` to find which fields to include in the results. It then performs some type of aggregation (such as sum or count). The results are a new tibble.
+Second, the `summarize` command combines rows. It reads the note on the tibble set by `group_by`. That field will be used as the labels in my smaller tibble. `summarize` then performs some type of aggregation (such as sum or count). 
 
 
 ### Summarize without group_by
 
-`summarize()` is similar to mutate, in that both create a new column. But, each new field must have an aggregation function on it, such as `sum()`.
+Both `summarize` and `mutate` create a new column. But, `summarize` requires that each new field have function, such as `sum` or `sd`. `summarize` also reduces the number of rows, one for each unique value in the `group_by` note.
 
-```{r, eval=T, echo=TRUE, message=F }
+```{r eval=T, echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
 
 t <- tibble(
@@ -41,11 +39,10 @@ print(t_sum)
 
 ### Summarize with group_by
 
-While `summarize` is helpful, we normally want to break the results down by some of the fields.
+While `summarize` is helpful, we normally want to the results grouped by a field.
 
-Start by using `group_by`, which includes region in our results. Then use `summarize()` to show which field we want to aggregate.
+Start by using `group_by`, which includes region in our results. Then use `summarize` to show which field we want to aggregate.
 
-`summarize()` is similar to mutate, in that both create a new column.
 
 ```{r, eval=T, echo=TRUE, message=F }
 library(tidyverse)
@@ -55,7 +52,7 @@ t <- tibble(
   sales = c(0, 10, 5, 3, 2, 1)
 )
 
-# Show the sum of dales by region
+# Show the sum of sales by region
 t_region_sum <- t %>% 
   group_by(region) %>% 
   summarise(sum_of_sales = sum(sales))
@@ -66,7 +63,7 @@ print(t_region_sum)
 
 ### Two or more groups
 
-We can group by more than 1 field.
+We can group by more than one field.
 
 ```{r, eval=T, echo=TRUE, message=F }
 library(tidyverse)
@@ -89,7 +86,7 @@ print(t_region_sum)
 
 ### Functions
 
-There are a number of useful functions that can be used in the `summarize` function.
+There are a number of useful functions.
 
 ```{r, eval=T, echo=TRUE, message=F }
 library(tidyverse)
@@ -99,12 +96,13 @@ t <- tibble(
   sales = c(0, 10, 5, 3, 2, 1)
 )
 
-# Show the sum of dales by region
+# Show the sum of sales by region
 t_region_stats <- t %>% 
   group_by(region) %>% 
   summarise(n_of_rows = n(),
             sum_of_sales = sum(sales),
             median_sales = median(sales),
+            mean_sales = mean(sales),
             max_sales = max(sales),
             min_sales = min(sales),
             sd_sales = sd(sales),
@@ -114,9 +112,40 @@ print(t_region_stats)
 ```
 
 
+
+### Function NA problem
+
+Functions will have issues if there is a NA.
+Use an argument to remove all NAs
+
+```{r, eval=T, echo=TRUE, message=F }
+library(tidyverse)
+
+t <- tibble(
+  region = c('a', 'a', 'b', 'b'),
+  sales = c(0, 10, 5, NA)
+)
+
+# Show the sum of dales by region
+t_region_stats <- t %>% 
+  group_by(region) %>% 
+  summarise(n_of_rows = n(),
+            sum_of_sales = sum(sales, na.rm = TRUE),
+            median_sales = median(sales, na.rm = TRUE),
+            mean_sales = mean(sales, na.rm = TRUE),
+            max_sales = max(sales, na.rm = TRUE),
+            min_sales = min(sales, na.rm = TRUE),
+            sd_sales = sd(sales, na.rm = TRUE),
+            n_of_distinct_sales = n_distinct(sales, na.rm = TRUE))
+
+print(t_region_stats)
+```
+
+
+
 ### ungroup
 
-Sometimes we want to remove a group from a tibble. You can call `ungroup()`. In this course, we generally create a new tibble for each summary. But, in the real world, you sometimes want to avoid duplicating tibbles when working with large datasets.
+Sometimes we want to remove a group from a tibble. You can call `ungroup`. In this course, we generally create a new tibble for each summary. But, in the real world, you sometimes want to avoid duplicating tibbles when working with large datasets.
 
 ```{r, eval=T, echo=TRUE, message=F }
 library(tidyverse)
@@ -134,180 +163,97 @@ t <- t %>%
 print(t)
 ```
 
-## pivot
+## Joins {.tabset}
 
-We often want to transition data from a wide format to tall, and vice versa.
+Joins are used to combine multiple tibbles. They are very similar to joins in SQL.
 
-### wider
+Here is a more thorough guide: [Let's talk about joins](https://cghlewis.com/blog/joins/)
 
-Going wide means we take multiple rows and turn them into a single row with multiple columns.
+### inner_join
 
-The two key arguments are:
+Inner join will return all rows that exist in both tables.
 
-- `names_from` is a field, each value will turn into a new column
-- `values_from` is a field, each value will turn into the data for a new column
-
-```{r, eval=T, echo=TRUE }
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
-
-t_long <- tibble(
-  state = c('CA', 'CA', 'CA', 'TX', 'TX', 'TX'),
-  year = c(2000, 2001, 2002, 2000, 2001, 2002),
-  sales = c(1, 2, 3, 11, 12, 13)
-)
-
-t_wide <- t_long %>% 
-  pivot_wider(names_from = year, values_from = sales )
-
-print(t_wide)
-```
-
-
-### longer
-
-Going long/tall means we go from a single row with multiple columns and into multiple rows with a single column.
-
-The three key arguments are:
-
-- `cols` are the fields/columns we should remove
-  - Name individual items in a vector, i.e. `c(field1, field2)`
-  - Use anything that works in `dplyr::select`
-    - `field1:field10` selects all of the columns from one field to another. Very good for year columns
-    - `starts_with('value')` picks all fields with the beginning value.
-- `names_from` is a "string" to call the new column for the names
-- `values_from` is a "string" to call the new column for the values
-
-```{r, eval=T, echo=TRUE }
-library(tidyverse)
-
-t_wide <- tibble(
-  year = c(2000, 2001, 2002),
-  ca = c(1, 2, 3),
-  tx = c(11, 12, 13)
-)
-
-t_long <- t_wide %>% 
-  pivot_longer(cols = c(ca, tx), names_to = 'state', values_to = 'sales' )
-
-print(t_long)
-```
-
-## Joins
-
-Similar to SQL, we will use joins in dplyr. Note that this uses very weird 
-syntax. There are multiple ways to specify the join, but try to always use
-the `by = c("field_1" = "field_2")` version. This is the most 
-consistently useful approach.
-
-Here is a more thorough guide: (Let's talk about joins)[https://cghlewis.com/blog/joins/]
-
-```{r, eval=FALSE, echo=TRUE }
 
 # Create sample tibbles.
 checks <- tibble(
-  check_id = c(1, 2, 3, 4, 5),
-  desc = c("Cheese", "Bread", "Milk", "Mustard", "Milk"),
-  vendor_fk = c(2, 2, 2, 3, 5),
-  amount = c(10, NA, 30, 40, 50)
+  vendor_pk = c(2, 2, 2, 3, 5),
+  amount = c(10, 15, 30, 40, 50)
 )
 
 vendors <- tibble(
   vendor_pk = c(2, 3, 4, 9),
-  desc = c("Bob", "Sarah", "Tim", "Andrew"),
+  vendor_name = c("Bob", "Sarah", "Tim", "Andrew"),
 )
 
-# Create a left, right, and inner join for checks and vendors.
-# Note the different results
-left_join(checks, vendors, by = c("vendor_fk" = "vendor_pk"))
-right_join(checks, vendors, by = c("vendor_fk" = "vendor_pk"))
-inner_join(checks, vendors, by = c("vendor_fk" = "vendor_pk"))
+# Note that we get the same results if we start with either vendor or checks
+joined_table <- checks %>% 
+  inner_join(vendors, by = "vendor_pk")
 
-# Note that we can have issues with NA values.
-sum(checks$amount)
-
-# use na.rm = TRUE to remove.
-sum(checks$amount, na.rm = TRUE)
-
-```
-
-# Less commonly used dplyr commands
-
-## slice_min/max {.tabset}
-
-We can use slice_max and slice_min to find the rows with the highest and lowest values in a field.
-
-### slice_min when n = 1
-
-`slice_min` pulls the rows with the lowest value in the given field. It respects the current grouping level. When pulling a single value, it is basically identical to `min(field_name)`. 
-`slice_max` is the same, but pulls the largest item instead of the smallest.
-
-```{r, eval=T, echo=TRUE, message=F }
-library(tidyverse)
-
-t <- tibble(
-  region = c('a', 'b', 'c', 'a', 'a', 'b'),
-  sales = c(0, 10, 5, 3, 2, 1)
-)
-
-# Group and then find smallest value
-t <- t %>% 
-  group_by(region) %>% 
-  slice_min(sales, n = 1) # same as summarize(sales = min(sales))
-
-print(t)
+print(joined_table)
 ```
 
 
-### slice_min when n > 1
+### left_join
 
-When given `n > 1`, slice will pull multiple rows.
+Left (outer) join will return all rows from one table, and matching rows in the second table. 
 
-```{r, eval=T, echo=TRUE, message=F }
-library(tidyverse)
+Order matters! When using a left join, whatever table you start with will have all rows returned. Only matching rows from the right will be returned.
 
-t <- tibble(
-  region = c('a', 'b', 'c', 'a', 'a', 'b'),
-  sales = c(0, 10, 5, 3, 2, 1)
-)
 
-# Group and then find the 2 smallest items from each group
-t <- t %>% 
-  group_by(region) %>% 
-  slice_min(sales, n = 2) 
-
-print(t)
-```
-
-## rename 
-
-Rename allows you to change the name of a field. This is really handy when dealing with badly-named fields containing spaces.
-
-Note that we use the `backtick` for naming fields with spaces. These are different from `'single quotes'` or `"double quotes"`.
-
-```{r, eval=T, echo=TRUE, message=F }
+```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
 
 # Create sample tibbles.
 checks <- tibble(
-  `Item Name` = c("Cheese", "Bread", "Milk", "Mustard", "Milk"))
+  vendor_pk = c(2, 2, 2, 3, 5),
+  amount = c(10, 15, 30, 40, 50)
+)
 
-checks <- checks %>% 
-  rename(item_name = `Item Name`)
+vendors <- tibble(
+  vendor_pk = c(2, 3, 4, 9),
+  vendor_name = c("Bob", "Sarah", "Tim", "Andrew"),
+)
 
-print(checks)
+# Note that we get *different* results if we start with either vendor or checks
+# Because we start with checks, all checks are included (and only matching vendors)
+joined_table <- checks %>% 
+  left_join(vendors, by = "vendor_pk")
+
+print(joined_table)
 ```
 
-## relocate
+### rename when fields have different names
 
-The relocate verb moves columns in a table. It is handy when you are looking for a table to be in a certain order.
+Rename allows you to change the name of a field. This is really handy when each tibble has a different name for a field.
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+# Create sample tibbles.
+checks <- tibble(
+  check_id = c(1, 2, 3, 4),
+  check_amount = c(100, 200, 150, 250)
+)
+
+invoices <- tibble(
+  invoice_key = c(10, 20, 30, 40),
+  check_key = c(1, 2, 3, 4)
+)
+
+# Start with checks, rename its field to match the 
+# name in the other table, and then join using the new name.
+joined_data <- checks %>% 
+  rename(check_key = check_id) %>% 
+  inner_join(invoices, by = 'check_key')
+
+print(joined_data)
+```
 
 
 
-## References
+# Application problem
 
-The book "R for Data Science" is very good. Below are several key chapters:
-
-- [tibble](https://r4ds.had.co.nz/tibbles.html)
-- [Data import](https://r4ds.had.co.nz/data-import.html)
-- [Tidy Data](https://r4ds.had.co.nz/tidy-data.html)
-- [Relational data](https://r4ds.had.co.nz/relational-data.html)
+See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/r11-dplyr)

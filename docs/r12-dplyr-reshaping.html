@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Nathan Garrett, PhD CPA" />
 
 
-<title>R for Business Students</title>
+<title>dplyr2 - shaping</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -270,83 +269,209 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">R for Business Students</h1>
-<h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-09-17</h4>
+<h1 class="title toc-ignore">dplyr2 - shaping</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#pivot" id="toc-pivot">pivot</a>
+<ul>
+<li><a href="#wider" id="toc-wider">wider</a></li>
+<li><a href="#longer" id="toc-longer">longer</a></li>
+</ul></li>
+<li><a href="#less-commonly-used-dplyr-commands"
+id="toc-less-commonly-used-dplyr-commands">Less commonly used dplyr
+commands</a>
+<ul>
+<li><a href="#slice_minmax" id="toc-slice_minmax">slice_min/max</a>
+<ul>
+<li><a href="#slice_min-when-n-1" id="toc-slice_min-when-n-1">slice_min
+when n = 1</a></li>
+<li><a href="#slice_min-when-n-1-1"
+id="toc-slice_min-when-n-1-1">slice_min when n &gt; 1</a></li>
+</ul></li>
+<li><a href="#relocate" id="toc-relocate">relocate</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul></li>
+</ul>
+</div>
 
-<p>This section is for ACCT 426 and BUDA 451 students in Fall 2024.</p>
-<div id="r---core-language-and-skills" class="section level2">
-<h2>R - Core language and skills</h2>
+<p>This functions in dplyr allow us to reshape data. Instead of changing
+individual columns, we can instead compress data down or move from wide
+to tall format.</p>
+<p>See <a href="https://dplyr.tidyverse.org/articles/dplyr.html">dplyr
+tutorial</a> for more help.</p>
+<div id="pivot" class="section level2">
+<h2>pivot</h2>
+<p>We often want to transition data from a wide format to tall, and vice
+versa.</p>
+<p>This was moved from <code>dplyr</code> to the <code>tidyr</code>
+package.</p>
+<div id="wider" class="section level3">
+<h3>wider</h3>
+<p>Going wide means we take multiple rows and turn them into a single
+row with multiple columns.</p>
+<p>The two key arguments are:</p>
 <ul>
-<li><a href="r01-intro.html">r01. Introduction to rStudio</a></li>
-<li><a href="r02-syntax.html">r02. Introduction to R’s core syntax and
-types</a> (Datacamp <em>Introduction to R</em>)</li>
-<li><a href="r04-project-files.html">r04. Project and Rmd files</a></li>
-<li><a href="r10-dplyr.html">r10. dplyr: select, filter, mutate,
-arrange, and pipe</a></li>
-<li><a href="r11-dplyr-shaping.html">r11. dplyr: group by, summarise,
-and join</a></li>
-<li><a href="r12-dplyr-reshaping.html">r12. dplyr: pivot</a></li>
-<li><a href="r15-read.html">r15. Loading data</a></li>
-<li><a href="r20-ggplot.html">r20. ggplot 1: Introduction</a></li>
-<li><a href="r21-ggplot-pretty.html">r21. ggplot 2: Making plots
-pretty</a></li>
-<li><a href="r22-ggplot-maps-osm.html">r22. ggplot 3: Making
-maps</a></li>
-<li><a href="r30-syntax-conditionals.html">r30. Conditionals</a>
-(Datacamp <em>Intermediate R - Conditionals and Control Flow</em>)</li>
-<li><a href="r31-syntax-loops.html">r31. Loops</a> (Datacamp
-<em>Intermediate R - Loops</em>)</li>
-<li><a href="r32-syntax-functions1.html">r32. Functions1</a> (Datacamp
-<em>Intermediate R - Functions</em> )</li>
-<li><a href="r33-syntax-functions2.html">r33. Functions2</a> (<em>List
-of useful functions</em> )</li>
-<li><a href="r80-dates.html">r80. Dates</a></li>
+<li><code>names_from</code> is a field, each value will turn into a new
+column</li>
+<li><code>values_from</code> is a field, each value will turn into the
+data for a new column</li>
+</ul>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>t_long &lt;- tibble(
+  state = c(&#39;CA&#39;, &#39;CA&#39;, &#39;CA&#39;, &#39;TX&#39;, &#39;TX&#39;, &#39;TX&#39;),
+  year = c(2000, 2001, 2002, 2000, 2001, 2002),
+  sales = c(1, 2, 3, 11, 12, 13)
+)
+
+t_wide &lt;- t_long %&gt;% 
+  pivot_wider(names_from = year, values_from = sales )
+
+print(t_wide)</code></pre>
+<pre><code>## # A tibble: 2 × 4
+##   state `2000` `2001` `2002`
+##   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 CA         1      2      3
+## 2 TX        11     12     13</code></pre>
+</div>
+<div id="longer" class="section level3">
+<h3>longer</h3>
+<p>Going long/tall means we go from a single row with multiple columns
+and into multiple rows with a single column.</p>
+<p>The three key arguments are:</p>
+<ul>
+<li><code>cols</code> are the fields/columns we should remove
+<ul>
+<li>Name individual items in a vector,
+i.e. <code>c(field1, field2)</code></li>
+<li>Use anything that works in <code>dplyr::select</code>
+<ul>
+<li><code>field1:field10</code> selects all of the columns from one
+field to another. Very good for year columns</li>
+<li><code>starts_with('value')</code> picks all fields with the
+beginning value.</li>
+</ul></li>
+</ul></li>
+<li><code>names_from</code> is a “string” to call the new column for the
+names</li>
+<li><code>values_from</code> is a “string” to call the new column for
+the values</li>
+</ul>
+<pre class="r"><code>library(tidyverse)
+
+t_wide &lt;- tibble(
+  year = c(2000, 2001, 2002),
+  ca = c(1, 2, 3),
+  tx = c(11, 12, 13)
+)
+
+t_long &lt;- t_wide %&gt;% 
+  pivot_longer(cols = c(ca, tx), names_to = &#39;state&#39;, values_to = &#39;sales&#39; )
+
+print(t_long)</code></pre>
+<pre><code>## # A tibble: 6 × 3
+##    year state sales
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1  2000 ca        1
+## 2  2000 tx       11
+## 3  2001 ca        2
+## 4  2001 tx       12
+## 5  2002 ca        3
+## 6  2002 tx       13</code></pre>
+</div>
+</div>
+<div id="less-commonly-used-dplyr-commands" class="section level1">
+<h1>Less commonly used dplyr commands</h1>
+<div id="slice_minmax" class="section level2 tabset">
+<h2 class="tabset">slice_min/max</h2>
+<p>We can use slice_max and slice_min to find the rows with the highest
+and lowest values in a field.</p>
+<div id="slice_min-when-n-1" class="section level3">
+<h3>slice_min when n = 1</h3>
+<p><code>slice_min</code> pulls the rows with the lowest value in the
+given field. It respects the current grouping level. When pulling a
+single value, it is basically identical to <code>min(field_name)</code>.
+<code>slice_max</code> is the same, but pulls the largest item instead
+of the smallest.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find smallest value
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 1) # same as summarize(sales = min(sales))
+
+print(t)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   region [3]
+##   region sales
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a          0
+## 2 b          1
+## 3 c          5</code></pre>
+</div>
+<div id="slice_min-when-n-1-1" class="section level3">
+<h3>slice_min when n &gt; 1</h3>
+<p>When given <code>n &gt; 1</code>, slice will pull multiple rows.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find the 2 smallest items from each group
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 2) 
+
+print(t)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+## # Groups:   region [3]
+##   region sales
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a          0
+## 2 a          2
+## 3 b          1
+## 4 b         10
+## 5 c          5</code></pre>
+</div>
+</div>
+<div id="relocate" class="section level2">
+<h2>relocate</h2>
+<p>The relocate verb moves columns in a table. It is handy when you are
+looking for a table to be in a certain order.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>The book “R for Data Science” is very good. Below are several key
+chapters:</p>
+<ul>
+<li><a href="https://r4ds.had.co.nz/tibbles.html">tibble</a></li>
+<li><a href="https://r4ds.had.co.nz/data-import.html">Data
+import</a></li>
+<li><a href="https://r4ds.had.co.nz/tidy-data.html">Tidy Data</a></li>
+<li><a href="https://r4ds.had.co.nz/relational-data.html">Relational
+data</a></li>
 </ul>
 </div>
-<div id="statistics-and-machine-learning" class="section level1">
-<h1>Statistics and Machine Learning</h1>
-<ul>
-<li><a href="ml00-model.html">ml00. Modeling the world</a></li>
-<li><a href="ml01-statistics.html">ml01. Statistics Refresher</a></li>
-<li><a href="ml02-business.html">ml02. Machine Learning in Business</a>
-(Datacamp <em>Machine Learning for Business</em>)</li>
-<li><a href="ml03-eda.html">ml03. Exploratory Data Analysis in R</a>
-(DataCamp <em>Exploratory Data Analysis in R</em>)</li>
-<li><a href="ml10-regression1.html">ml10. Regression 1</a> (DataCamp
-<em>Introduction to Regression in R</em>)</li>
-<li><a href="ml11-regression2.html">ml11. Regression 2</a> (DataCamp
-<em>Supervised Learning in R: Regression</em>)</li>
-<li><a href="ml40-unsupervised.html">ml40. Unsupervised
-Learning</a></li>
-<li><a href="ml50-supervised.html">ml50. Supervised Learning</a></li>
-</ul>
-<div id="application-problem" class="section level3">
-<h3>Application problem</h3>
-<p>See <a
-href="https://github.com/profgarrett/course_eda_problems/tree/main/">problems
-on GitHub</a></p>
-</div>
-</div>
-<div id="other-tutorials" class="section level1">
-<h1>Other tutorials:</h1>
-<ul>
-<li><a
-href="https://www.cambridge.org/highereducation/books/regression-and-other-stories">Regression
-and other stories</a></li>
-<li><a href="https://github.com/matloff/fasteR">FastR</a></li>
-<li><a
-href="https://rladiessydney.org/courses/ryouwithme/03-vizwhiz-1/">R
-Ladies</a></li>
-<li><a href="https://swirlstats.com/">Swirl</a></li>
-<li><a href="https://rstudio-education.github.io/hopr/">Hands-on with
-R</a></li>
-<li><a href="https://raps-with-r.dev/preface.html">Building reproducible
-analytical pipelines with R</a></li>
-</ul>
 </div>
 
 
