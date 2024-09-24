@@ -15,29 +15,38 @@ knitr::opts_chunk$set(out.width = "400px")
 
 Course study notes for ACCT 425 and BUDA 450 students for Spring 2024
 
-# General Data Visualization 
+# Prerequisite skills
 
-- [Writing an effective report](dv10-effective-reports.html)
-- [Data](dv21-data.html)
-- [Colors](dv30-colors.html)
-- [Good dv examples](dv90-examples.html)
-- [Excel Core Skills](dv05-excel.html)
+
+
+# Data Visualization 
+
+- [dv01. Introduction to DataVis](dv01-intro.html)
+- [dv20. Data](dv21-data.html)
+- [dv30. Colors](dv30-colors.html)
 
 # Tableau
-- [Introduction](dv41-tableau-intro.html)
-- [Analyzing Data](dv42-tableau-data.html)
+- [dv41. Introduction](dv41-tableau-intro.html)
+- [dv42. Analyzing Data](dv42-tableau-data.html)
+
+
+
+# PowerBI
+
+- [dv51. PowerBI Introduction](dv51-powerbi-intro.html)
+- [dv52. PowerBI Modeling](dv52-powerbi-model.html)
+- [dv53. PowerBI Vis](dv53-powerbi-vis.html)
 
 
 # Good resources
 
 - [What is life like as a Tableau Freelancer?](https://www.reddit.com/r/tableau/comments/1724zdf/six_years_as_a_tableau_freelancer_ama/)
 
-# PowerBI
+- [dv05. Excel Core Skills](dv05-excel.html)
+- [dv10. Writing an effective report](dv10-effective-reports.html)
+- [dv90. Good dv examples](dv90-examples.html)
 
-- [PowerBI Introduction](dv51-powerbi-intro.html)
-- [PowerBI Modeling](dv52-powerbi-model.html)
-- [PowerBI Vis](dv53-powerbi-vis.html)
 
 # EDA Process
 
-![EDA Process illustrated with Legos](dv01-index-eda-lego.jpeg)
+![EDA Process illustrated with Legos](dv00-index-eda-lego.jpeg)

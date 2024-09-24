@@ -32,7 +32,7 @@ output:
 
 ![Dot illusions](dv30-colors-illusion-dots.mp4)
 
-1[Space between lines / letters](https://www.youtube.com/watch?si=faN_Tz3MJ9m6I3Em&v=JTKwpqE9fsc)
+![Space between lines / letters](https://www.youtube.com/watch?si=faN_Tz3MJ9m6I3Em&v=JTKwpqE9fsc)
 
 
 # How do colors work?

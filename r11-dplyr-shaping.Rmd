@@ -252,6 +252,57 @@ joined_data <- checks %>%
 print(joined_data)
 ```
 
+# Less common commands
+
+## slice_min/max {.tabset}
+
+We can use slice_max and slice_min to find the rows with the highest and lowest values in a field.
+
+### slice_min when n = 1
+
+`slice_min` pulls the rows with the lowest value in the given field. It respects the current grouping level. When pulling a single value, it is basically identical to `min(field_name)`. 
+`slice_max` is the same, but pulls the largest item instead of the smallest.
+
+```{r eval=T, echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t <- tibble(
+  region = c('a', 'b', 'c', 'a', 'a', 'b'),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find smallest value
+t <- t %>% 
+  group_by(region) %>% 
+  slice_min(sales, n = 1) # same as summarize(sales = min(sales))
+
+print(t)
+```
+
+
+### slice_min when n > 1
+
+When given `n > 1`, slice will pull multiple rows.
+
+```{r eval=T, echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+t <- tibble(
+  region = c('a', 'b', 'c', 'a', 'a', 'b'),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find the 2 smallest items from each group
+t <- t %>% 
+  group_by(region) %>% 
+  slice_min(sales, n = 2) 
+
+print(t)
+```
+
+## relocate
+
+The relocate verb moves columns in a table. It is handy when you are looking for a table to be in a certain order.
 
 
 # Application problem

@@ -285,6 +285,8 @@ id="toc-summarize-with-group_by">Summarize with group_by</a></li>
 <li><a href="#two-or-more-groups" id="toc-two-or-more-groups">Two or
 more groups</a></li>
 <li><a href="#functions" id="toc-functions">Functions</a></li>
+<li><a href="#function-na-problem" id="toc-function-na-problem">Function
+NA problem</a></li>
 <li><a href="#ungroup" id="toc-ungroup">ungroup</a></li>
 </ul></li>
 <li><a href="#joins" id="toc-joins">Joins</a>
@@ -294,6 +296,18 @@ more groups</a></li>
 <li><a href="#rename-when-fields-have-different-names"
 id="toc-rename-when-fields-have-different-names">rename when fields have
 different names</a></li>
+</ul></li>
+<li><a href="#less-common-commands" id="toc-less-common-commands">Less
+common commands</a>
+<ul>
+<li><a href="#slice_minmax" id="toc-slice_minmax">slice_min/max</a>
+<ul>
+<li><a href="#slice_min-when-n-1" id="toc-slice_min-when-n-1">slice_min
+when n = 1</a></li>
+<li><a href="#slice_min-when-n-1-1"
+id="toc-slice_min-when-n-1-1">slice_min when n &gt; 1</a></li>
+</ul></li>
+<li><a href="#relocate" id="toc-relocate">relocate</a></li>
 </ul></li>
 <li><a href="#application-problem"
 id="toc-application-problem">Application problem</a></li>
@@ -399,25 +413,57 @@ t &lt;- tibble(
   sales = c(0, 10, 5, 3, 2, 1)
 )
 
-# Show the sum of dales by region
+# Show the sum of sales by region
 t_region_stats &lt;- t %&gt;% 
   group_by(region) %&gt;% 
   summarise(n_of_rows = n(),
             sum_of_sales = sum(sales),
             median_sales = median(sales),
+            mean_sales = mean(sales),
             max_sales = max(sales),
             min_sales = min(sales),
             sd_sales = sd(sales),
             n_of_distinct_sales = n_distinct(sales))
 
 print(t_region_stats)</code></pre>
-<pre><code>## # A tibble: 3 × 8
-##   region n_of_rows sum_of_sales median_sales max_sales min_sales sd_sales
-##   &lt;chr&gt;      &lt;int&gt;        &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-## 1 a              3            5          2           3         0     1.53
-## 2 b              2           11          5.5        10         1     6.36
-## 3 c              1            5          5           5         5    NA   
-## # ℹ 1 more variable: n_of_distinct_sales &lt;int&gt;</code></pre>
+<pre><code>## # A tibble: 3 × 9
+##   region n_of_rows sum_of_sales median_sales mean_sales max_sales min_sales
+##   &lt;chr&gt;      &lt;int&gt;        &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 a              3            5          2         1.67         3         0
+## 2 b              2           11          5.5       5.5         10         1
+## 3 c              1            5          5         5            5         5
+## # ℹ 2 more variables: sd_sales &lt;dbl&gt;, n_of_distinct_sales &lt;int&gt;</code></pre>
+</div>
+<div id="function-na-problem" class="section level3">
+<h3>Function NA problem</h3>
+<p>Functions will have issues if there is a NA. Use an argument to
+remove all NAs</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;a&#39;, &#39;b&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, NA)
+)
+
+# Show the sum of dales by region
+t_region_stats &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  summarise(n_of_rows = n(),
+            sum_of_sales = sum(sales, na.rm = TRUE),
+            median_sales = median(sales, na.rm = TRUE),
+            mean_sales = mean(sales, na.rm = TRUE),
+            max_sales = max(sales, na.rm = TRUE),
+            min_sales = min(sales, na.rm = TRUE),
+            sd_sales = sd(sales, na.rm = TRUE),
+            n_of_distinct_sales = n_distinct(sales, na.rm = TRUE))
+
+print(t_region_stats)</code></pre>
+<pre><code>## # A tibble: 2 × 9
+##   region n_of_rows sum_of_sales median_sales mean_sales max_sales min_sales
+##   &lt;chr&gt;      &lt;int&gt;        &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 a              2           10            5          5        10         0
+## 2 b              2            5            5          5         5         5
+## # ℹ 2 more variables: sd_sales &lt;dbl&gt;, n_of_distinct_sales &lt;int&gt;</code></pre>
 </div>
 <div id="ungroup" class="section level3">
 <h3>ungroup</h3>
@@ -551,6 +597,73 @@ print(joined_data)</code></pre>
 ## 2         2          200          20
 ## 3         3          150          30
 ## 4         4          250          40</code></pre>
+</div>
+</div>
+<div id="less-common-commands" class="section level1">
+<h1>Less common commands</h1>
+<div id="slice_minmax" class="section level2 tabset">
+<h2 class="tabset">slice_min/max</h2>
+<p>We can use slice_max and slice_min to find the rows with the highest
+and lowest values in a field.</p>
+<div id="slice_min-when-n-1" class="section level3">
+<h3>slice_min when n = 1</h3>
+<p><code>slice_min</code> pulls the rows with the lowest value in the
+given field. It respects the current grouping level. When pulling a
+single value, it is basically identical to <code>min(field_name)</code>.
+<code>slice_max</code> is the same, but pulls the largest item instead
+of the smallest.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find smallest value
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 1) # same as summarize(sales = min(sales))
+
+print(t)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   region [3]
+##   region sales
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a          0
+## 2 b          1
+## 3 c          5</code></pre>
+</div>
+<div id="slice_min-when-n-1-1" class="section level3">
+<h3>slice_min when n &gt; 1</h3>
+<p>When given <code>n &gt; 1</code>, slice will pull multiple rows.</p>
+<pre class="r"><code>library(tidyverse)
+
+t &lt;- tibble(
+  region = c(&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;a&#39;, &#39;a&#39;, &#39;b&#39;),
+  sales = c(0, 10, 5, 3, 2, 1)
+)
+
+# Group and then find the 2 smallest items from each group
+t &lt;- t %&gt;% 
+  group_by(region) %&gt;% 
+  slice_min(sales, n = 2) 
+
+print(t)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+## # Groups:   region [3]
+##   region sales
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 a          0
+## 2 a          2
+## 3 b          1
+## 4 b         10
+## 5 c          5</code></pre>
+</div>
+</div>
+<div id="relocate" class="section level2">
+<h2>relocate</h2>
+<p>The relocate verb moves columns in a table. It is handy when you are
+looking for a table to be in a certain order.</p>
 </div>
 </div>
 <div id="application-problem" class="section level1">
