@@ -6,7 +6,7 @@ output:
     theme: united
 ---
 
-# Logistic Refression {.tabset}
+# Logistic Regression {.tabset}
 
 Outcomes:
 

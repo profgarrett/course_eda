@@ -8,7 +8,7 @@ output:
 
 # Introduction
 
-ggplot is a super useful graphics tool. See its website at [dplyr tutorial](https://ggplot2.tidyverse.org/)
+ggplot is a super useful graphics tool. See its website at [tutorial](https://ggplot2.tidyverse.org/)
 
 
 This tutorial also supports Datacamp's *Introduction to Data Visualization with ggplot2*.

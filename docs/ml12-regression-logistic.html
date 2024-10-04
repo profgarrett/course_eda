@@ -13,7 +13,7 @@
 
 <title>Logistic Regression</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -32,6 +32,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -275,8 +315,8 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
-<li><a href="#logistic-refression" id="toc-logistic-refression">Logistic
-Refression</a>
+<li><a href="#logistic-regression" id="toc-logistic-regression">Logistic
+Regression</a>
 <ul>
 <li><a href="#basic-model" id="toc-basic-model">Basic Model</a></li>
 <li><a href="#measuring-error" id="toc-measuring-error">Measuring
@@ -286,8 +326,8 @@ error</a></li>
 </ul>
 </div>
 
-<div id="logistic-refression" class="section level1 tabset">
-<h1 class="tabset">Logistic Refression</h1>
+<div id="logistic-regression" class="section level1 tabset">
+<h1 class="tabset">Logistic Regression</h1>
 <p>Outcomes:</p>
 <ul>
 <li>When do we use logistic regression?</li>
@@ -299,9 +339,19 @@ class="uri">https://www.youtube.com/watch?v=EKm0spFxFG4</a></p>
 rather than a continuous variable.</p>
 <div id="basic-model" class="section level2">
 <h2>Basic Model</h2>
-<pre class="r"><code>library(tidyverse)
-
-# Our dataset.
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code># Our dataset.
 t_data &lt;- tibble(
   from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
   to = c(&quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;)
@@ -319,8 +369,8 @@ summary(model)</code></pre>
 ## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(&gt;|z|)  
-## (Intercept)    -4.03       2.37   -1.70    0.089 .
-## from            1.88       1.01    1.86    0.063 .
+## (Intercept)   -4.034      2.369  -1.703   0.0886 .
+## from           1.875      1.007   1.861   0.0627 .
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -328,7 +378,7 @@ summary(model)</code></pre>
 ## 
 ##     Null deviance: 16.3006  on 11  degrees of freedom
 ## Residual deviance:  9.6378  on 10  degrees of freedom
-## AIC: 13.64
+## AIC: 13.638
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -337,9 +387,9 @@ summary(model)</code></pre>
 <p>R^2 is not a good measure for logistic regression. Instead, we use
 pseudo R-squared. A good result gives us an answer near to 1.</p>
 <pre class="r"><code>library(tidyverse)
-library(broom)
-
-# Our dataset.
+library(broom)</code></pre>
+<pre><code>## Warning: package &#39;broom&#39; was built under R version 4.3.3</code></pre>
+<pre class="r"><code># Our dataset.
 t_data &lt;- tibble(
   from = c(1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4),
   to = c(&quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;)
@@ -355,7 +405,7 @@ t_model &lt;- glance(model)
 pseudo_r_squared &lt;- 1 - t_model$deviance / t_model$null.deviance
 
 print(pseudo_r_squared)</code></pre>
-<pre><code>## [1] 0.409</code></pre>
+<pre><code>## [1] 0.4087495</code></pre>
 </div>
 <div id="predicting" class="section level2">
 <h2>Predicting</h2>
@@ -379,8 +429,8 @@ model &lt;- glm(to ~ from, data = t_train, family = binomial)
 # Predict syntax is a bit different, as we have to add a type.
 vector_of_predictions &lt;- predict(model, newdata = t_test, type = &#39;response&#39;)
 print(vector_of_predictions)</code></pre>
-<pre><code>##     1     2     3     4 
-## 0.216 0.743 0.903 0.968</code></pre>
+<pre><code>##         1         2         3         4 
+## 0.2159735 0.7426825 0.9033122 0.9679909</code></pre>
 </div>
 </div>
 

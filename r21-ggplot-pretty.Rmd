@@ -19,6 +19,8 @@ It builds on the prior section by discussing ways to clean-up basic charts.
 Draw a line or box on the chart.
 
 ```{r, eval=T, echo=TRUE }
+library(tidyverse)
+
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = cty, y = hwy)) +
   geom_vline(xintercept = 20) +

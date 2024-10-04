@@ -13,7 +13,7 @@
 
 <title>Regression 2</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -32,6 +32,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -360,19 +400,19 @@ summary(model)</code></pre>
 ## lm(formula = to ~ from, data = t_data)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -0.654 -0.554  0.370  0.403  0.430 
+##     Min      1Q  Median      3Q     Max 
+## -0.6545 -0.5545  0.3697  0.4030  0.4303 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value     Pr(&gt;|t|)    
-## (Intercept)  11.6667     0.3732    31.3 0.0000000012 ***
-## from         -1.0121     0.0601   -16.8 0.0000001576 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 11.66667    0.37322   31.26 1.19e-09 ***
+## from        -1.01212    0.06015  -16.83 1.58e-07 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.546 on 8 degrees of freedom
-## Multiple R-squared:  0.973,  Adjusted R-squared:  0.969 
-## F-statistic:  283 on 1 and 8 DF,  p-value: 0.000000158</code></pre>
+## Residual standard error: 0.5463 on 8 degrees of freedom
+## Multiple R-squared:  0.9725, Adjusted R-squared:  0.9691 
+## F-statistic: 283.1 on 1 and 8 DF,  p-value: 1.576e-07</code></pre>
 <pre class="r"><code># new data
 t_new_data &lt;- tibble(
   from = c(3, 5, 10, 100),
@@ -467,7 +507,7 @@ t_data &lt;- t_data %&gt;%
 error &lt;- sqrt(mean(t_data$residuals ^2 ))
 
 print(error)</code></pre>
-<pre><code>## [1] 0.489</code></pre>
+<pre><code>## [1] 0.4886593</code></pre>
 </div>
 <div id="r-squared" class="section level2">
 <h2>R-squared</h2>
@@ -505,26 +545,26 @@ r2 &lt;- 1 - (residual_sum_of_squares / total_sum_of_squares)
 
 
 print(r2)</code></pre>
-<pre><code>## [1] 0.973</code></pre>
+<pre><code>## [1] 0.9725215</code></pre>
 <pre class="r"><code>summary(model)</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = to ~ from, data = t_data)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -0.654 -0.554  0.370  0.403  0.430 
+##     Min      1Q  Median      3Q     Max 
+## -0.6545 -0.5545  0.3697  0.4030  0.4303 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value     Pr(&gt;|t|)    
-## (Intercept)  11.6667     0.3732    31.3 0.0000000012 ***
-## from         -1.0121     0.0601   -16.8 0.0000001576 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 11.66667    0.37322   31.26 1.19e-09 ***
+## from        -1.01212    0.06015  -16.83 1.58e-07 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.546 on 8 degrees of freedom
-## Multiple R-squared:  0.973,  Adjusted R-squared:  0.969 
-## F-statistic:  283 on 1 and 8 DF,  p-value: 0.000000158</code></pre>
+## Residual standard error: 0.5463 on 8 degrees of freedom
+## Multiple R-squared:  0.9725, Adjusted R-squared:  0.9691 
+## F-statistic: 283.1 on 1 and 8 DF,  p-value: 1.576e-07</code></pre>
 </div>
 </div>
 <div id="training-test-split" class="section level1">
@@ -594,14 +634,14 @@ splits &lt;- vtreat::kWayCrossValidation(nRows = nRows, nSplits = 3)
 str(splits)</code></pre>
 <pre><code>## List of 3
 ##  $ :List of 2
-##   ..$ train: int [1:7] 1 2 4 5 6 8 9
-##   ..$ app  : int [1:3] 10 7 3
+##   ..$ train: int [1:7] 1 2 4 6 7 9 10
+##   ..$ app  : int [1:3] 3 8 5
 ##  $ :List of 2
-##   ..$ train: int [1:6] 3 5 6 7 8 10
-##   ..$ app  : int [1:4] 9 2 1 4
+##   ..$ train: int [1:6] 2 3 4 5 7 8
+##   ..$ app  : int [1:4] 1 9 10 6
 ##  $ :List of 2
-##   ..$ train: int [1:7] 1 2 3 4 7 9 10
-##   ..$ app  : int [1:3] 8 5 6
+##   ..$ train: int [1:7] 1 3 5 6 8 9 10
+##   ..$ app  : int [1:3] 4 7 2
 ##  - attr(*, &quot;splitmethod&quot;)= chr &quot;kwaycross&quot;</code></pre>
 </div>
 <div id="apply-splits" class="section level3">
@@ -664,33 +704,33 @@ for (i in 1:nSplits) {
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##      11.216       -0.966  
+##      11.928       -1.057  
 ## 
-##     1     2     3 
-## 0.716 0.615 0.649 
-## [1] 0.661
-## 
-## Call:
-## lm(formula = to ~ from, data = t_data[split$train, ])
-## 
-## Coefficients:
-## (Intercept)         from  
-##       12.58        -1.15  
-## 
-##      1      2      3      4 
-## -1.428  0.486 -1.123  0.638 
-## [1] 0.993
+##          1          2          3 
+##  0.2989691 -0.8711340  0.4123711 
+## [1] 0.5826111
 ## 
 ## Call:
 ## lm(formula = to ~ from, data = t_data[split$train, ])
 ## 
 ## Coefficients:
 ## (Intercept)         from  
-##      11.217       -0.884  
+##      11.423       -1.016  
 ## 
-##      1      2      3 
-## -1.377  0.087 -1.261 
-## [1] 1.08</code></pre>
+##         1         2         3         4 
+## 0.7073171 0.6097561 0.6910569 0.6585366 
+## [1] 0.6677069
+## 
+## Call:
+## lm(formula = to ~ from, data = t_data[split$train, ])
+## 
+## Coefficients:
+## (Intercept)         from  
+##     11.4130      -0.9058  
+## 
+##          1          2          3 
+## -1.3550725 -0.6956522 -1.2608696 
+## [1] 1.141628</code></pre>
 </div>
 </div>
 </div>
@@ -728,18 +768,18 @@ ggplot(data = t_data) +
 ## lm(formula = to ~ from + group, data = t_data)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -5.142 -1.954 -0.216  2.054  3.974 
+##     Min      1Q  Median      3Q     Max 
+## -5.1416 -1.9540 -0.2155  2.0540  3.9739 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept)    2.878      2.549    1.13     0.30
-## from          -0.357      0.383   -0.93     0.38
-## grouplight     3.689      2.399    1.54     0.17
+## (Intercept)   2.8783     2.5487   1.129    0.296
+## from         -0.3565     0.3828  -0.931    0.383
+## grouplight    3.6894     2.3993   1.538    0.168
 ## 
-## Residual standard error: 3.35 on 7 degrees of freedom
-## Multiple R-squared:  0.275,  Adjusted R-squared:  0.0682 
-## F-statistic: 1.33 on 2 and 7 DF,  p-value: 0.324</code></pre>
+## Residual standard error: 3.352 on 7 degrees of freedom
+## Multiple R-squared:  0.2752, Adjusted R-squared:  0.06817 
+## F-statistic: 1.329 on 2 and 7 DF,  p-value: 0.3241</code></pre>
 </div>
 <div id="log-transform-dependent-variable" class="section level2">
 <h2>Log transform (dependent variable)</h2>
@@ -764,19 +804,19 @@ summary(model)</code></pre>
 ## lm(formula = to ~ from, data = t_data)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -342.1 -166.4   23.4  186.3  359.3 
+##     Min      1Q  Median      3Q     Max 
+## -342.13 -166.43   23.37  186.32  359.27 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)   
-## (Intercept)   -493.7      186.5   -2.65   0.0244 * 
-## from           308.6       68.1    4.53   0.0011 **
+## (Intercept)   -493.7      186.5  -2.647  0.02444 * 
+## from           308.6       68.1   4.531  0.00109 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 264 on 10 degrees of freedom
-## Multiple R-squared:  0.672,  Adjusted R-squared:  0.64 
-## F-statistic: 20.5 on 1 and 10 DF,  p-value: 0.00109</code></pre>
+## Residual standard error: 263.8 on 10 degrees of freedom
+## Multiple R-squared:  0.6725, Adjusted R-squared:  0.6397 
+## F-statistic: 20.53 on 1 and 10 DF,  p-value: 0.001089</code></pre>
 <pre class="r"><code># Use a log transform on the non-normal data
 model2 &lt;- lm(log(to) ~ from, data = t_data)
 summary(model2)</code></pre>
@@ -785,23 +825,25 @@ summary(model2)</code></pre>
 ## lm(formula = log(to) ~ from, data = t_data)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -0.1958 -0.1343 -0.0376  0.0565  0.5324 
+##      Min       1Q   Median       3Q      Max 
+## -0.19577 -0.13427 -0.03761  0.05648  0.53242 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value        Pr(&gt;|t|)    
-## (Intercept)  -2.0715     0.1467   -14.1 0.0000000622322 ***
-## from          2.2323     0.0536    41.7 0.0000000000015 ***
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -2.07154    0.14666  -14.12 6.22e-08 ***
+## from         2.23227    0.05355   41.68 1.51e-12 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.207 on 10 degrees of freedom
-## Multiple R-squared:  0.994,  Adjusted R-squared:  0.994 
-## F-statistic: 1.74e+03 on 1 and 10 DF,  p-value: 0.00000000000151</code></pre>
+## Residual standard error: 0.2074 on 10 degrees of freedom
+## Multiple R-squared:  0.9943, Adjusted R-squared:  0.9937 
+## F-statistic:  1737 on 1 and 10 DF,  p-value: 1.514e-12</code></pre>
 <pre class="r"><code># Predicted values, converted back into normal form.
 exp( predict(model2, newdata = t_data))</code></pre>
-<pre><code>##      1      2      3      4      5      6      7      8      9     10     11     12 
-##   1.17   1.17   1.17  10.95  10.95  10.95 102.03 102.03 102.03 951.01 951.01 951.01</code></pre>
+<pre><code>##          1          2          3          4          5          6          7 
+##   1.174367   1.174367   1.174367  10.946225  10.946225  10.946225 102.029296 
+##          8          9         10         11         12 
+## 102.029296 102.029296 951.010718 951.010718 951.010718</code></pre>
 </div>
 <div id="log-transform-error" class="section level2">
 <h2>Log transform error</h2>
@@ -829,11 +871,26 @@ t_data &lt;- t_data %&gt;%
 rmse &lt;- sqrt(mean(t_data$residual ^ 2))
 rmse_relative &lt;- sqrt(mean((t_data$residual / t_data$to_log)^2))
 
-print(t_data)
-print(exp(rmse))</code></pre>
-<pre><code>## [1] 1.39</code></pre>
+print(t_data)</code></pre>
+<pre><code>## # A tibble: 12 × 6
+##     from    to to_log prediction residual prediction_non_log
+##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;              &lt;dbl&gt;
+##  1     1     2  0.693      0.741  0.0474                2.10
+##  2     1     3  1.10       0.741 -0.358                 2.10
+##  3     1     4  1.39       0.741 -0.646                 2.10
+##  4     2    10  2.30       2.72   0.422                15.2 
+##  5     2    11  2.40       2.72   0.326                15.2 
+##  6     2     9  2.20       2.72   0.527                15.2 
+##  7     3   100  4.61       4.71   0.103               111.  
+##  8     3   110  4.70       4.71   0.00761             111.  
+##  9     3    90  4.50       4.71   0.208               111.  
+## 10     4  1000  6.91       6.69  -0.216               806.  
+## 11     4   900  6.80       6.69  -0.111               806.  
+## 12     4  1100  7.00       6.69  -0.311               806.</code></pre>
+<pre class="r"><code>print(exp(rmse))</code></pre>
+<pre><code>## [1] 1.393176</code></pre>
 <pre class="r"><code>print(exp(rmse_relative))</code></pre>
-<pre><code>## [1] 1.21</code></pre>
+<pre><code>## [1] 1.211934</code></pre>
 </div>
 <div id="exponent-transform-independent-variable"
 class="section level2">
@@ -863,19 +920,19 @@ summary(model)</code></pre>
 ## lm(formula = to ~ from_squared, data = t_data)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -1.486 -0.536 -0.247  0.524  1.954 
+##     Min      1Q  Median      3Q     Max 
+## -1.4858 -0.5362 -0.2468  0.5239  1.9535 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value     Pr(&gt;|t|)    
-## (Intercept)    0.7674     0.4583    1.67         0.12    
-## from_squared   0.9199     0.0487   18.88 0.0000000038 ***
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.76744    0.45827   1.675    0.125    
+## from_squared  0.91990    0.04871  18.884 3.76e-09 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.958 on 10 degrees of freedom
-## Multiple R-squared:  0.973,  Adjusted R-squared:  0.97 
-## F-statistic:  357 on 1 and 10 DF,  p-value: 0.00000000376</code></pre>
+## Residual standard error: 0.9583 on 10 degrees of freedom
+## Multiple R-squared:  0.9727, Adjusted R-squared:   0.97 
+## F-statistic: 356.6 on 1 and 10 DF,  p-value: 3.759e-09</code></pre>
 </div>
 </div>
 

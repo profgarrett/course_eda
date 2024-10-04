@@ -33,6 +33,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -272,10 +312,39 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Effective EDA Reports</h1>
 <h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-08-26</h4>
+<h4 class="date">Refreshed 2024-10-02</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#effective-eda-reports"
+id="toc-effective-eda-reports">Effective EDA Reports</a>
+<ul>
+<li><a href="#title-and-introduction" id="toc-title-and-introduction">1.
+Title and Introduction</a>
+<ul>
+<li><a href="#code" id="toc-code">Code</a></li>
+<li><a href="#example" id="toc-example">Example</a></li>
+</ul></li>
+<li><a href="#data" id="toc-data">2. Data</a>
+<ul>
+<li><a href="#code-1" id="toc-code-1">Code</a></li>
+<li><a href="#example-1" id="toc-example-1">Example</a></li>
+</ul></li>
+<li><a href="#methodology" id="toc-methodology">3. Methodology</a></li>
+<li><a href="#key-findings" id="toc-key-findings">4. Key
+Findings</a></li>
+<li><a href="#conclusion" id="toc-conclusion">5. Conclusion</a></li>
+<li><a href="#limitations-and-future-work"
+id="toc-limitations-and-future-work">6. Limitations and Future
+Work</a></li>
+<li><a href="#references" id="toc-references">7. References</a></li>
+</ul></li>
+<li><a href="#good-examples" id="toc-good-examples">Good
+Examples</a></li>
+</ul>
+</div>
 
 <div id="effective-eda-reports" class="section level1">
 <h1>Effective EDA Reports</h1>
