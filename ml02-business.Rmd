@@ -56,6 +56,7 @@ As an example, consider asking college students for their favorite artist. We gr
 Imagine we are predicting which customers will drop our service.
 
 We have 6 customers:
+
 - A Dropped, Predicted Dropped (success!)
 - B Dropped, Predicted Dropped (success!)
 - C Dropped, Not predicted
@@ -86,7 +87,7 @@ We have 6 customers:
 
 ### RSME
 
-RSME is the squared difference of each. (Reference)[https://www.statology.org/how-to-interpret-rmse/]
+RSME is the squared difference of each. [https://www.statology.org/how-to-interpret-rmse/](Link to a good reference)
 
 Calculate the squared difference of each point,
 (10 - 10)^2 + (12 - 10)^2 + (8 - 10)^4 = 20

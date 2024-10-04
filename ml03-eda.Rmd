@@ -20,6 +20,40 @@ It helps us understand how multiple variables are related to each other.
 
 # Step 1: Understand your data
 
+## Check field types and values
+
+First we want to make sure that we understand our data. Begin by visually scanning the table.
+
+Then, use some functions to show what values are present in the data.
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+t <- tibble(x = 1:10, y = rep(c('A', 'B'), 5) )
+
+# Show the field types
+str(t)
+```
+
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Show a summary of the values
+summary(t)
+
+# Alternatively, this is a better way of showing if you have a lot of variables
+# It uses the map function to apply summary to each field in t
+#  map(t, summary)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+
+# Useful for categorical variables and getting a breakdown of the values
+table(t$y)
+
+# Also useful is unique(t$y)
+```
+
+
 ## Visualize Categorical data {.tabset}
 
 Categorical data is generally stored as text values. They can be encoded with numbers, but there should be no significance to the range between different values.

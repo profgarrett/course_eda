@@ -321,6 +321,9 @@ id="toc-eda-in-r---introduction">EDA in R - Introduction</a></li>
 <li><a href="#step-1-understand-your-data"
 id="toc-step-1-understand-your-data">Step 1: Understand your data</a>
 <ul>
+<li><a href="#check-field-types-and-values"
+id="toc-check-field-types-and-values">Check field types and
+values</a></li>
 <li><a href="#visualize-categorical-data"
 id="toc-visualize-categorical-data">Visualize Categorical data</a>
 <ul>
@@ -370,6 +373,39 @@ Example: If a person is a man, then they are more likely to be tall.</p>
 </div>
 <div id="step-1-understand-your-data" class="section level1">
 <h1>Step 1: Understand your data</h1>
+<div id="check-field-types-and-values" class="section level2">
+<h2>Check field types and values</h2>
+<p>First we want to make sure that we understand our data. Begin by
+visually scanning the table.</p>
+<p>Then, use some functions to show what values are present in the
+data.</p>
+<pre class="r"><code>library(tidyverse)
+t &lt;- tibble(x = 1:10, y = rep(c(&#39;A&#39;, &#39;B&#39;), 5) )
+
+# Show the field types
+str(t)</code></pre>
+<pre><code>## tibble [10 × 2] (S3: tbl_df/tbl/data.frame)
+##  $ x: int [1:10] 1 2 3 4 5 6 7 8 9 10
+##  $ y: chr [1:10] &quot;A&quot; &quot;B&quot; &quot;A&quot; &quot;B&quot; ...</code></pre>
+<pre class="r"><code># Show a summary of the values
+summary(t)</code></pre>
+<pre><code>##        x              y            
+##  Min.   : 1.00   Length:10         
+##  1st Qu.: 3.25   Class :character  
+##  Median : 5.50   Mode  :character  
+##  Mean   : 5.50                     
+##  3rd Qu.: 7.75                     
+##  Max.   :10.00</code></pre>
+<pre class="r"><code># Alternatively, this is a better way of showing if you have a lot of variables
+# It uses the map function to apply summary to each field in t
+#  map(t, summary)</code></pre>
+<pre class="r"><code># Useful for categorical variables and getting a breakdown of the values
+table(t$y)</code></pre>
+<pre><code>## 
+## A B 
+## 5 5</code></pre>
+<pre class="r"><code># Also useful is unique(t$y)</code></pre>
+</div>
 <div id="visualize-categorical-data" class="section level2 tabset">
 <h2 class="tabset">Visualize Categorical data</h2>
 <p>Categorical data is generally stored as text values. They can be
@@ -510,7 +546,7 @@ t &lt;- tibble(person = c(&#39;Bob&#39;, &#39;Bob&#39;, &#39;Bob&#39;, &#39;Sue&
 ggplot(data = t) +
   geom_bar(mapping = aes(x = person, fill = region)) +
   facet_wrap( ~ year)</code></pre>
-<p><img src="ml03-eda_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="ml03-eda_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 </div>
 <div id="vizualize-continuous-data" class="section level2 tabset">
@@ -552,7 +588,7 @@ t &lt;- t_raw %&gt;%
 
 ggplot(data = t) +
   geom_histogram(mapping = aes(x = height_in_inches))</code></pre>
-<p><img src="ml03-eda_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="ml03-eda_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="zero-inflation-strategy" class="section level3">
 <h3>Zero-inflation strategy</h3>
@@ -660,7 +696,7 @@ t_numbers &lt;- t %&gt;%
 # Show the correlation&#39;s statistical significance
 ggcorrplot(cor(t_numbers),
            colors = c(&#39;red&#39;, &#39;white&#39;, &#39;blue&#39;))</code></pre>
-<p><img src="ml03-eda_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="ml03-eda_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
 <div id="plot-correlations" class="section level3 tabset">
@@ -687,7 +723,7 @@ ggplot(data = t) +
   geom_point(mapping = aes(x = jitter(height_in_feet, factor = 1.1), 
                            y = weight_in_lbs),
              alpha = 0.1)</code></pre>
-<p><img src="ml03-eda_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="ml03-eda_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 <div id="density-chart-categories-n-200" class="section level4">
 <h4>Density Chart (categories, n &gt; 200)</h4>
@@ -707,7 +743,7 @@ ggplot(data = t) +
   geom_density(mapping = aes(x = height_in_feet,
                              fill = category),
                alpha = .5)</code></pre>
-<p><img src="ml03-eda_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="ml03-eda_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="boxplot-chart-categories-n-2000" class="section level4">
 <h4>Boxplot Chart (categories, n &gt; 2,000)</h4>
@@ -726,7 +762,7 @@ t &lt;- t %&gt;%
 ggplot(data = t) +
   geom_boxplot(mapping = aes(x = height_in_feet,
                              y = category))</code></pre>
-<p><img src="ml03-eda_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="ml03-eda_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 </div>
 </div>
