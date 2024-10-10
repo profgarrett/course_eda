@@ -1,0 +1,31 @@
+---
+title: "book"
+author: "Nathan Garrett"
+date: "2024-10-10"
+output: html_document
+---
+
+# Book time to meet with me
+
+There are three different methods to book a time.
+
+### Method 1. Faculty and non-WVU students 
+
+[Link to booking website](https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous)
+
+
+## Method 2. WVU Students
+
+[Right-click and choose to open this link in a new private browser window. Then continue as an anonymous user](https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous)
+
+
+## Method 3. Embed
+
+The below page will work for some people. If it doesn't work, please see methods above.
+
+```{=html}
+
+<iframe width="100%" height="400"
+  src="https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous
+"></iframe>
+```
