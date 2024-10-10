@@ -1,11 +1,9 @@
 ---
-title: "book"
+title: "Book time to meet with me"
 author: "Nathan Garrett"
 date: "2024-10-10"
 output: html_document
 ---
-
-# Book time to meet with me
 
 There are three different methods to book a time.
 
@@ -21,7 +19,7 @@ There are three different methods to book a time.
 
 ## Method 3. Embed
 
-The below page will work for some people. If it doesn't work, please see methods above.
+Click *Continue as Guest* in the window below.
 
 ```{=html}
 
