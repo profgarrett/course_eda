@@ -5,19 +5,17 @@ date: "2024-10-10"
 output: html_document
 ---
 
-There are three different methods to book a time.
-
-### Method 1. Faculty and non-WVU students 
-
-[Link to booking website](https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous)
+There are two different methods to book a time.
 
 
-## Method 2. WVU Students
+## Method 1. WVU Students
 
-[Right-click and choose to open this link in a new private browser window. Then continue as an anonymous user](https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous)
+Right-click the below link, and choose to *open in a new private browser window.* Then continue as an anonymous user
+
+[Right-click here and choose private window](https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous)
 
 
-## Method 3. Embed
+## Method 2. Embed
 
 Click *Continue as Guest* in the window below.
 
