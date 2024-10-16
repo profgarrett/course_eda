@@ -24,6 +24,5 @@ Click *Continue as Guest* in the window below.
 ```{=html}
 
 <iframe width="100%" height="400"
-  src="https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous
-"></iframe>
+  src="https://outlook.office.com/bookwithme/user/12414cb0519440e68f70cc1fb2a63fac@mail.wvu.edu?anonymous&isanonymous=true"></iframe>
 ```
