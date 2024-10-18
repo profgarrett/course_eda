@@ -312,158 +312,211 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Effective EDA Reports</h1>
 <h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-10-02</h4>
+<h4 class="date">Refreshed 2024-10-18</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#effective-eda-reports"
-id="toc-effective-eda-reports">Effective EDA Reports</a>
+<li><a href="#title-and-introduction"
+id="toc-title-and-introduction">Title and Introduction</a>
 <ul>
-<li><a href="#title-and-introduction" id="toc-title-and-introduction">1.
-Title and Introduction</a>
-<ul>
-<li><a href="#code" id="toc-code">Code</a></li>
 <li><a href="#example" id="toc-example">Example</a></li>
+<li><a href="#example-as-markdown" id="toc-example-as-markdown">Example
+as Markdown</a></li>
 </ul></li>
-<li><a href="#data" id="toc-data">2. Data</a>
+<li><a href="#data" id="toc-data">Data</a>
 <ul>
-<li><a href="#code-1" id="toc-code-1">Code</a></li>
 <li><a href="#example-1" id="toc-example-1">Example</a></li>
+<li><a href="#example-as-markdown-1"
+id="toc-example-as-markdown-1">Example as Markdown</a></li>
 </ul></li>
-<li><a href="#methodology" id="toc-methodology">3. Methodology</a></li>
-<li><a href="#key-findings" id="toc-key-findings">4. Key
-Findings</a></li>
-<li><a href="#conclusion" id="toc-conclusion">5. Conclusion</a></li>
-<li><a href="#limitations-and-future-work"
-id="toc-limitations-and-future-work">6. Limitations and Future
-Work</a></li>
-<li><a href="#references" id="toc-references">7. References</a></li>
+<li><a href="#methods" id="toc-methods">Methods</a>
+<ul>
+<li><a href="#example-2" id="toc-example-2">Example</a></li>
+<li><a href="#example-as-markdown-2"
+id="toc-example-as-markdown-2">Example as Markdown</a></li>
+</ul></li>
+<li><a href="#limitations" id="toc-limitations">Limitations</a>
+<ul>
+<li><a href="#example-3" id="toc-example-3">Example</a></li>
+<li><a href="#example-as-markdown-3"
+id="toc-example-as-markdown-3">Example as Markdown</a></li>
+</ul></li>
+<li><a href="#references" id="toc-references">References</a>
+<ul>
+<li><a href="#example-4" id="toc-example-4">Example</a></li>
+<li><a href="#example-as-markdown-4"
+id="toc-example-as-markdown-4">Example as Markdown</a></li>
 </ul></li>
 <li><a href="#good-examples" id="toc-good-examples">Good
 Examples</a></li>
 </ul>
 </div>
 
-<div id="effective-eda-reports" class="section level1">
-<h1>Effective EDA Reports</h1>
-<p>We will have a standard format for our EDA reports in this class.
-Refer to the sections below.</p>
-<div id="title-and-introduction" class="section level2 tabset">
-<h2 class="tabset">1. Title and Introduction</h2>
-<p>The first section should have your title and introduction
-paragraph.</p>
-<div id="code" class="section level3">
-<h3>Code</h3>
-<pre class="markdown"><code># Title of Analysis
-*Created by Nathan Garrett. Updated 1/1/11*
-
-## 1. Introduction
-Purpose of analysis. Data being analyzed. Main question of the analysis. Major finding.
-</code></pre>
-</div>
-<div id="example" class="section level3">
-<h3>Example</h3>
+<p>We will have a standard format for our reports in this class. You can
+find <a href="https://www.markdownguide.org/basic-syntax/">Markdown help
+online</a>. Feel free to include multiple charts, but clearly label them
+and refer to them in your text.</p>
+<div id="title-and-introduction" class="section level1 tabset">
+<h1 class="tabset">Title and Introduction</h1>
+<p>The first section should have your title and introduction paragraph.
+It should describe the purpose of your analysis, the data being used,
+your main question, and your major finding.</p>
+<p>Your major finding should clearly state the main results. If needed,
+use bullet points or numbered lists for clarity. Include any relevant
+statistics, figures, or visualizations (e.g., “Sales increased by 15% in
+February” or “the R^2 was 0.45, showing a strong effect”).</p>
+<hr />
+<div id="example" class="section level2">
+<h2>Example</h2>
 <div id="why-santa-claus-does-not-exist" class="section level4">
-<h4>Why Santa Claus Does Not Exist</h4>
+<h4>1. Why Santa Claus Does Not Exist</h4>
 <p><em>Created by Nathan Garrett. Updated 1/1/11</em></p>
 <p>This analysis uses holiday toy sales to test for the existence of
 Santa Claus. Its data includes holiday toy sales from Amazon.com and
-Target. If Santa exists, we would expect that most of holiday gifts
-would be from the North Pole. However, we see a significant increase in
-parent gift purchases, which is consistent with the Grinch
-hypothesis.</p>
+Target. If Santa exists, I expect that most holiday gifts would be from
+the North Pole. However, we see a significant increase in parent gift
+purchases. This confirms my Grinch hypothesis.</p>
+<p><img src="dv10-effective-reports_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<hr />
 </div>
 </div>
+<div id="example-as-markdown" class="section level2">
+<h2>Example as Markdown</h2>
+<pre class="markdown"><code>#### 1. Why Santa Claus Does Not Exist
+*Created by Nathan Garrett. Updated 1/1/11*
+
+This analysis uses holiday toy sales to test for the existence of Santa Claus. Its data includes holiday toy sales from Amazon.com and Target. If Santa exists, I expect that most holiday gifts would be from the North Pole.  However, we see a significant increase in parent gift purchases. This confirms my Grinch hypothesis.
+
+\``` {r echo=FALSE, message=FALSE, warning=FALSE}}
+# Do not print out your code! Note that I added \ in front of
+# the ``` code to get the code to not render in this document. Use ``` in your documents.
+data &lt;- c(10, 20, 30)
+plot(x = data, y = data * 2)
+\```
+</code></pre>
 </div>
-<div id="data" class="section level2 tabset">
-<h2 class="tabset">2. Data</h2>
-<p>The second section should describe your data.</p>
-<div id="code-1" class="section level3">
-<h3>Code</h3>
-<pre class="markdown"><code>## 2. Data Description
-Describe the data and its source. Summarize the number of observations, time period covered, and key variables. </code></pre>
 </div>
-<div id="example-1" class="section level3">
-<h3>Example</h3>
+<div id="data" class="section level1 tabset">
+<h1 class="tabset">Data</h1>
+<p>The second section should describe your data. Write a short paragraph
+describing your data, its source, observations, and time period. Mention
+any assumptions or preprocessing steps taken (e.g., data cleaning,
+handling missing values). Add a bullet list for your key variables.</p>
+<div id="example-1" class="section level2">
+<h2>Example</h2>
 <div id="data-description" class="section level4">
 <h4>2. Data Description</h4>
 <p>Amazon and Target provided three million order records from the
-2020-2021 holiday season. These included row-level details of each sale,
-purchaser, and item. Three-thousand rows related to Hanukkah were
+2020-2021 holiday season. Thirty-thousand rows related to Hanukkah were
 excluded.</p>
-</div>
-</div>
-</div>
-<div id="methodology" class="section level2">
-<h2>3. Methodology</h2>
+<p>Key variables included:</p>
 <ul>
-<li>Outline the analytical methods and techniques used (e.g.,
-statistical tests, machine learning models, data visualization).</li>
-<li>Mention any assumptions or preprocessing steps taken (e.g., data
-cleaning, handling missing values).</li>
+<li><strong>Sale price</strong>: decimal field (in USD)</li>
+<li><strong>Purchaser</strong>: a 1/0 field indicating if the purchased
+was a person or Santa</li>
+<li><strong>Item type</strong>: a character field with the toy type
+(game, toy, or doll)</li>
+<li><strong>Sale date</strong>: a datetime field</li>
 </ul>
-<p><em>Example:</em><br />
-“A linear regression model was employed to analyze the relationship
-between advertising spend and sales revenue. Data was cleaned to remove
-outliers and fill missing values using median imputation.”</p>
 <hr />
 </div>
-<div id="key-findings" class="section level2">
-<h2>4. Key Findings</h2>
-<ul>
-<li>Present the main results of the analysis.</li>
-<li>Use bullet points or numbered lists for clarity.</li>
-<li>Include any relevant statistics, figures, or visualizations (e.g.,
-“Sales increased by 15% in February”).</li>
-</ul>
-<p><em>Example:</em><br />
-- “Sales of Product X increased by 20% in February compared to January.”
-- “There is a significant positive correlation (r = 0.85) between
-advertising spend and sales revenue.”</p>
+</div>
+<div id="example-as-markdown-1" class="section level2">
+<h2>Example as Markdown</h2>
+<pre class="markdown"><code>#### 2. Data Description
+
+Amazon and Target provided three million order records from the 2020-2021 holiday season. Thirty-thousand rows related to Hanukkah were excluded.
+
+Key variables included:
+
+- **Sale price**: decimal field (in USD)
+- **Purchaser**: a 1/0 field indicating if the purchased was a person or Santa
+- **Item type**: a character field with the toy type (game, toy, or doll)
+- **Sale date**: a datetime field</code></pre>
+</div>
+</div>
+<div id="methods" class="section level1 tabset">
+<h1 class="tabset">Methods</h1>
+<p>Describe your methods, such as statistical tests or machine learning
+models. Include a data visualization of your prediction or errors.</p>
+<div id="example-2" class="section level2">
+<h2>Example</h2>
+<div id="methods-1" class="section level4">
+<h4>3. Methods</h4>
+<p>The regression model predicted the purchaser field (Santa or a
+parent). My independent variables included item type, price, and date.
+Date was converted to a days_until_christmas variable. The model has a
+R^2 of 0.56. The errrors were appropriate for the model type.</p>
+<p><em>include model output</em></p>
+<p><em>include a chart showing the results</em></p>
 <hr />
 </div>
-<div id="conclusion" class="section level2">
-<h2>5. Conclusion</h2>
-<ul>
-<li>Summarize the key insights derived from the analysis.</li>
-<li>Discuss the implications of the findings for decision-making or
-further research.</li>
-<li>Offer recommendations based on the results (if applicable).</li>
-</ul>
-<p><em>Example:</em><br />
-“The analysis suggests that increased advertising spend is strongly
-associated with higher sales revenue. It is recommended to maintain or
-increase the advertising budget in the upcoming quarter to sustain this
-growth trend.”</p>
-<hr />
 </div>
-<div id="limitations-and-future-work" class="section level2">
-<h2>6. Limitations and Future Work</h2>
-<ul>
-<li>Mention any limitations or constraints of the analysis.</li>
-<li>Suggest areas for further investigation or analysis.</li>
-</ul>
-<p><em>Example:</em><br />
-“This analysis did not account for external factors such as market
+<div id="example-as-markdown-2" class="section level2">
+<h2>Example as Markdown</h2>
+<pre class="markdown"><code>#### 3. Methods
+
+The regression model predicted the purchaser field (Santa or a parent). My independent variables included item type, price, and date. Date was converted to a days_until_christmas variable. The model has a R^2 of 0.56. The errrors were appropriate for the model type.
+
+*include model output*
+
+*include a chart showing the results*</code></pre>
+</div>
+</div>
+<div id="limitations" class="section level1 tabset">
+<h1 class="tabset">Limitations</h1>
+<p>Mention any limitations or constraints of the analysis. Suggest areas
+for further investigation or analysis.</p>
+<div id="example-3" class="section level2">
+<h2>Example</h2>
+<div id="limitations-1" class="section level4">
+<h4>4. Limitations</h4>
+<p>This analysis did not account for external factors such as market
 competition or economic conditions, which could influence sales
 performance. Future research could incorporate these factors to enhance
 the model’s accuracy.”</p>
 <hr />
 </div>
-<div id="references" class="section level2">
-<h2>7. References</h2>
+</div>
+<div id="example-as-markdown-3" class="section level2">
+<h2>Example as Markdown</h2>
+<pre class="markdown"><code>#### 4. Limitations
+
+This analysis did not account for external factors such as market competition or economic conditions, which could influence sales performance. Future research could incorporate these factors to enhance the model’s accuracy.&quot;</code></pre>
+</div>
+</div>
+<div id="references" class="section level1 tabset">
+<h1 class="tabset">References</h1>
+<p>List any sources, datasets, or tools used in the analysis.</p>
+<div id="example-4" class="section level2">
+<h2>Example</h2>
+<div id="references-1" class="section level4">
+<h4>5. References</h4>
+<p>Sources included:</p>
 <ul>
-<li>List any sources, datasets, or tools used in the analysis.</li>
+<li>Amazon.com company Sales Database, Q1 2024. Available at <a
+href="http://github.com/amazon">Github</a></li>
+<li>ChatGPT was used to generate code for the 2nd plot, as well as debug
+an error with the dataset.</li>
 </ul>
-<p><em>Example:</em><br />
-- “Company Sales Database, Q1 2024.” - “R Programming Language for
-Statistical Computing.”</p>
+<hr />
+</div>
+</div>
+<div id="example-as-markdown-4" class="section level2">
+<h2>Example as Markdown</h2>
+<pre class="markdown"><code>#### 5. References
+
+Sources included:
+
+- Amazon.com company Sales Database, Q1 2024. Available at [Github](http://github.com/amazon)
+- ChatGPT was used to generate code for the 2nd plot, as well as debug an error with the dataset.</code></pre>
 </div>
 </div>
 <div id="good-examples" class="section level1">
 <h1>Good Examples</h1>
+<p>Here are some good examples of well-designed reports.</p>
 <ul>
 <li><a
 href="https://www.gatesnotes.com/Most-Deadly-Animal-Mosquito-Week-2016">Most

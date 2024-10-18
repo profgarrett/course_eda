@@ -40,6 +40,12 @@ This section is for ACCT 426 and BUDA 451 students in Fall 2024.
   - [ml40. Unsupervised Learning](ml40-unsupervised.html)
   - [ml50. Supervised Learning](ml50-supervised.html)
 
+
+# Other useful links
+
+- [dv10. Writing an effective report](dv10-effective-reports.html)
+
+
 ### Application problem
 
 See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/)
