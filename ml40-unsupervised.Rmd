@@ -26,56 +26,6 @@ data("iris")
 
 # Turn into a tibble
 t_iris <- tibble(iris)
-
-
-
-################################################################################
-# https://statsandr.com/blog/correlation-coefficient-and-correlation-test-in-r/
-################################################################################
-
-corrplot2 <- function(data,
-                      method = "pearson",
-                      sig.level = 0.05,
-                      order = "original",
-                      diag = FALSE,
-                      type = "upper",
-                      tl.srt = 90,
-                      number.font = 1,
-                      number.cex = 1,
-                      mar = c(0, 0, 0, 0)) {
-  library(corrplot)
-  data_incomplete <- data
-  data <- data[complete.cases(data), ]
-  mat <- cor(data, method = method)
-  cor.mtest <- function(mat, method) {
-    mat <- as.matrix(mat)
-    n <- ncol(mat)
-    p.mat <- matrix(NA, n, n)
-    diag(p.mat) <- 0
-    for (i in 1:(n - 1)) {
-      for (j in (i + 1):n) {
-        tmp <- cor.test(mat[, i], mat[, j], method = method)
-        p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
-      }
-    }
-    colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
-    p.mat
-  }
-  p.mat <- cor.mtest(data, method = method)
-  col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-  corrplot(mat,
-           method = "color", col = col(200), number.font = number.font,
-           mar = mar, number.cex = number.cex,
-           type = type, order = order,
-           addCoef.col = "black", # add correlation coefficient
-           tl.col = "black", tl.srt = tl.srt, # rotation of text labels
-           # combine with significance level
-           p.mat = p.mat, sig.level = sig.level, insig = "blank",
-           # hide correlation coefficients on the diagonal
-           diag = diag
-  )
-}
-
 ```
 
 
@@ -180,7 +130,7 @@ ggplot(data = t_iris) +
 
 ```
 
-## Full example
+## Example with nicer plot showing clusters
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -225,6 +175,68 @@ ggplot() +
     )
 
 ```
+
+
+
+## Example with NA handling
+
+We can not use columns with NA values in the kmeans algorithm. We can either remove the rows with NA values, or impute them.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(caret)
+
+# Load iris data into a tibble
+data("iris")
+
+# Make a tibble with some NA values
+t_imputed <- select(tibble(iris), -Species)
+t_imputed[2,3] <- NA
+t_imputed[2,4] <- NA
+
+
+# Method 1: Interpolate means for na values in tibble for a single column
+t_imputed <- t_imputed %>% 
+  mutate(Sepal.Length = ifelse(is.na(Sepal.Length), 
+                                mean(Sepal.Length, na.rm = TRUE), 
+                                Sepal.Length))
+
+# Method 2: Use Caret library
+preProc <- preProcess(t_imputed, method = "medianImpute")
+t_imputed <- predict(preProc, t_imputed)
+
+# Run the kmeans algorithm:
+kresult <- kmeans(
+  x = t_imputed,
+  centers = 4,
+  nstart = 10
+)
+
+# Add the new kmeans2 column, using kresult's cluster vector.
+# Use factor to turn the cluster from a number to a categorical variable.
+t_imputed <- mutate(t_imputed, kmeans = factor(kresult$cluster))
+
+
+# Add the new kmeans2 column, using kresult's cluster vector.
+ggplot() + 
+  # Plot each point
+  geom_point(
+    data = t_imputed, 
+    mapping = aes( x = Sepal.Length, y = Petal.Length, color = kmeans) 
+  ) +
+  # Plot the center of each cluster 
+  geom_point( 
+    data = as_tibble(kresult$centers), 
+    mapping = aes( x = Sepal.Length, y = Petal.Length), 
+    size = 6, 
+    shape = 3) +
+  labs( 
+    title = 'Iris dataset: k-means clustering',
+    subtitle = paste('Error:', round(kresult$tot.withinss,2))
+    )
+
+```
+
 
 
 
@@ -371,15 +383,18 @@ Some good resources are:
 
 ## Prior Concept
 
-Before getting into PCA, make sure you're familiar with the concept of correlations. The code below walks you through an example. The `pairs` command will show a plot of various fields against each other. You can also use the custom function `corrplot2`.
+Before getting into PCA, make sure you're familiar with the concept of correlations. The code below walks you through an example. The `pairs` command will show a plot of various fields against each other. 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(ggcorrplot)
+data(iris)
+
 # Create a set of pairs of scatterplots showing the relationship
 # between all variables.
 #   argument1 is a tibble with all numeric columns to show in the plot.
 #   col is the color of each species
 pairs(
-  x = select(iris, -Species),
+  x = select(tibble(iris), -Species),
   col = iris$Species)
 
 
@@ -388,7 +403,7 @@ pairs(
 #   the chart only the numeric columns
 # Positive correlations shown in blue, negative in red.
 # Items not meeting statistical significance are hidden.
-corrplot2(select( iris, -Species))
+ggcorrplot(cor(select( iris, -Species)))
 ```
 
 

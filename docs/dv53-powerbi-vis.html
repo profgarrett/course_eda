@@ -11,9 +11,9 @@
 
 
 
-<title>PowerBI - Model</title>
+<title>PowerBI - Vis</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -32,6 +32,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -269,10 +309,34 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">PowerBI - Model</h1>
+<h1 class="title toc-ignore">PowerBI - Vis</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#powerbi-visual-designs"
+id="toc-powerbi-visual-designs">PowerBI Visual Designs</a></li>
+<li><a href="#vis-designs" id="toc-vis-designs">Vis designs</a>
+<ul>
+<li><a href="#report-design-suggestions"
+id="toc-report-design-suggestions">Report design suggestions</a></li>
+</ul></li>
+<li><a href="#bookmark" id="toc-bookmark">Bookmark</a>
+<ul>
+<li><a href="#process-for-switching-between-page-states"
+id="toc-process-for-switching-between-page-states">Process for switching
+between page states:</a></li>
+<li><a href="#process-for-going-to-another-page"
+id="toc-process-for-going-to-another-page">Process for going to another
+page</a></li>
+</ul></li>
+<li><a href="#custom-tooltip" id="toc-custom-tooltip">Custom
+Tooltip</a></li>
+<li><a href="#mobile-report" id="toc-mobile-report">Mobile
+report</a></li>
+</ul>
+</div>
 
 <div id="powerbi-visual-designs" class="section level1">
 <h1>PowerBI Visual Designs</h1>

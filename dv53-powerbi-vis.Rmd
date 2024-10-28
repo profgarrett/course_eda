@@ -1,5 +1,5 @@
 --- 
-title: "PowerBI - Model"
+title: "PowerBI - Vis"
 output: 
   html_document:
     theme: united

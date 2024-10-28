@@ -323,15 +323,18 @@ $(document).ready(function () {
 id="toc-k-means-algorithm-result">k-means algorithm result</a></li>
 <li><a href="#minimal-example" id="toc-minimal-example">Minimal
 example</a></li>
-<li><a href="#full-example" id="toc-full-example">Full example</a></li>
+<li><a href="#example-with-nicer-plot-showing-clusters"
+id="toc-example-with-nicer-plot-showing-clusters">Example with nicer
+plot showing clusters</a></li>
+<li><a href="#example-with-na-handling"
+id="toc-example-with-na-handling">Example with NA handling</a></li>
 </ul></li>
 <li><a href="#decision-trees" id="toc-decision-trees">Decision Trees</a>
 <ul>
 <li><a href="#concept" id="toc-concept">Concept</a></li>
 <li><a href="#minimal-example-1" id="toc-minimal-example-1">Minimal
 Example</a></li>
-<li><a href="#full-example-1" id="toc-full-example-1">Full
-example</a></li>
+<li><a href="#full-example" id="toc-full-example">Full example</a></li>
 </ul></li>
 <li><a href="#principal-component-analysis-pca"
 id="toc-principal-component-analysis-pca">Principal Component Analysis
@@ -343,7 +346,7 @@ Concept</a></li>
 id="toc-concept-walk-through">Concept Walk-through</a></li>
 <li><a href="#concept-illustration"
 id="toc-concept-illustration">Concept Illustration</a></li>
-<li><a href="#full-example-2" id="toc-full-example-2">Full
+<li><a href="#full-example-1" id="toc-full-example-1">Full
 example</a></li>
 </ul></li>
 </ul>
@@ -492,8 +495,9 @@ ggplot(data = t_iris) +
   )</code></pre>
 <p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="full-example" class="section level2">
-<h2>Full example</h2>
+<div id="example-with-nicer-plot-showing-clusters"
+class="section level2">
+<h2>Example with nicer plot showing clusters</h2>
 <pre class="r"><code>library(tidyverse)
 
 # Load iris data into a tibble
@@ -535,6 +539,63 @@ ggplot() +
     subtitle = paste(&#39;Error:&#39;, round(kresult$tot.withinss,2))
     )</code></pre>
 <p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="example-with-na-handling" class="section level2">
+<h2>Example with NA handling</h2>
+<p>We can not use columns with NA values in the kmeans algorithm. We can
+either remove the rows with NA values, or impute them.</p>
+<pre class="r"><code>library(tidyverse)
+library(caret)
+
+# Load iris data into a tibble
+data(&quot;iris&quot;)
+
+# Make a tibble with some NA values
+t_imputed &lt;- select(tibble(iris), -Species)
+t_imputed[2,3] &lt;- NA
+t_imputed[2,4] &lt;- NA
+
+
+# Method 1: Interpolate means for na values in tibble for a single column
+t_imputed &lt;- t_imputed %&gt;% 
+  mutate(Sepal.Length = ifelse(is.na(Sepal.Length), 
+                                mean(Sepal.Length, na.rm = TRUE), 
+                                Sepal.Length))
+
+# Method 2: Use Caret library
+preProc &lt;- preProcess(t_imputed, method = &quot;medianImpute&quot;)
+t_imputed &lt;- predict(preProc, t_imputed)
+
+# Run the kmeans algorithm:
+kresult &lt;- kmeans(
+  x = t_imputed,
+  centers = 4,
+  nstart = 10
+)
+
+# Add the new kmeans2 column, using kresult&#39;s cluster vector.
+# Use factor to turn the cluster from a number to a categorical variable.
+t_imputed &lt;- mutate(t_imputed, kmeans = factor(kresult$cluster))
+
+
+# Add the new kmeans2 column, using kresult&#39;s cluster vector.
+ggplot() + 
+  # Plot each point
+  geom_point(
+    data = t_imputed, 
+    mapping = aes( x = Sepal.Length, y = Petal.Length, color = kmeans) 
+  ) +
+  # Plot the center of each cluster 
+  geom_point( 
+    data = as_tibble(kresult$centers), 
+    mapping = aes( x = Sepal.Length, y = Petal.Length), 
+    size = 6, 
+    shape = 3) +
+  labs( 
+    title = &#39;Iris dataset: k-means clustering&#39;,
+    subtitle = paste(&#39;Error:&#39;, round(kresult$tot.withinss,2))
+    )</code></pre>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 </div>
 <div id="decision-trees" class="section level1 tabset">
@@ -595,7 +656,7 @@ m &lt;- rpart(formula = Species ~ Sepal.Length +
 
 # Plot results of model
 rpart.plot(m)</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>What if we want the output of the plot as a number showing its
 accuracy? Add the following lines</p>
 <pre class="r"><code># Give the tibble to the model, and generate a vector of predicted
@@ -614,7 +675,7 @@ table(t.iris$predicted, t.iris$Species)</code></pre>
 ##   Predicted versicolor      0         49         5
 ##   Predicted virginica       0          1        45</code></pre>
 </div>
-<div id="full-example-1" class="section level2">
+<div id="full-example" class="section level2">
 <h2>Full example</h2>
 <p>Several other features are very helpful in pruning our decision
 tree.</p>
@@ -655,7 +716,7 @@ m &lt;- rpart(formula = Species ~ Sepal.Length +
 
 # Plot results of model with the TRAINING data
 rpart.plot(m)</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <pre class="r"><code>## Predict on the TEST tibble
 
 # Create a vector of prediction results
@@ -669,9 +730,9 @@ t.iris.test &lt;- mutate(t.iris.test, predicted = predicted)
 table(str_to_upper(predicted), t.iris.test$Species)</code></pre>
 <pre><code>##             
 ##              setosa versicolor virginica
-##   SETOSA         14          0         0
-##   VERSICOLOR      0         20         2
-##   VIRGINICA       0          3        21</code></pre>
+##   SETOSA         21          0         0
+##   VERSICOLOR      0         21         2
+##   VIRGINICA       0          1        24</code></pre>
 </div>
 </div>
 <div id="principal-component-analysis-pca"
@@ -696,23 +757,25 @@ detailed analysis of PCA</a></li>
 <p>Before getting into PCA, make sure you’re familiar with the concept
 of correlations. The code below walks you through an example. The
 <code>pairs</code> command will show a plot of various fields against
-each other. You can also use the custom function
-<code>corrplot2</code>.</p>
-<pre class="r"><code># Create a set of pairs of scatterplots showing the relationship
+each other.</p>
+<pre class="r"><code>library(ggcorrplot)
+data(iris)
+
+# Create a set of pairs of scatterplots showing the relationship
 # between all variables.
 #   argument1 is a tibble with all numeric columns to show in the plot.
 #   col is the color of each species
 pairs(
-  x = select(iris, -Species),
+  x = select(tibble(iris), -Species),
   col = iris$Species)</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code># View the correlations between each variable.
 # Again, we use the iris dataset without the species column (text), giving
 #   the chart only the numeric columns
 # Positive correlations shown in blue, negative in red.
 # Items not meeting statistical significance are hidden.
-corrplot2(select( iris, -Species))</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+ggcorrplot(cor(select( iris, -Species)))</code></pre>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 </div>
 <div id="concept-walk-through" class="section level2">
 <h2>Concept Walk-through</h2>
@@ -781,14 +844,14 @@ ggplot(data = plot_data) +
              alpha = .2,
              size = 2) +
   labs(title = &quot;PC1 versus species&quot;)</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>What about plotting 2 components?</p>
 <pre class="r"><code>ggplot(data = plot_data) +
   geom_point(mapping = aes( x = pc1, y = pc2, color = Species),
              alpha = .3,
              size = 2) +
   labs(title = &quot;PC1 and PC2 versus species&quot;)</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>We can also more closely examine how the new PCs are formed. Examine
 the rotation variable. It gives us the degree to which each variable
 drives the PCs</p>
@@ -810,9 +873,9 @@ ggplot( data = pca_tibble_long ) +
   geom_point( mapping = aes( y = items, x = PCValue, color = PCValue), size = 5) +
   facet_wrap( ~ PCItem, nrow = 1)  +
   scale_color_gradient(low = &#39;red&#39;, high = &#39;green&#39;)</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
-<div id="full-example-2" class="section level2">
+<div id="full-example-1" class="section level2">
 <h2>Full example</h2>
 <p>In the full example, we generally want to scale the data. This is
 needed, as if we have radically different numerical ranges, the biggest
@@ -834,7 +897,7 @@ iris_pca_results &lt;- prcomp(t_iris_numbers,
 
 # Plot our results
 biplot(iris_pca_results)</code></pre>
-<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="ml40-unsupervised_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <pre class="r"><code># Show new components
 summary(iris_pca_results)</code></pre>
 <pre><code>## Importance of components:
