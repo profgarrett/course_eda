@@ -33,6 +33,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -272,27 +312,21 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Exploratory Data Analysis</h1>
 <h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-08-20</h4>
+<h4 class="date">Refreshed 2025-01-13</h4>
 
 </div>
 
 
 <p>My <a href="learn01.html">Learning Philosophy</a></p>
-<p><a href="r00-index.html">R for Business Students</a></p>
+<p><em>ACCT 426 and BUDA 451 classes</em></p>
 <ul>
-<li>This section is for the ACCT 426 and BUDA 451 classes in Fall
-2024.</li>
+<li><a href="r00-index.html">R for Business Students</a></li>
 </ul>
-<p><a href="sql00-index.html">SQL for Business Students</a></p>
+<p><em>ACCT 425 and BUDA 450 classes</em></p>
 <ul>
-<li>This section is for the ACCT 425 and BUDA 450 classes in Fall
-2024.</li>
-</ul>
-<p><a href="dv00-index.html">Data Visualization with Tableau &amp;
-PowerBI</a></p>
-<ul>
-<li>This section is for the ACCT 425 and BUDA 450 classes in Fall
-2024.</li>
+<li><a href="sql00-index.html">SQL for Business Students</a></li>
+<li><a href="dv00-index.html">Data Visualization with Tableau &amp;
+PowerBI</a></li>
 </ul>
 
 

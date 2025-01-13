@@ -120,6 +120,127 @@ t <- mutate( t,
 hist(t$residual)
 ```
 
+
+
+# Random Forest {.tabset}
+
+A random forest is an upgraded decision tree. It creates a very large number of decision trees, and then combines them to build a more accurate model. One of the key benefits is that it can handle a large number of variables. 
+
+Sampling in a random forest works differently than in a decision tree. In a decision tree, we use the entire dataset (or split it between training and testing datasets). In a random forest, each tree uses a random sample of the data. Then, at each decision point, it uses a random subset of the columns. This helps to prevent overfitting.
+
+Help:
+
+- [RandomForestSRC R-Package](https://www.randomforestsrc.org/articles/getstarted.html)
+
+## Class Example
+
+This creates a decision tree to predict a textual (class) output. Our key outcome is the oob misclassification rate (out of bag). We use all of the data *except one* to train the model, and then use that one item to test the model. This is repeated multiple times.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(randomForestSRC)
+
+
+# Load data into a tibble
+t <- tibble(
+  temp = c(67, 68, 70, 70, 76, 80, 85, 84, 89, 90, 91, 95, 100),
+  raining = c(0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0),
+  camped_as_text = c('Camped', 'No', 'No', 'No', 'No', 'No', 'Camped', 'Camped', 'Camped', 'Camped', 'No', 'No', 'No')
+)
+
+# We must set all text variables (class) as factors.
+t <- t %>% 
+  mutate(camped_as_factor = as.factor(camped_as_text),
+         camped_as_text = NULL)
+
+# Set the random number generator so we have consistent results.
+set.seed(1)
+
+# Note that we *must* convert from a tibble into a dataframe.
+#   ntree: number of trees
+#   mtry: number of variables to try at each node (default is 3 for regression, or sqrt(variables))
+#   nodesize: the number of items at each ending node. Defaults to 5 for regression and 1 for classification.
+#   na.action: what to do with missing values, either 'na.omit' (default) or 'na.impute'
+rf_model <- rfsrc(camped_as_factor ~ ., 
+                  data = as.data.frame(t),
+                  ntree = 500)
+
+# Measure our accuracy according to the oob misclassification rate (out of bag) .
+# This is the % of times that our model got the wrong prediction. 
+print(rf_model)
+
+```
+
+``` {r}
+
+# Look at the variable importance, basically the most important variables in our dataset.
+# 
+# vimp works by comparing the accuracy of a model with the variable and without it.
+# The difference is the importance of the variable.
+vimp_results <- vimp(rf_model, importance = TRUE)$importance
+print(round(vimp_results, 2))
+
+```
+
+
+## Regression Example
+
+This creates a decision tree to predict a number output. Our key outcome is the oob misclassification rate (out of bag). We use all of the data *except one* to train the model, and then use that one item to test the model. This is repeated multiple times.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(randomForestSRC)
+
+
+# Load data into a tibble
+t <- tribble(
+  ~temp, ~water, ~fog, ~snow,
+  'freezing', 1.2, 'y', 2.3,
+  'freezing', 0.2, 'y', .4,
+  'freezing', 1.2, 'y', .4,
+  'freezing', 0, 'y', 0,
+  'freezing', 0, 'y', 0,
+  'freezing', 0, 'y', 0,
+  'freezing', 0, 'y', 0,
+  'freezing', 1.5, 'n', 2,
+  'freezing', 0, 'y', 0,
+  'hot', 0, 'n', 0,
+  'hot', 0, 'n', 0,
+  'hot', 0, 'n', 0,
+  'hot', 1.5, 'n', 0,
+  'hot', 1.5, 'n', 0,
+  'hot', 1.5, 'n', 0,
+  'hot', 1.5, 'n', 0,
+  'hot', 1.2, 'n', 0,
+  'hot', 0, 'y', 0
+)
+
+# We must set all text variables (class) as factors.
+t <- t %>% 
+  mutate(fog_as_factor = as.factor(fog),
+         fog = NULL,
+         temp_as_factor = as.factor(temp),
+         temp = NULL)
+
+# Set the random number generator so we have consistent results.
+set.seed(1)
+
+# Note that we *must* convert from a tibble into a dataframe.
+#   ntree: number of trees
+#   mtry: number of variables to try at each node (default is 3 for regression, or sqrt(variables))
+#   nodesize: the number of items at each ending node. Defaults to 5 for regression and 1 for classification.
+#   na.action: what to do with missing values, either 'na.omit' (default) or 'na.impute'
+rf_model <- rfsrc(snow ~ ., 
+                  data = as.data.frame(t),
+                  ntree = 500)
+
+# Measure our accuracy according to the oob misclassification rate (out of bag) .
+# This is the % of times that our model got the wrong prediction. 
+print(rf_model)
+
+```
+
+
 # Neural Network - simple class  {.tabset}
 
 Good reference videos: 

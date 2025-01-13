@@ -381,7 +381,7 @@ Some good resources are:
 - [Walkthrough of Unsupervised Learning](https://lgatto.github.io/IntroMachineLearningWithR/unsupervised-learning.html#introduction)
 - [More detailed analysis of PCA](https://bradleyboehmke.github.io/HOML/pca.html)
 
-## Prior Concept
+## Prior Concepts
 
 Before getting into PCA, make sure you're familiar with the concept of correlations. The code below walks you through an example. The `pairs` command will show a plot of various fields against each other. 
 

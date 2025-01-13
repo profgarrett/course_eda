@@ -10,18 +10,15 @@ output:
 
 My [Learning Philosophy](learn01.html)
 
-[R for Business Students](r00-index.html)
+*ACCT 426 and BUDA 451 classes*
 
-- This section is for the ACCT 426 and BUDA 451 classes in Fall 2024.
+- [R for Business Students](r00-index.html)
 
 
-[SQL for Business Students](sql00-index.html)
+*ACCT 425 and BUDA 450 classes*
 
-- This section is for the ACCT 425 and BUDA 450 classes in Fall 2024.
-
-[Data Visualization with Tableau & PowerBI](dv00-index.html)
-
-- This section is for the ACCT 425 and BUDA 450 classes in Fall 2024.
+- [SQL for Business Students](sql00-index.html)
+- [Data Visualization with Tableau & PowerBI](dv00-index.html)
 
 
 ```{r include=FALSE}

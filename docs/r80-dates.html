@@ -13,7 +13,7 @@
 
 <title>Special topics in R</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -32,6 +32,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -277,6 +317,9 @@ $(document).ready(function () {
 <ul>
 <li><a href="#date" id="toc-date">Date</a>
 <ul>
+<li><a href="#time-zones-are-a-weird-and-wonderful-area."
+id="toc-time-zones-are-a-weird-and-wonderful-area.">Time zones are a
+weird and wonderful area.</a></li>
 <li><a href="#storage" id="toc-storage">Storage</a></li>
 <li><a href="#format-function" id="toc-format-function">Format
 function</a></li>
@@ -302,6 +345,13 @@ datetime_as_posix &lt;- as.POSIXct(datetime_as_text)
 
 print(class(datetime_as_posix))</code></pre>
 <pre><code>## [1] &quot;POSIXct&quot; &quot;POSIXt&quot;</code></pre>
+<div id="time-zones-are-a-weird-and-wonderful-area."
+class="section level2">
+<h2>Time zones are a weird and wonderful area.</h2>
+<p><a
+href="https://ssoready.com/blog/engineering/truths-programmers-timezones/">Article
+about weird time zones</a></p>
+</div>
 <div id="storage" class="section level2">
 <h2>Storage</h2>
 <p>Dates are stored internally as the number of days before/after
@@ -342,10 +392,13 @@ print(vector_of_date_as_text_values)</code></pre>
 <p>We typically use lubridate in this class to simplify date/time
 handling. The biggest issue to keep straight is if an item is a date or
 a date-time. See below for examples.</p>
-<pre class="r"><code>library(lubridate)
-
-
-d &lt;- ymd(&quot;2023-02-03&quot;)
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<pre class="r"><code>d &lt;- ymd(&quot;2023-02-03&quot;)
 dt &lt;- ymd_hm(&quot;2023-02-03 12:23&quot;)</code></pre>
 </div>
 <div id="cool-articles-on-time" class="section level1">

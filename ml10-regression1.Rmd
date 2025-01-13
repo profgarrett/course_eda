@@ -36,7 +36,7 @@ Help:
 - [Multiple regression in R](https://www.youtube.com/watch?v=hokALdIst8k)
 - [Multiple regression in theory](https://www.youtube.com/watch?v=zITIFTsivN8)
 - [Multiple linear regression tutorial](https://bradleyboehmke.github.io/HOML/linear-regression.html)
-
+- [Should we use a p<0.05 in science?](https://www.tandfonline.com/doi/full/10.1080/00031305.2019.1583913)
 
 ## Minimal Example
 

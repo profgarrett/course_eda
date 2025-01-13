@@ -25,6 +25,10 @@ datetime_as_posix <- as.POSIXct(datetime_as_text)
 print(class(datetime_as_posix))
 ```
 
+## Time zones are a weird and wonderful area.
+
+[Article about weird time zones](https://ssoready.com/blog/engineering/truths-programmers-timezones/)
+
 ## Storage
 
 Dates are stored internally as the number of days before/after January 1, 1970. This can be negative or positive.
