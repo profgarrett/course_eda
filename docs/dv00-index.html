@@ -14,7 +14,7 @@
 
 <title>Data Visualization</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -33,6 +33,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -272,10 +312,23 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Data Visualization</h1>
 <h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-09-24</h4>
+<h4 class="date">Refreshed 2025-01-21</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#prerequisite-skills"
+id="toc-prerequisite-skills">Prerequisite skills</a></li>
+<li><a href="#data-visualization" id="toc-data-visualization">Data
+Visualization</a></li>
+<li><a href="#tableau" id="toc-tableau">Tableau</a></li>
+<li><a href="#powerbi" id="toc-powerbi">PowerBI</a></li>
+<li><a href="#good-resources" id="toc-good-resources">Good
+resources</a></li>
+<li><a href="#eda-process" id="toc-eda-process">EDA Process</a></li>
+</ul>
+</div>
 
 <p>Course study notes for ACCT 425 and BUDA 450 students for Spring
 2024</p>
@@ -286,6 +339,7 @@ $(document).ready(function () {
 <h1>Data Visualization</h1>
 <ul>
 <li><a href="dv01-intro.html">dv01. Introduction to DataVis</a></li>
+<li><a href="dv02-files.html">dv02. File Management</a></li>
 <li><a href="dv21-data.html">dv20. Data</a></li>
 <li><a href="dv30-colors.html">dv30. Colors</a></li>
 </ul>
