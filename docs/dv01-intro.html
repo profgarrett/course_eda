@@ -14,7 +14,7 @@
 
 <title>Introduction to Data Visualization</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -33,6 +33,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -272,10 +312,17 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Introduction to Data Visualization</h1>
 <h4 class="author">Nathan Garrett, PhD CPA</h4>
-<h4 class="date">Refreshed 2024-09-24</h4>
+<h4 class="date">Refreshed 2025-01-27</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#channels" id="toc-channels">Channels</a></li>
+<li><a href="#storytelling" id="toc-storytelling">Storytelling</a></li>
+<li><a href="#tables" id="toc-tables">Tables</a></li>
+</ul>
+</div>
 
 <p>This document goes with the in-class slide presentation titled
 “Introduction to Data Visualization”</p>
@@ -309,9 +356,21 @@ pre-attentive attributes).</p>
 actual value).</p>
 <p>Distributions can be normal (bell curve) or uniform (equally
 distributed), or skewed (more small or large). They can also have an
-increasing or decreasing spread. An outlier can throw off a pattern..
+increasing or decreasing spread. An outlier can throw off a pattern.
 Bimodal means that you have 2 normal curves overlapped. Categorical data
 shows up at only certain spots.</p>
+</div>
+<div id="tables" class="section level1">
+<h1>Tables</h1>
+<p>Tables are not charts! A chart is a data mapped to a visual element
+(such as size or height). In contrast, a table has rows and columns with
+numbers.</p>
+<p><a
+href="https://www.are.na/joshua-kopin/tabular-presentation">Website with
+tables</a></p>
+<p>Tablet from 13th century BC, showing inventory of shepherds &amp;
+herds. Linear B, palce of Pylos. Image taken by Nathan Garrett, 2024.
+<img src="table_images/tablet.png" alt="Tablet" /></p>
 </div>
 
 

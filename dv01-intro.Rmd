@@ -43,3 +43,18 @@ They can also have an increasing or decreasing spread.
 An outlier can throw off a pattern.
 Bimodal means that you have 2 normal curves overlapped. 
 Categorical data shows up at only certain spots. 
+
+# Tables
+
+
+Tables are not charts! A chart is a data mapped to a visual element (such as size or height). In contrast, a table has rows and columns with numbers.
+
+
+[Website with tables](https://www.are.na/joshua-kopin/tabular-presentation)
+
+
+Tablet from 13th century BC, showing inventory of shepherds & herds. Linear B, palce of Pylos. Image taken by Nathan Garrett, 2024.
+![Tablet](./table_images/tablet.png)
+
+
+[Explanation of Cuneform text](https://www.datafix.com.au/BASHing/2020-08-12.html)

@@ -49,6 +49,7 @@ This section is for ACCT 426 and BUDA 451 students in Fall 2024.
 # Other useful links
 
 - [dv10. Writing an effective report](dv10-effective-reports.html)
+- [Create dashboards in R](https://rstudio.github.io/bslib/index.html)
 
 
 ### Application problem

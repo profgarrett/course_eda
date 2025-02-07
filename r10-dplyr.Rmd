@@ -11,6 +11,13 @@ dplyr is an important tool for fixing data.   If you need further help,
 
 These notes correspond to Datacamp's *Introduction to the tidyverse*.
 
+# Data Visualizations
+
+There are a number of helpful websites with animations of dplyr functions.
+
+- (https://www.andrewheiss.com/blog/2024/04/04/group_by-summarize-ungroup-animations/)
+- (https://github.com/nischalshrestha/Unravel)
+
 
 # Why tibbles?
 

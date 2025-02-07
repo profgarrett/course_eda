@@ -5,8 +5,25 @@ output:
     theme: united
 
 ---
+# Sample data
+
+
+City of Chicago Data Portal
+
+NPS API - https://www.nps.gov/subjects/developer/api-documentation.htm
+
 
 # Sample Data Presentations
+
+
+[Title Drops](https://www.titledrops.net/)
+
+[131m Buildings](https://tech.marksblogg.com/ornl-fema-buildings.html)
+
+[UX of Lego Panels](https://interactionmagic.com/UX-LEGO-Interfaces/)
+
+[Are songs becoming more negative?](https://www.statsignificant.com/p/how-have-song-lyrics-changed-since)
+
 
 [Hans Rosling, the Best Stats You've Ever Seen](https://www.youtube.com/watch?v=hVimVzgtD6w)
 
@@ -64,3 +81,10 @@ https://www.visualcapitalist.com/mapped-poverty-rates-by-u-s-state/
 Make the title match the message in the graph
 
 ![Elderly Deer](dv10-effective-reports-elderlydeer.png)
+
+
+# Projects
+
+Sample projects / datasets
+
+[Dataquest Projects](https://github.com/AiCorsair/Dataquest-Data-Science-Analysis-Projects)

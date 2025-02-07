@@ -13,7 +13,7 @@
 
 <title>Tableau</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -32,6 +32,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -273,9 +313,37 @@ $(document).ready(function () {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#sample-data" id="toc-sample-data">Sample data</a></li>
+<li><a href="#sample-data-presentations"
+id="toc-sample-data-presentations">Sample Data Presentations</a></li>
+<li><a href="#sample-dashboards" id="toc-sample-dashboards">Sample
+Dashboards</a></li>
+<li><a href="#sample-charts" id="toc-sample-charts">Sample
+Charts</a></li>
+<li><a href="#tips" id="toc-tips">Tips</a></li>
+<li><a href="#projects" id="toc-projects">Projects</a></li>
+</ul>
+</div>
 
+<div id="sample-data" class="section level1">
+<h1>Sample data</h1>
+<p>City of Chicago Data Portal</p>
+<p>NPS API - <a
+href="https://www.nps.gov/subjects/developer/api-documentation.htm"
+class="uri">https://www.nps.gov/subjects/developer/api-documentation.htm</a></p>
+</div>
 <div id="sample-data-presentations" class="section level1">
 <h1>Sample Data Presentations</h1>
+<p><a href="https://www.titledrops.net/">Title Drops</a></p>
+<p><a href="https://tech.marksblogg.com/ornl-fema-buildings.html">131m
+Buildings</a></p>
+<p><a href="https://interactionmagic.com/UX-LEGO-Interfaces/">UX of Lego
+Panels</a></p>
+<p><a
+href="https://www.statsignificant.com/p/how-have-song-lyrics-changed-since">Are
+songs becoming more negative?</a></p>
 <p><a href="https://www.youtube.com/watch?v=hVimVzgtD6w">Hans Rosling,
 the Best Stats You’ve Ever Seen</a></p>
 <p><a
@@ -326,6 +394,27 @@ class="uri">https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Ftfxtvd3yg
 <p>Cost of living <a
 href="https://www.reddit.com/r/dataisbeautiful/comments/1chnovz/oc_cost_of_living_by_county_2023/?share_id=f-J9xwy8naRLE4boIdUlI"
 class="uri">https://www.reddit.com/r/dataisbeautiful/comments/1chnovz/oc_cost_of_living_by_county_2023/?share_id=f-J9xwy8naRLE4boIdUlI</a></p>
+<p>How does a Pizze place make money? <a
+href="https://www.reddit.com/r/dataisbeautiful/comments/1dy4usi/oc_how_a_pizza_place_makes_money_proforma/?share_id=SGHNuW1mkwtP3ItquUqxq"
+class="uri">https://www.reddit.com/r/dataisbeautiful/comments/1dy4usi/oc_how_a_pizza_place_makes_money_proforma/?share_id=SGHNuW1mkwtP3ItquUqxq</a></p>
+<p>Poverty Rates <a
+href="https://www.visualcapitalist.com/mapped-poverty-rates-by-u-s-state/"
+class="uri">https://www.visualcapitalist.com/mapped-poverty-rates-by-u-s-state/</a></p>
+</div>
+<div id="tips" class="section level1">
+<h1>Tips</h1>
+<p>Make the title match the message in the graph</p>
+<div class="float">
+<img src="dv10-effective-reports-elderlydeer.png" alt="Elderly Deer" />
+<div class="figcaption">Elderly Deer</div>
+</div>
+</div>
+<div id="projects" class="section level1">
+<h1>Projects</h1>
+<p>Sample projects / datasets</p>
+<p><a
+href="https://github.com/AiCorsair/Dataquest-Data-Science-Analysis-Projects">Dataquest
+Projects</a></p>
 </div>
 
 
