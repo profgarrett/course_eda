@@ -27,3 +27,31 @@ Outcomes:
 - Measure accuracy
 - Differentiate between training and test data
 
+# Elements
+
+To model a problem, we will:
+
+- Get a dataset 
+  - Variables (or predictors or features)
+  - Target (or outcome)
+- Understand the dataset
+  - Understand each variable's distribution
+  - Understand relationships between variables
+- Prepare the data
+  - Fix data problems to make it work better with our algorithm
+  - Split the data into training & test
+- Create a model
+  - Pick an appropriate model algorithm
+  - Train a model on the training data
+  - Measure the accuracy of the model on training data
+    - Numerical or categorical (false positive, true negative, ...)
+  - Measure the accuracy of the model on testing data
+- Communicate results
+  - Charts
+  - Written / presentation
+  - Mathematical formulas
+
+
+# Application Problems
+
+See [problem on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/ml00-model)

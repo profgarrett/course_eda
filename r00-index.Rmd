@@ -9,7 +9,7 @@ output:
 ---
 
 
-This section is for ACCT 426 and BUDA 451 students in Fall 2024.
+This section is for ACCT 426 and BUDA 451 students.
 
 ## Prereq skills
 

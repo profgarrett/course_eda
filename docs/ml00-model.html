@@ -13,7 +13,7 @@
 
 <title>Modeling to predict the future</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
@@ -32,6 +32,46 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<style>
+@media print {
+  .tab-pane {
+    display: block !important;
+    opacity: 1;
+  }
+  /* do not show tabset navigation */
+  ul.nav {
+    display: none !important;
+  }
+  /* show headers when printing */
+  .printhead {
+    display: block !important;
+    opacity 1 !important;
+  }
+}
+
+/* dont show the headers on screens */
+@media screen {
+  .printhead {
+    display: none;
+    opacity: 0;
+  }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+  var $tabsets = $("div.tabset");  // get all tabsets
+  $tabsets.each(function() {       // for each tabset...
+    var tabNames = $(this).find("ul.nav-pills > li")  // get all the tab-pane titles...
+                          .map(function() {
+                            return $.trim($(this).text());
+                          }).get();
+    $(this).find(".tab-content > .tab-pane").each(function(key, value) { // and for each tab-pane, prepend the corresponding title
+      $(this).prepend("<h2 class=\"printhead\">" + tabNames[key] + "</h2>");
+    });
+  });
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -280,6 +320,9 @@ id="toc-modeling-to-predict-the-future">Modeling to predict the
 future</a></li>
 <li><a href="#what-is-machine-learning"
 id="toc-what-is-machine-learning">What is Machine Learning?</a></li>
+<li><a href="#elements" id="toc-elements">Elements</a></li>
+<li><a href="#application-problems"
+id="toc-application-problems">Application Problems</a></li>
 </ul>
 </div>
 
@@ -312,6 +355,49 @@ overfitting</li>
 <li>Measure accuracy</li>
 <li>Differentiate between training and test data</li>
 </ul>
+</div>
+<div id="elements" class="section level1">
+<h1>Elements</h1>
+<p>To model a problem, we will:</p>
+<ul>
+<li>Get a dataset
+<ul>
+<li>Variables (or predictors or features)</li>
+<li>Target (or outcome)</li>
+</ul></li>
+<li>Understand the dataset
+<ul>
+<li>Understand each variable’s distribution</li>
+<li>Understand relationships between variables</li>
+</ul></li>
+<li>Prepare the data
+<ul>
+<li>Fix data problems to make it work better with our algorithm</li>
+<li>Split the data into training &amp; test</li>
+</ul></li>
+<li>Create a model
+<ul>
+<li>Pick an appropriate model algorithm</li>
+<li>Train a model on the training data</li>
+<li>Measure the accuracy of the model on training data
+<ul>
+<li>Numerical or categorical (false positive, true negative, …)</li>
+</ul></li>
+<li>Measure the accuracy of the model on testing data</li>
+</ul></li>
+<li>Communicate results
+<ul>
+<li>Charts</li>
+<li>Written / presentation</li>
+<li>Mathematical formulas</li>
+</ul></li>
+</ul>
+</div>
+<div id="application-problems" class="section level1">
+<h1>Application Problems</h1>
+<p>See <a
+href="https://github.com/profgarrett/course_eda_problems/tree/main/ml00-model">problem
+on GitHub</a></p>
 </div>
 
 

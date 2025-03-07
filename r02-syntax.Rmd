@@ -134,15 +134,6 @@ R is case sensitive! So, `var3` isn't the same as `VAR3`
 Great introduction to types!
 https://www.datacamp.com/tutorial/data-types-in-r
 
-Yarr is a gentle introduction to using R.
-If you haven't done any programming before, this could be
-a good way to get started.
-https://bookdown.org/ndphillips/YaRrr/jumpin.html
-
-W3 Schools has a nice reference for R code. This is really
-good for trying to lookup a specific feature.
-https://www.w3schools.com/r/default.asp
-
 # Application problem
 
 See [problems on GitHub](https://github.com/profgarrett/course_eda_problems/tree/main/r02-syntax)
